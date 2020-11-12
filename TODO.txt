@@ -1,0 +1,10 @@
+LOGIN:
+    1. login form ['staffid', 'password']
+    2. Remove register form.
+    3. Redirect to landing page after login.
+#ui itakua kama admin panel ?? Yes . Itakua a table with several columns. I will send you a template baadaye.
+#You can create the database tables we discussed usiku 
+
+divisions table created and seeded.
+kpis table
+employee table
