@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Faker\Generator as Faker;
 
 class EmployeeSeeder extends Seeder
 {
@@ -10,7 +11,7 @@ class EmployeeSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(Faker $faker)
     {
         $employees = [
             [
@@ -71,12 +72,16 @@ class EmployeeSeeder extends Seeder
             ],
         ];
         foreach ($employees as $key => $employee) {
-            DB::table('employees')->insert([
+            DB::table('users')->insert([
                 'staff_no' => $employee['staff_no'],
                 'name' => $employee['name'],
                 'status' => $employee['status'],
                 'title' => $employee['title'],
                 'division_id' => $employee['division_id'],
+                'email' => $faker->unique()->safeEmail,
+                'email_verified_at' => now(),
+                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+                'remember_token' => Str::random(10),
             ]);
         }
     }
