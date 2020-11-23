@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use App\Target;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,3 +22,7 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/target/{id}', function ($id) {
+  $target = Target::where('description', $id)->get();
+    return response()->json($target, 200);
+});
