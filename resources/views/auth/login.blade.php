@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header h3 text-uppercase text-center">{{ config('app.name', 'kpi bot') }} {{ __('Login') }}</div>
+                <div class="card-header h3 text-center">{{ __('KPI BOT Login') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
