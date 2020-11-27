@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <div class=" justify-content-center">
         <div class="card">
-            <div class="card-header h3 text-center ">{{ __('Key Performance Indicators') }}</div>
+            <div class="card-header h3 text-center text-uppercase">{{ __('Key Performance Indicators') }}</div>
             <div class="card-body">
                 <div class="">
                     <table id="kpiTable" class="table table-bordered table-hover table-sm">
@@ -26,7 +26,7 @@
                             <tr id="{{$kpi->code}}" class="record">
                                 <td> {{$kpi->code}}</td>
                                 <td> {{$kpi->perspective}}</td>
-                                <td> {{$kpi->kpi}}</td>
+                                <td id="kpi"> {{$kpi->kpi}}</td>
                                 <td> {{$kpi->unit_of_measure}}</td>
                                 <td> {{$kpi->weight}}</td>
                                 <td>{{$kpi->previous_target}}</td>
@@ -55,9 +55,29 @@
         </div>
         <div class="">
             <div class="card" id="tasksCard">
-                <div class="card-header"></div>
+                <div class="card-header">
+                    <div class="kpiTableTitle"></div>
+                    <!-- Button trigger modal -->
+                    <span class="">
+                        <a href="{{route('targets.create')}}" class="btn btn-success btn-sm">
+                            Add Task
+                        </a>
+                        {{-- <a type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal">
+                            Add Task
+                        </a> --}}
+                        {{-- <a type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
+                            Add Tasks
+                        </a>
+                        <a type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#exampleModal">
+                            Analyze
+                        </a> --}}
+                    </span>
+
+
+                </div>
                 <div class="card-body">
-                    <div class="">
+                    <div id="taskAlert" class="alert"></div>
+                    <div class="tasksTable">
                         <table id="tasksTable" class="table table-bordered table-hover table-sm">
                             <thead>
                                 <tr>
@@ -83,32 +103,55 @@
                     </div>
                 </div>
             </div>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     @endsection
     @section('scripts')
     <script>
         $(function () {
+            // hide the task alert div
+            $("#taskAlert").hide()
         $("#kpiTable").DataTable({
-            "responsive": false, "lengthChange": false, "autoWidth": false,'ordering': true,
+            "responsive": false, "lengthChange": true, "autoWidth": false,'ordering': true,
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#kpiTable_wrapper .col-md-6:eq(0)');
-            // $("#tasksTable").DataTable({
-            //     "responsive": false, "lengthChange": false, "autoWidth": false,'ordering': false,
-            //     "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            //     }).buttons().container().appendTo('#tasksTable_wrapper .col-md-6:eq(0)');
-         // tr mouseover event
+         // tr mouseover event for kpi table
         $('#kpiTable tr.record').hover(function () {
                 $(this).css("background","grey");
             },
             function () {
                 $(this).css("background","");
         })
-        // hide tasks table
+        // hide tasks card
         $('#tasksCard').hide();
-        // tr click event
+        // set the tasks card title on clicking the kpi table row
+        $('#kpiTable tr.record td#kpi').on('click', function () {
+            // console.log($(this).html())
+            $('#tasksCard .kpiTableTitle').html($(this).html()).addClass("h4 text-uppercase")
+        })
+        // tr click event on the kpi table get the kpi id use to search tasks
         $('#kpiTable tr.record').on('click', function () {
-            console.log($(this).attr('id'))
             // fetch tasks
             $.ajax({
                 url:'/target/'+$(this).attr('id'),
@@ -116,38 +159,44 @@
                 dataType: 'json',
                 cache:false,
                 success: function(response){
-                    console.log(response)
-
+                    // console.log(response)
                     if (response == '') {
-                        // hide task table
-                        $('#tasksCard').hide(750);
                         // alert absence of task
-                        // alert('No tasks for this KPI')
                         Swal.fire({
                             icon: 'info',
                             title: 'No tasks for this KPI.',
                             showConfirmButton: false,
                             timer: 2000
                          })
-                        // Swal.fire('No tasks for this KPI.')
+                        // hide task card
+                        $('#tasksCard').hide(750).show(1000);
+                        //  show task card
+                        // $('#tasksCard').show(1000);
+                        // hide the taks table
+                        $("#tasksTable").hide()
+                        // append no tasks message
+                         $("#taskAlert").show().addClass("alert-info").text("No tasks for this KPI")
+                        // navigate to the table section
+                        $('html, body').animate({
+                            scrollTop: $(".tasksTable").offset().top
+                        }, 2000);
                     } else {
-                        // show tasks table
+                        // hide task alert div
+                        $("#taskAlert").hide()
+                        // hide task card
+                        $('#tasksCard').hide(800);
+                        // show tasks card
                          $('#tasksCard').show(1000);
-                        //  console.log(response[0].key)
-                        //  poppulate the table
-                        // $(response).each(function(){
-                        //     $('#tasksTable tbody').append(
-                        //         '<tr><td>'+response.key+'</td><td>'+response.task+'</td><td>'+response.creation_date+'</td><td>'+response.resolution_date+'</td><td>'+response.description+'</td></tr>');
-                        // });
+                          // show the tasks table
+                        $("#tasksTable").show()
+                        //  populate tasks table body
                         $.each(response, function(key,val) {
                             $('#tasksTable tbody').append('<tr><td>'+response[key].key+'</td><td>'+response[key].task+'</td><td>'+response[key].creation_date+'</td><td>'+response[key].resolution_date+'</td><td>'+response[key].description+'</td></tr>');
                         });
-
                         // navigate to the table section
                          $('html, body').animate({
-                            scrollTop: $("#tasksTable").offset().top
+                            scrollTop: $(".tasksTable").offset().top
                         }, 2000);
-
                     }
                 },
                 error: function(err){
