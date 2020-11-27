@@ -24,7 +24,7 @@ class TargetController extends Controller
      */
     public function create()
     {
-        //
+        return view('target.create_target');
     }
 
     /**
