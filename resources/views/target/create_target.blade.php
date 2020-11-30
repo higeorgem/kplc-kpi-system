@@ -15,11 +15,11 @@
                         <form action="" method="post" id="task_form">
                             @csrf
                             <div class="form-group">
-                                <label for="kpi">Select KPI:</label>
-                                <select name="kpi" id="kpi" class="form-control">
-                                    <option value="" selected disabled>Select KPI</option>
+                                <label for="key">Select key:</label>
+                                <select name="key" id="key" class="form-control">
+                                    <option value="" selected disabled>Select key</option>
                                     @foreach (\Illuminate\Support\Facades\DB::table('k_p_i_s')->get() as $kpi)
-                                    <option value="{{$kpi->id}}">{{$kpi->kpi}}</option>
+                                    <option value="{{$kpi->code}}">{{$kpi->kpi}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -29,8 +29,8 @@
                                     class="form-control "></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="task_status">Task Status: </label>
-                                <select name="task_status" id="task_status" class="form-control">
+                                <label for="status">Task Status: </label>
+                                <select name="status" id="status" class="form-control">
                                     <option value="" selected disabled>Select Status</option>
                                     <option value="new">New</option>
                                     <option value="pending">Pending</option>

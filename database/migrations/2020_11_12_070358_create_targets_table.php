@@ -19,7 +19,7 @@ class CreateTargetsTable extends Migration
             $table->string('task');
             $table->string('status');
             $table->string('resolution_date');
-            $table->string('creation_date');
+            $table->string('created_date');
             $table->string('time_spent');
             $table->string('units');
             $table->string('description');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Target;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TargetController extends Controller
 {
@@ -37,14 +38,28 @@ class TargetController extends Controller
     {
         $request->validate([
             'task' => 'required',
-            'kpi' => 'required',
-            'task_status'=>'required',
+            'key' => 'required',
+            'status' => 'required',
             "created_date" => 'required',
             "resolution_date" => 'required'
         ]);
+        // get last task record
+        $target = Target::latest()->first();
+        // generate task key
 
-        
+        // create task
+        // Target::create($request->all());
+        Target::create([
+            "key" => $request->key,
+            "task" => $request->task,
+            "status" => $request->status,
+            "created_date" => $request->created_date,
+            "resolution_date" => $request->resolution_date,
+            "description" => $request->key,
+            "responsible" => Auth::user()->staff_no
+        ]);
 
+        return response()->json(['success' => true, 'message' => 'Task Saved', $target->key], 200);
     }
 
     /**

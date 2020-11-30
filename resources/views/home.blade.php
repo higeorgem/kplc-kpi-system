@@ -173,7 +173,7 @@
                         //  show task card
                         // $('#tasksCard').show(1000);
                         // hide the taks table
-                        $("#tasksTable").hide()
+                        $("#tasksTable").html('')
                         // append no tasks message
                          $("#taskAlert").show().addClass("alert-info").text("No tasks for this KPI")
                         // navigate to the table section
@@ -181,17 +181,19 @@
                             scrollTop: $(".tasksTable").offset().top
                         }, 2000);
                     } else {
+                        // remove the initial tasks
+                        $('#tasksTable tbody').html('');
                         // hide task alert div
                         $("#taskAlert").hide()
                         // hide task card
                         $('#tasksCard').hide(800);
                         // show tasks card
-                         $('#tasksCard').show(1000);
-                          // show the tasks table
+                        $('#tasksCard').show(1000);
+                        // show the tasks table
                         $("#tasksTable").show()
                         //  populate tasks table body
                         $.each(response, function(key,val) {
-                            $('#tasksTable tbody').append('<tr><td>'+response[key].key+'</td><td>'+response[key].task+'</td><td>'+response[key].creation_date+'</td><td>'+response[key].resolution_date+'</td><td>'+response[key].description+'</td></tr>');
+                            $('#tasksTable tbody').append('<tr><td>'+response[key].key+'</td><td>'+response[key].task+'</td><td>'+response[key].created_date+'</td><td>'+response[key].resolution_date+'</td><td>'+response[key].description+'</td></tr>');
                         });
                         // navigate to the table section
                          $('html, body').animate({
