@@ -35,7 +35,16 @@ class TargetController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'task' => 'required',
+            'kpi' => 'required',
+            'task_status'=>'required',
+            "created_date" => 'required',
+            "resolution_date" => 'required'
+        ]);
+
+        
+
     }
 
     /**
