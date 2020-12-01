@@ -193,7 +193,7 @@
                         $("#tasksTable").show()
                         //  populate tasks table body
                         $.each(response, function(key,val) {
-                            $('#tasksTable tbody').append('<tr><td>'+response[key].key+'</td><td>'+response[key].task+'</td><td>'+response[key].created_date+'</td><td>'+response[key].resolution_date+'</td><td>'+response[key].description+'</td></tr>');
+                            $('#tasksTable tbody').append('<tr><td>'+response[key].key+'</td><td>'+response[key].task+'</td><td>'+response[key].created_date+'</td><td>'+response[key].resolution_date+'</td><td>'+response[key].description+'</td><td><a href="#" class="btn btn-outline-info">Edit</a> | <a href="#" class="btn btn-outline-danger">Trash</a></td></tr>');
                         });
                         // navigate to the table section
                          $('html, body').animate({
