@@ -46,7 +46,7 @@ class TargetController extends Controller
         // get last task record
         $target = Target::latest()->first();
         // generate task key
-
+            // TODO: this to sort that  key error
         // create task
         // Target::create($request->all());
         Target::create([
