@@ -76,6 +76,7 @@
 
                 </div>
                 <div class="card-body">
+                    <div id="scroll_to"></div>
                     <div id="taskAlert" class="alert"></div>
                     <div class="tasksTable">
                         <table id="tasksTable" class="table table-bordered table-hover table-sm">
@@ -86,6 +87,7 @@
                                     <th>Created</th>
                                     <th>Resolved</th>
                                     <th>Description</th>
+                                    <th>Functions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -97,6 +99,7 @@
                                     <th>Created</th>
                                     <th>Resolved</th>
                                     <th>Description</th>
+                                    <th>Functions</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -132,7 +135,8 @@
         $(function () {
             // hide the task alert div
             $("#taskAlert").hide()
-        $("#kpiTable").DataTable({
+            $("#tasksTable").DataTable()
+            $("#kpiTable").DataTable({
             "responsive": false, "lengthChange": true, "autoWidth": false,'ordering': true,
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#kpiTable_wrapper .col-md-6:eq(0)');
@@ -152,10 +156,10 @@
         })
         // tr click event on the kpi table get the kpi id use to search tasks
         $('#kpiTable tr.record').on('click', function () {
-            console.log($(this).attr('id')3)
+            console.log($(this).attr('id'))
             // fetch tasks
             $.ajax({
-                url:'/target/'+$(this).attr('id'),
+                url:'/kpi/tasks/'+$(this).attr('id'),
                 type: 'GET',
                 dataType: 'json',
                 cache:false,
@@ -168,39 +172,33 @@
                             title: 'No tasks for this KPI.',
                             showConfirmButton: false,
                             timer: 2000
-                         })
+                         });
                         // hide task card
                         $('#tasksCard').hide(750).show(1000);
-                        //  show task card
-                        // $('#tasksCard').show(1000);
-                        // hide the taks table
-                        $("#tasksTable").html('')
+                        // hide the taks table div
+                        $(".tasksTable").hide()
                         // append no tasks message
                          $("#taskAlert").show().addClass("alert-info").text("No tasks for this KPI")
-                        // navigate to the table section
-                        $('html, body').animate({
-                            scrollTop: $(".tasksTable").offset().top
-                        }, 2000);
                     } else {
-                        // remove the initial tasks
-                        $('#tasksTable tbody').html('');
                         // hide task alert div
                         $("#taskAlert").hide()
-                        // hide task card
-                        $('#tasksCard').hide(2000);
-                        // show tasks card
-                        $('#tasksCard').show(2000);
+                        // show the taks table div
+                        $(".tasksTable").show()
+                        // remove the initial tasks
+                        $('#tasksTable tbody').html('');
+                        // hide then show task card
+                        $('#tasksCard').hide(1000).show(2000);
                         // show the tasks table
                         $("#tasksTable").show()
                         //  populate tasks table body
                         $.each(response, function(key,val) {
-                            $('#tasksTable tbody').append('<tr><td>'+response[key].key+'</td><td>'+response[key].task+'</td><td>'+response[key].created_date+'</td><td>'+response[key].resolution_date+'</td><td>'+response[key].description+'</td><td><a href="#" class="btn btn-outline-info">Edit</a> | <a href="#" class="btn btn-outline-danger">Trash</a></td></tr>');
+                            $('#tasksTable tbody').append('<tr><td>'+response[key].key+'</td><td>'+response[key].task+'</td><td>'+response[key].created_date+'</td><td>'+response[key].resolution_date+'</td><td>'+response[key].description+'</td><td><a href="#" class="btn btn-sm btn-outline-info">Edit</a> | <a href="#" class="btn btn-sm btn-outline-danger">Trash</a></td></tr>');
                         });
-                        // navigate to the table section
-                         $('html, body').animate({
-                            scrollTop: $(".tasksTable").offset().top
-                        }, 2000);
                     }
+                    // navigate to the table section
+                    $('html, body').animate({
+                         scrollTop: $("#scroll_to").offset().top
+                    }, 2000);
                 },
                 error: function(err){
                     console.log(err)

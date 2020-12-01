@@ -25,7 +25,7 @@ class TargetController extends Controller
      */
     public function create()
     {
-        return view('target.create_target');
+
     }
 
     /**
@@ -36,30 +36,7 @@ class TargetController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'task' => 'required',
-            'key' => 'required',
-            'status' => 'required',
-            "created_date" => 'required',
-            "resolution_date" => 'required'
-        ]);
-        // get last task record
-        $target = Target::latest()->first();
-        // generate task key
-            // TODO: this to sort that  key error
-        // create task
-        // Target::create($request->all());
-        Target::create([
-            "key" => $request->key,
-            "task" => $request->task,
-            "status" => $request->status,
-            "created_date" => $request->created_date,
-            "resolution_date" => $request->resolution_date,
-            "description" => $request->key,
-            "responsible" => Auth::user()->staff_no
-        ]);
-
-        return response()->json(['success' => true, 'message' => 'Task Saved', $target->key], 200);
+        
     }
 
     /**

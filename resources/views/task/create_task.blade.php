@@ -32,8 +32,7 @@
                                 <label for="status">Task Status: </label>
                                 <select name="status" id="status" class="form-control">
                                     <option value="" selected disabled>Select Status</option>
-                                    <option value="new">New</option>
-                                    <option value="pending">Pending</option>
+                                    <option value="open">Open</option>
                                     <option value="closed">Closed</option>
                                 </select>
                             </div>
@@ -97,7 +96,7 @@
                }
            });
            $.ajax({
-               url: '{{route("targets.store")}}',
+               url: '{{route("tasks.store")}}',
                type: 'POST',
                dataType: 'json',
                cache: false,
