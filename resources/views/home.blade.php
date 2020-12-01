@@ -152,6 +152,7 @@
         })
         // tr click event on the kpi table get the kpi id use to search tasks
         $('#kpiTable tr.record').on('click', function () {
+            console.log($(this).attr('id')3)
             // fetch tasks
             $.ajax({
                 url:'/target/'+$(this).attr('id'),
@@ -159,7 +160,7 @@
                 dataType: 'json',
                 cache:false,
                 success: function(response){
-                    // console.log(response)
+                    console.log(response)
                     if (response == '') {
                         // alert absence of task
                         Swal.fire({
@@ -186,9 +187,9 @@
                         // hide task alert div
                         $("#taskAlert").hide()
                         // hide task card
-                        $('#tasksCard').hide(800);
+                        $('#tasksCard').hide(2000);
                         // show tasks card
-                        $('#tasksCard').show(1000);
+                        $('#tasksCard').show(2000);
                         // show the tasks table
                         $("#tasksTable").show()
                         //  populate tasks table body

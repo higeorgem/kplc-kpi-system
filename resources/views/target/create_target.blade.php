@@ -103,7 +103,13 @@
                cache: false,
                data: $('#task_form').serialize(),
                success: function(response){
-                   console.log(response)
+                //    console.log(response)
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Task Created Successfully',
+                    showConfirmButton: false,
+                    timer: 2000
+                    });
 
                },
                error: function (error) {
