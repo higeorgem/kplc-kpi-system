@@ -338,20 +338,23 @@
                                 data: {
                                     id: $(this).attr('id')
                                 },
-                                success: function(response){
-                                    console.log(response);
+                                success: function(respon){
+                                    console.log(respon);
+                                     // display delete success message
+                                    Swal.fire(
+                                        'Deleted!',
+                                        'Your file has been deleted.',
+                                        'success'
+                                        )
+                                    setTimeout(function() {
+                                        fetchTasks(response[key].description)
+                                    }, 1000);
                                 },
                                 error: function(err){
-                                    console.log(err)
+                                    // console.log(err)
                                 }
                             })
-                            // display delete success message
-                            Swal.fire(
-                                'Deleted!',
-                                'Your file has been deleted.',
-                                'success'
-                                )
-                            fetchTasks(response[key].description);
+
                         }
                     })
                 });
