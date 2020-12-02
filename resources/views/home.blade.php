@@ -262,7 +262,7 @@
             icon: 'info',
             title: 'No tasks for this KPI.',
             showConfirmButton: false,
-            timer: 2000
+            timer: 1000
             });
             // hide task card
             $('#tasksCard').hide(750).show(1000);
@@ -278,7 +278,7 @@
             // remove the initial tasks
             $('#tasksTable tbody').html('');
             // hide then show task card
-            $('#tasksCard').hide(1000).show(2000);
+            $('#tasksCard').hide(1000).show(1000);
             // show the tasks table
             $("#tasksTable").show()
             // populate tasks table body
@@ -319,7 +319,7 @@
             // navigate to the task table section
             $('html, body').animate({
             scrollTop: $("#scroll_to").offset().top
-            }, 2000);
+            }, 1000);
         }
 
 
