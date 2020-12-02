@@ -89,7 +89,7 @@
         })
 
         function submitTaskForm() {
-           console.log($('#task_form').serializeArray());
+        //    console.log($('#task_form').serializeArray());
            $.ajaxSetup({
                headers: {
                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
@@ -102,14 +102,14 @@
                cache: false,
                data: $('#task_form').serialize(),
                success: function(response){
-                   console.log(response)
+                //    console.log(response)
                 Swal.fire({
                     icon: 'success',
                     title: 'Task Created Successfully',
                     showConfirmButton: false,
                     timer: 2000
                     });
-
+                    $('#task_form')[0].reset();
                },
                error: function (error) {
                    console.log(error)

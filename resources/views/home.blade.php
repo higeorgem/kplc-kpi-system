@@ -198,7 +198,7 @@
         });
         // tr click event on the kpi table get the kpi id use to search tasks
         $('#kpiTable tr.record').on('click', function () {
-            console.log($(this).attr('id'))
+            // console.log($(this).attr('id'))
             // fetch tasks
            fetchTasks($(this).attr('id'));
         });
@@ -227,7 +227,7 @@
                             cache: false,
                             data: $(this).serialize(),
                             success: function(reply){
-                                console.log(reply.kpi_key)
+                                // console.log(reply.kpi_key)
                                 fetchTasks(reply.kpi_key);
                             },
                             error: function(err){
@@ -283,35 +283,87 @@
             $("#tasksTable").show()
             // populate tasks table body
             $.each(response, function(key,val) {
-                $('#tasksTable tbody').append('<tr><td>'+response[key].key+'</td><td>'+response[key].task+'</td><td>'+response[key].created_date+'</td><td>'+response[key].resolution_date+'</td><td>'+response[key].description+'</td><td><a href="#" id='+response[key].key+' class="btn btn-sm btn-outline-info editTask">Edit</a> | <a href="#" class="btn btn-sm btn-outline-danger">Trash</a></td></tr>');
+                $('#tasksTable tbody').append('<tr><td>'+response[key].key+'</td><td>'+response[key].task+'</td><td>'+new Date(response[key].created_date.split('T')[0]).toDateString()+' '+response[key].created_date.split('T')[1]+'</td><td>'+new Date(response[key].resolution_date.split('T')[0]).toDateString()+' '+response[key].resolution_date.split('T')[1]+'</td><td>'+response[key].description+'</td><td><a href="#" id='+response[key].key+' class="btn btn-sm btn-outline-info editTask">Edit</a> | <a href="#" id='+response[key].key+' class="btn btn-sm btn-outline-danger del">Trash</a></td></tr>');
             });
             // edit modal
             $.each(response, function(key,val) {
-            $('#'+response[key].key).on('click', function(){
-            // show the edit modal
-            $('#editTaskModal').modal('show');
-            // reset the form
-            $('#task_form')[0].reset();
-            // append kpi
-            $('#key option[value='+response[key].description+']').attr('selected','selected');
-            // append task_key to input
-            $('#task_key').val(response[key].key);
-            // append task to input
-            $('#task').val(response[key].task);
-            // append status
-            $('#status').val(response[key].status).change();
-            // append created date
-            $('#created_date').val(response[key].created_date).change();
-            // append resolution date
-            $('#resolution_date').val(response[key].resolution_date).change();
-            })
-            })
+                // edit prompt modal
+                $('#'+response[key].key).on('click', function(){
+                        // show the edit modal
+                        $('#editTaskModal').modal('show');
+                        // reset the form
+                        $('#task_form')[0].reset();
+                        // append kpi
+                        $('#key option[value='+response[key].description+']').attr('selected','selected');
+                        // append task_key to input
+                        $('#task_key').val(response[key].key);
+                        // append task to input
+                        $('#task').val(response[key].task);
+                        // append status
+                        $('#status').val(response[key].status).change();
+                        // append created date
+                        $('#created_date').val(response[key].created_date).change();
+                        // append resolution date
+                        $('#resolution_date').val(response[key].resolution_date).change();
+                    })
+                })
             }
+            // trash modal prompt
+            $.each(response, function(key,val) {
+                // trash kpi
+                $('.del#'+response[key].key).on('click', function(){
+                 console.log($(this).attr('id'))
+                console.log(response[key].description)
+                    Swal.fire({
+                            title: 'Are you sure?',
+                            text: "You won't be able to revert this!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, delete it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                            // delete the task
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-TOKEN' : jQuery('meta[name="csrf-token"]').attr('content')
+                                }
+                            })
+                            $.ajax({
+                                url: '/tasks/'+$(this).attr('id'),
+                                type: 'DELETE',
+                                dataType: 'json',
+                                cache: false,
+                                data: {
+                                    id: $(this).attr('id')
+                                },
+                                success: function(respon){
+                                    console.log(respon);
+                                     // display delete success message
+                                    Swal.fire(
+                                        'Deleted!',
+                                        'Your file has been deleted.',
+                                        'success'
+                                        )
+                                    setTimeout(function() {
+                                        fetchTasks(response[key].description)
+                                    }, 1000);
+                                },
+                                error: function(err){
+                                    // console.log(err)
+                                }
+                            })
+
+                        }
+                    })
+                });
+            })
             // navigate to the task table section
             scrollToTask();
             },
             error: function(err){
-            console.log(err)
+                console.log(err)
             }
             })
         }

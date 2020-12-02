@@ -139,11 +139,11 @@
                   <p>Dashboard v2</p>
                 </a>
               </li>
-              
+
             </ul> --}}
                         </li>
                     <li class="nav-item">
-                        <a href="/targets/create" class="nav-link">
+                        <a href="/tasks/create" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Create Task</p>
                         </a>
