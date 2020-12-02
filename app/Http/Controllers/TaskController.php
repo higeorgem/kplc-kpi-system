@@ -43,12 +43,12 @@ class TaskController extends Controller
             "resolution_date" => 'required'
         ]);
         // count the number of tasks of this kpi
-        $kpi_task_count = Task::where('description', $request->key)->where('flag', 0)->count() + 1;
+        $kpi_task_count = Task::withTrashed()->where('description', $request->key)->where('flag', 0)->count() + 1;
         //generate the task id
         $taskID = str_pad($kpi_task_count, 4, '0', STR_PAD_LEFT);
         // create task
         Task::create([
-            "key" => $request->key.'-'.$taskID,
+            "key" => $request->key . '-' . $taskID,
             "task" => $request->task,
             "status" => $request->status,
             "created_date" => $request->created_date,
@@ -99,7 +99,7 @@ class TaskController extends Controller
             "resolution_date" => $request->resolution_date,
         ]);
 
-        return response()->json(['success'=>true, 'message'=>'Task Updated', 'kpi_key'=>$request->key], 200);
+        return response()->json(['success' => true, 'message' => 'Task Updated', 'kpi_key' => $request->key], 200);
     }
 
     /**
@@ -114,6 +114,6 @@ class TaskController extends Controller
 
         $task->delete();
 
-        return response()->json(['success'=>true, 'message'=> 'Task Deleted', $task]);
+        return response()->json(['success' => true, 'message' => 'Task Deleted', $task]);
     }
 }
