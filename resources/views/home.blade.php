@@ -59,7 +59,7 @@
                     <div class="kpiTableTitle"></div>
                     <!-- Button trigger modal -->
                     <span class="">
-                        <a href="{{route('targets.create')}}" class="btn btn-success btn-sm">
+                        <a href="{{route('tasks.create')}}" class="btn btn-success btn-sm">
                             Add Task
                         </a>
                         {{-- <a type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal">
@@ -107,23 +107,65 @@
                 </div>
             </div>
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            <div class="modal fade" id="editTaskModal" tabindex="-1" role="dialog" aria-labelledby="editTaskModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <h5 class="modal-title" id="editTaskModalLabel">EDIT KPI</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
-                            ...
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
+                        <form method="post" id="task_form">
+                            <div class="modal-body">
+                                @method('PUT')
+                                @csrf
+                                <input type="hidden" name="task_key" id="task_key" value="">
+                                <div class="form-group">
+                                    <label for="key">Select key:</label>
+                                    <select name="key" id="key" class="form-control" required>
+                                        <option value="" selected disabled>Select key</option>
+                                        @foreach (\Illuminate\Support\Facades\DB::table('k_p_i_s')->get() as $kpi)
+                                        <option value="{{$kpi->code}}">{{$kpi->kpi}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="task">Task: </label>
+                                    <textarea name="task" id="task" class="form-control" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="status">Task Status: </label>
+                                    <select name="status" id="status" class="form-control" required>
+                                        <option value="" selected disabled>Select Status</option>
+                                        <option value="open">Open</option>
+                                        <option value="closed">Closed</option>
+                                    </select>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <label for="created_date">Created Date</label>
+                                        <input type="datetime-local" name="created_date" id="created_date"
+                                            class="form-control" required>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="resolution_date">Resolution Date</label>
+                                        <input type="datetime-local" name="resolution_date" id="resolution_date"
+                                            class="form-control" required>
+                                    </div>
+                                </div>
+                                {{-- <div class="card-footer text-center">
+                                    <button type="submit" id="form_submit" class="btn btn-outline-success">Create
+                                        Task</button>
+                                </div> --}}
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -146,65 +188,141 @@
             },
             function () {
                 $(this).css("background","");
-        })
+        });
         // hide tasks card
         $('#tasksCard').hide();
         // set the tasks card title on clicking the kpi table row
         $('#kpiTable tr.record td#kpi').on('click', function () {
             // console.log($(this).html())
             $('#tasksCard .kpiTableTitle').html($(this).html()).addClass("h4 text-uppercase")
-        })
+        });
         // tr click event on the kpi table get the kpi id use to search tasks
         $('#kpiTable tr.record').on('click', function () {
             console.log($(this).attr('id'))
             // fetch tasks
-            $.ajax({
-                url:'/kpi/tasks/'+$(this).attr('id'),
-                type: 'GET',
-                dataType: 'json',
-                cache:false,
-                success: function(response){
-                    console.log(response)
-                    if (response == '') {
-                        // alert absence of task
-                        Swal.fire({
-                            icon: 'info',
-                            title: 'No tasks for this KPI.',
-                            showConfirmButton: false,
-                            timer: 2000
-                         });
-                        // hide task card
-                        $('#tasksCard').hide(750).show(1000);
-                        // hide the taks table div
-                        $(".tasksTable").hide()
-                        // append no tasks message
-                         $("#taskAlert").show().addClass("alert-info").text("No tasks for this KPI")
-                    } else {
-                        // hide task alert div
-                        $("#taskAlert").hide()
-                        // show the taks table div
-                        $(".tasksTable").show()
-                        // remove the initial tasks
-                        $('#tasksTable tbody').html('');
-                        // hide then show task card
-                        $('#tasksCard').hide(1000).show(2000);
-                        // show the tasks table
-                        $("#tasksTable").show()
-                        //  populate tasks table body
-                        $.each(response, function(key,val) {
-                            $('#tasksTable tbody').append('<tr><td>'+response[key].key+'</td><td>'+response[key].task+'</td><td>'+response[key].created_date+'</td><td>'+response[key].resolution_date+'</td><td>'+response[key].description+'</td><td><a href="#" class="btn btn-sm btn-outline-info">Edit</a> | <a href="#" class="btn btn-sm btn-outline-danger">Trash</a></td></tr>');
-                        });
-                    }
-                    // navigate to the table section
-                    $('html, body').animate({
-                         scrollTop: $("#scroll_to").offset().top
-                    }, 2000);
-                },
-                error: function(err){
-                    console.log(err)
+           fetchTasks($(this).attr('id'));
+        });
+        // save kpi changes
+        $('#task_form').submit(function(e){
+            e.preventDefault();
+            Swal.fire({
+                    title: 'Do you want to save the changes?',
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: `Save`,
+                    denyButtonText: `Don't save`,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // save updates on the task
+                        console.log($(this).serializeArray())
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN' : jQuery('meta[name="csrf-token"]').attr('content')
+                            }
+                        })
+                        $.ajax({
+                            url: '/tasks/'+$('#task_key').val(),
+                            type: 'PUT',
+                            dataType: 'json',
+                            cache: false,
+                            data: $(this).serialize(),
+                            success: function(reply){
+                                console.log(reply.kpi_key)
+                                fetchTasks(reply.kpi_key);
+                            },
+                            error: function(err){
+                                console.log(err)
+                            }
+                        })
+                        // show saved success
+                        Swal.fire('Changes Saved!', '', 'success')
+                        // close the modal
+                        $('#editTaskModal').modal('hide');
+                        //
+                        scrollToTask();
+                    } else if (result.isDenied) {
+                        Swal.fire('Changes are not saved', '', 'info');
+                        scrollToTask();
                 }
-            })
+            });
+
         })
+
+        function fetchTasks(param) {
+            $.ajax({
+            url:'/kpi/tasks/'+param,
+            type: 'GET',
+            dataType: 'json',
+            cache:false,
+            success: function(response){
+            // console.log(response)
+            if (response == '') {
+            // alert absence of task
+            Swal.fire({
+            icon: 'info',
+            title: 'No tasks for this KPI.',
+            showConfirmButton: false,
+            timer: 2000
+            });
+            // hide task card
+            $('#tasksCard').hide(750).show(1000);
+            // hide the taks table div
+            $(".tasksTable").hide()
+            // append no tasks message
+            $("#taskAlert").show().addClass("alert-info").text("No tasks for this KPI")
+            } else {
+            // hide task alert div
+            $("#taskAlert").hide()
+            // show the taks table div
+            $(".tasksTable").show()
+            // remove the initial tasks
+            $('#tasksTable tbody').html('');
+            // hide then show task card
+            $('#tasksCard').hide(1000).show(2000);
+            // show the tasks table
+            $("#tasksTable").show()
+            // populate tasks table body
+            $.each(response, function(key,val) {
+                $('#tasksTable tbody').append('<tr><td>'+response[key].key+'</td><td>'+response[key].task+'</td><td>'+response[key].created_date+'</td><td>'+response[key].resolution_date+'</td><td>'+response[key].description+'</td><td><a href="#" id='+response[key].key+' class="btn btn-sm btn-outline-info editTask">Edit</a> | <a href="#" class="btn btn-sm btn-outline-danger">Trash</a></td></tr>');
+            });
+            // edit modal
+            $.each(response, function(key,val) {
+            $('#'+response[key].key).on('click', function(){
+            // show the edit modal
+            $('#editTaskModal').modal('show');
+            // reset the form
+            $('#task_form')[0].reset();
+            // append kpi
+            $('#key option[value='+response[key].description+']').attr('selected','selected');
+            // append task_key to input
+            $('#task_key').val(response[key].key);
+            // append task to input
+            $('#task').val(response[key].task);
+            // append status
+            $('#status').val(response[key].status).change();
+            // append created date
+            $('#created_date').val(response[key].created_date).change();
+            // append resolution date
+            $('#resolution_date').val(response[key].resolution_date).change();
+            })
+            })
+            }
+            // navigate to the task table section
+            scrollToTask();
+            },
+            error: function(err){
+            console.log(err)
+            }
+            })
+        }
+        function scrollToTask(){
+            // navigate to the task table section
+            $('html, body').animate({
+            scrollTop: $("#scroll_to").offset().top
+            }, 2000);
+        }
+
+
     })
     </script>
     @endsection

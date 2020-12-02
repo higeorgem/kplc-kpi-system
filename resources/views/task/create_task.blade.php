@@ -39,11 +39,11 @@
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <label for="created_date">Created Date</label>
-                                    <input type="date" name="created_date" id="created_date" class="form-control">
+                                    <input type="datetime-local" name="created_date" id="created_date" class="form-control">
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="resolution_date">Resolution Date</label>
-                                    <input type="date" name="resolution_date" id="resolution_date" class="form-control">
+                                    <input type="datetime-local" name="resolution_date" id="resolution_date" class="form-control">
                                 </div>
                             </div>
                             <div class="card-footer text-center">
@@ -102,7 +102,7 @@
                cache: false,
                data: $('#task_form').serialize(),
                success: function(response){
-                //    console.log(response)
+                   console.log(response)
                 Swal.fire({
                     icon: 'success',
                     title: 'Task Created Successfully',

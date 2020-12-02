@@ -15,7 +15,6 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return view('task.create_task');
     }
 
     /**
@@ -25,7 +24,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        return view('task.create_task');
     }
 
     /**
@@ -43,14 +42,13 @@ class TaskController extends Controller
             "created_date" => 'required',
             "resolution_date" => 'required'
         ]);
-        // get last task record
-        $task = Task::latest()->first();
-        // generate task key
-        // TODO: this to sort that  key error
+        // count the number of tasks of this kpi
+        $kpi_task_count = Task::where('description', $request->key)->where('flag', 0)->count() + 1;
+        //generate the task id
+        $taskID = str_pad($kpi_task_count, 4, '0', STR_PAD_LEFT);
         // create task
-        // Target::create($request->all());
         Task::create([
-            "key" => $request->key,
+            "key" => $request->key.'-'.$taskID,
             "task" => $request->task,
             "status" => $request->status,
             "created_date" => $request->created_date,
@@ -59,7 +57,7 @@ class TaskController extends Controller
             "responsible" => Auth::user()->staff_no
         ]);
 
-        return response()->json(['success' => true, 'message' => 'Task Saved', $task->key], 200);
+        return response()->json(['success' => true, 'message' => 'Task Saved'], 200);
     }
 
     /**
@@ -91,9 +89,17 @@ class TaskController extends Controller
      * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(Request $request, $key)
     {
-        //
+        // get the task
+        $task = Task::where('key', $key)->update([
+            "task" => $request->task,
+            "status" => $request->status,
+            "created_date" => $request->created_date,
+            "resolution_date" => $request->resolution_date,
+        ]);
+
+        return response()->json(['success'=>true, 'message'=>'Task Updated', 'kpi_key'=>$request->key], 200);
     }
 
     /**
