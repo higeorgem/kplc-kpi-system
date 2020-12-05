@@ -86,7 +86,8 @@
                                     <th>Task</th>
                                     <th>Created</th>
                                     <th>Resolved</th>
-                                    <th>Description</th>
+                                    <!-- <th>Description</th> -->
+                                    <th>Status</th>
                                     <th>Functions</th>
                                 </tr>
                             </thead>
@@ -98,7 +99,8 @@
                                     <th>Task</th>
                                     <th>Created</th>
                                     <th>Resolved</th>
-                                    <th>Description</th>
+                                    <!-- <th>Description</th> -->
+                                    <th>Status</th>
                                     <th>Functions</th>
                                 </tr>
                             </tfoot>
@@ -283,7 +285,7 @@
             $("#tasksTable").show()
             // populate tasks table body
             $.each(response, function(key,val) {
-                $('#tasksTable tbody').append('<tr><td>'+response[key].key+'</td><td>'+response[key].task+'</td><td>'+new Date(response[key].created_date.split('T')[0]).toDateString()+' '+response[key].created_date.split('T')[1]+'</td><td>'+new Date(response[key].resolution_date.split('T')[0]).toDateString()+' '+response[key].resolution_date.split('T')[1]+'</td><td>'+response[key].description+'</td><td><a href="#" id='+response[key].key+' class="btn btn-sm btn-outline-info editTask">Edit</a> | <a href="#" id='+response[key].key+' class="btn btn-sm btn-outline-danger del">Trash</a></td></tr>');
+                $('#tasksTable tbody').append('<tr><td>'+response[key].key+'</td><td>'+response[key].task+'</td><td>'+new Date(response[key].created_date.split('T')[0]).toDateString()+' '+response[key].created_date.split('T')[1]+'</td><td>'+new Date(response[key].resolution_date.split('T')[0]).toDateString()+' '+response[key].resolution_date.split('T')[1]+'</td><td>'+response[key].description+'</td><td>'+response[key].status+'</td><td><a href="#" id='+response[key].key+' class="btn btn-sm btn-outline-info editTask">Edit</a> | <a href="#" id='+response[key].key+' class="btn btn-sm btn-outline-danger del">Trash</a></td></tr>');
             });
             // edit modal
             $.each(response, function(key,val) {
