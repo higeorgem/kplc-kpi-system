@@ -15,10 +15,12 @@
                                 <th title="Key Performance Indicator">KPI</th>
                                 <th title="Unit Of Measure">UOM</th>
                                 <th>Weight</th>
-                                <th title="Previous Target">PT</th>
-                                <th>Target</th>
+                                <th title="Previous Target">Previous Targets</th>
+                                <th>Current Target</th>
                                 <th>Achievement</th>
                                 <th>Vailidated Achievement</th>
+                                <th>Raw Score</th>
+                                <th>Weighted Score</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -29,7 +31,6 @@
                                 <td id="kpi"> {{$kpi->kpi}}</td>
                                 <td> {{$kpi->unit_of_measure}}</td>
                                 <td> {{$kpi->weight}}</td>
-                                <td>{{$kpi->previous_target}}</td>
                                 <td>{{$kpi->target}}</td>
                                 <td>{{$kpi->achievement}}</td>
                                 <td>{{$kpi->validated_achievement}}</td>
@@ -43,10 +44,12 @@
                                 <th title="Key Performance Indicator">KPI</th>
                                 <th title="Unit Of Measure">UOM</th>
                                 <th>Weight</th>
-                                <th title="Previous Target">PT</th>
-                                <th>Target</th>
+                                <th title="Previous Target">Previous Targets</th>
+                                <th>Current Target</th>
                                 <th>Achievement</th>
                                 <th>Vailidated Achievement</th>
+                                <th>Raw Score</th>
+                                <th>Weighted Score</th>
                             </tr>
                         </tfoot>
                     </table>
