@@ -7,7 +7,7 @@
             <div class="card-header h3 text-center text-uppercase">{{ __('Key Performance Indicators') }}</div>
             <div class="card-body">
                 <div class="">
-                    <table id="kpiTable" class="table table-bordered table-hover table-sm">
+                    <table id="kpiTable" class="table table-bordered table-hover table-sm table-responsive">
                         <thead>
                             <tr>
                                 <th>#CODE</th>
@@ -32,8 +32,11 @@
                                 <td> {{$kpi->unit_of_measure}}</td>
                                 <td> {{$kpi->weight}}</td>
                                 <td>{{$kpi->target}}</td>
+                                <td></td>
                                 <td>{{$kpi->achievement}}</td>
                                 <td>{{$kpi->validated_achievement}}</td>
+                                <td>{{$kpi->raw_score}}</td>
+                                <td>{{$kpi->weighted_score}}</td>
                             </tr>
                             @endforeach
                         </tbody>
