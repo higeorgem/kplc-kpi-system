@@ -28,6 +28,7 @@
                                 <th>Vailidated Achievement</th>
                                 <th>Raw Score</th>
                                 <th>Weighted Score</th>
+                                <th>Functions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -42,8 +43,10 @@
                                 <td></td>
                                 <td>{{$kpi->achievement}}</td>
                                 <td>{{$kpi->validated_achievement}}</td>
-                                <td>{{$kpi->raw_score}}</td>
+                                <td></td>
+                                {{-- <td>{{$kpi->raw_score}}</td> --}}
                                 <td>{{$kpi->weighted_score}}</td>
+                                <td><a href="{{route('kpi.edit', [$kpi->id])}}" class="btn btn-outline-info btn-sm">Edit</a> </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -60,6 +63,7 @@
                                 <th>Vailidated Achievement</th>
                                 <th>Raw Score</th>
                                 <th>Weighted Score</th>
+                                <th>Functions</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -193,10 +197,11 @@
             // hide the task alert div
             $("#taskAlert").hide()
             $("#tasksTable").DataTable()
-            $("#kpiTable").DataTable({
-            "responsive": false, "lengthChange": true, "autoWidth": false,'ordering': true,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons().container().appendTo('#kpiTable_wrapper .col-md-6:eq(0)');
+            $("#kpiTable").DataTable()
+            // $("#kpiTable").DataTable({
+            // "responsive": false, "lengthChange": true, "autoWidth": false,'ordering': true,
+            // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            // }).buttons().container().appendTo('#kpiTable_wrapper .col-md-6:eq(0)');
          // tr mouseover event for kpi table
         $('#kpiTable tr.record').hover(function () {
                 $(this).css("background","grey");
@@ -298,7 +303,7 @@
             $("#tasksTable").show()
             // populate tasks table body
             $.each(response, function(key,val) {
-                $('#tasksTable tbody').append('<tr><td>'+response[key].key+'</td><td>'+response[key].task+'</td><td>'+new Date(response[key].created_date.split('T')[0]).toDateString()+' '+response[key].created_date.split('T')[1]+'</td><td>'+new Date(response[key].resolution_date.split('T')[0]).toDateString()+' '+response[key].resolution_date.split('T')[1]+'</td><td>'+response[key].description+'</td><td>'+response[key].status+'</td><td><a href="#" id='+response[key].key+' class="btn btn-sm btn-outline-info editTask">Edit</a> | <a href="#" id='+response[key].key+' class="btn btn-sm btn-outline-danger del">Trash</a></td></tr>');
+                $('#tasksTable tbody').append('<tr><td>'+response[key].key+'</td><td>'+response[key].task+'</td><td>'+new Date(response[key].created_date.split('T')[0]).toDateString()+' '+response[key].created_date.split('T')[1]+'</td><td>'+new Date(response[key].resolution_date.split('T')[0]).toDateString()+' '+response[key].resolution_date.split('T')[1]+'</td><td>'+response[key].status+'</td><td><a href="#" id='+response[key].key+' class="btn btn-sm btn-outline-info editTask">Edit</a> | <a href="#" id='+response[key].key+' class="btn btn-sm btn-outline-danger del">Trash</a></td></tr>');
             });
             // edit modal
             $.each(response, function(key,val) {

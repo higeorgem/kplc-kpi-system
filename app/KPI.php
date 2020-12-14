@@ -7,6 +7,13 @@ use Illuminate\Support\Facades\DB;
 
 class KPI extends Model
 {
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'id';
+
     protected $guarded = [];
 
     public function getNewCode(){
