@@ -14,7 +14,7 @@
             </div>
             <div class="card-body">
                 <div class="">
-                    <table id="kpiTable" class="table table-bordered table-hover table-sm">
+                    <table id="kpiTable" class="table table-bordered table-hover table-sm table-responsive">
                         <thead>
                             <tr>
                                 <th>#CODE</th>
@@ -22,10 +22,12 @@
                                 <th title="Key Performance Indicator">KPI</th>
                                 <th title="Unit Of Measure">UOM</th>
                                 <th>Weight</th>
-                                <th title="Previous Target">PT</th>
-                                <th>Target</th>
+                                <th title="Previous Target">Previous Targets</th>
+                                <th>Current Target</th>
                                 <th>Achievement</th>
                                 <th>Vailidated Achievement</th>
+                                <th>Raw Score</th>
+                                <th>Weighted Score</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -36,10 +38,12 @@
                                 <td id="kpi"> {{$kpi->kpi}}</td>
                                 <td> {{$kpi->unit_of_measure}}</td>
                                 <td> {{$kpi->weight}}</td>
-                                <td>{{$kpi->previous_target}}</td>
                                 <td>{{$kpi->target}}</td>
+                                <td></td>
                                 <td>{{$kpi->achievement}}</td>
                                 <td>{{$kpi->validated_achievement}}</td>
+                                <td>{{$kpi->raw_score}}</td>
+                                <td>{{$kpi->weighted_score}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -50,10 +54,12 @@
                                 <th title="Key Performance Indicator">KPI</th>
                                 <th title="Unit Of Measure">UOM</th>
                                 <th>Weight</th>
-                                <th title="Previous Target">PT</th>
-                                <th>Target</th>
+                                <th title="Previous Target">Previous Targets</th>
+                                <th>Current Target</th>
                                 <th>Achievement</th>
                                 <th>Vailidated Achievement</th>
+                                <th>Raw Score</th>
+                                <th>Weighted Score</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -93,7 +99,8 @@
                                     <th>Task</th>
                                     <th>Created</th>
                                     <th>Resolved</th>
-                                    <th>Description</th>
+                                    <!-- <th>Description</th> -->
+                                    <th>Status</th>
                                     <th>Functions</th>
                                 </tr>
                             </thead>
@@ -105,7 +112,8 @@
                                     <th>Task</th>
                                     <th>Created</th>
                                     <th>Resolved</th>
-                                    <th>Description</th>
+                                    <!-- <th>Description</th> -->
+                                    <th>Status</th>
                                     <th>Functions</th>
                                 </tr>
                             </tfoot>
@@ -269,7 +277,7 @@
             icon: 'info',
             title: 'No tasks for this KPI.',
             showConfirmButton: false,
-            timer: 2000
+            timer: 1000
             });
             // hide task card
             $('#tasksCard').hide(750).show(1000);
@@ -285,12 +293,12 @@
             // remove the initial tasks
             $('#tasksTable tbody').html('');
             // hide then show task card
-            $('#tasksCard').hide(1000).show(2000);
+            $('#tasksCard').hide(1000).show(1000);
             // show the tasks table
             $("#tasksTable").show()
             // populate tasks table body
             $.each(response, function(key,val) {
-                $('#tasksTable tbody').append('<tr><td>'+response[key].key+'</td><td>'+response[key].task+'</td><td>'+new Date(response[key].created_date.split('T')[0]).toDateString()+' '+response[key].created_date.split('T')[1]+'</td><td>'+new Date(response[key].resolution_date.split('T')[0]).toDateString()+' '+response[key].resolution_date.split('T')[1]+'</td><td>'+response[key].description+'</td><td><a href="#" id='+response[key].key+' class="btn btn-sm btn-outline-info editTask">Edit</a> | <a href="#" id='+response[key].key+' class="btn btn-sm btn-outline-danger del">Trash</a></td></tr>');
+                $('#tasksTable tbody').append('<tr><td>'+response[key].key+'</td><td>'+response[key].task+'</td><td>'+new Date(response[key].created_date.split('T')[0]).toDateString()+' '+response[key].created_date.split('T')[1]+'</td><td>'+new Date(response[key].resolution_date.split('T')[0]).toDateString()+' '+response[key].resolution_date.split('T')[1]+'</td><td>'+response[key].description+'</td><td>'+response[key].status+'</td><td><a href="#" id='+response[key].key+' class="btn btn-sm btn-outline-info editTask">Edit</a> | <a href="#" id='+response[key].key+' class="btn btn-sm btn-outline-danger del">Trash</a></td></tr>');
             });
             // edit modal
             $.each(response, function(key,val) {
@@ -378,7 +386,7 @@
             // navigate to the task table section
             $('html, body').animate({
             scrollTop: $("#scroll_to").offset().top
-            }, 2000);
+            }, 1000);
         }
 
 
