@@ -178,6 +178,7 @@
             <!-- Main content -->
             <section class="content ">
                 <div class="container-fluid">
+                    @include('flash::message')
                     @yield('content')
                 </div>
                 <!--/. container-fluid -->
@@ -236,6 +237,10 @@
     <script src="{{asset('css/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{{asset('css/dist/js/demo.js')}}"></script>
+    <script>
+        $('#flash-overlay-modal').modal();
+        $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
+    </script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     {{-- <script src="{{asset('css/dist/js/pages/dashboard2.js')}}"></script> --}}
     @yield('scripts')

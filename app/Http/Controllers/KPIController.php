@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Manages kpis
+ *
+ * */
 namespace App\Http\Controllers;
 
 use App\KPI;
@@ -14,7 +17,10 @@ class KPIController extends Controller
      */
     public function index()
     {
-        //
+        // get the kpis
+        $kpi = KPI::all();
+
+        return json_encode($kpi);
     }
 
     /**
@@ -24,7 +30,7 @@ class KPIController extends Controller
      */
     public function create()
     {
-        //
+        return view('kpi/create_kpi');
     }
 
     /**
@@ -35,7 +41,38 @@ class KPIController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'perspective' => 'required',
+            'kpi' => 'required',
+            'unit_of_mesure'  => 'required',
+            'weight' => 'required',
+            'previous_target' => 'required',
+            'achievement' => 'required',
+            'validated_achievement' => 'required',
+            'target' => 'required',
+            'period' => 'required',
+
+        ]);
+        // get last inserted kpi code
+        $kpi = new KPI();
+        // dd($kpi->getNewCode());
+
+        KPI::create([
+            'code' => $kpi->getNewCode(),
+            'perspective' => $request->perspective,
+            'kpi' => $request->kpi,
+            'unit_of_measure' => $request->unit_of_mesure,
+            'weight' => $request->weight,
+            'period' => $request->period,
+            'previous_target' => $request->previous_target,
+            'achievement' => $request->achievement,
+            'validated_achievement' => $request->validated_achievement,
+            'target' => $request->target,
+        ]);
+
+        flash('KPI Created')->success();
+
+        return redirect()->route('home');
     }
 
     /**

@@ -4,7 +4,14 @@
 <div class="container-fluid">
     <div class=" justify-content-center">
         <div class="card">
-            <div class="card-header h3 text-center text-uppercase">{{ __('Key Performance Indicators') }}</div>
+            <div class="card-header row">
+                <div class="col-sm-9 h3 text-center text-uppercase">
+                    {{ __('Key Performance Indicators') }}
+                </div>
+                <div class="col-sm-3">
+                    <a href="{{route('kpi.create')}}" class="btn btn-sm btn-outline-primary float-right">Add KPI</a>
+                </div>
+            </div>
             <div class="card-body">
                 <div class="">
                     <table id="kpiTable" class="table table-bordered table-hover table-sm">
