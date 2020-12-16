@@ -5,8 +5,8 @@
     <div class="card">
         <div class="card-header">CREATE TASK</div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-6">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
                     <div class="card container">
                         <div class="card-header">Create Task Form <br><span
                                 class="text-danger font-weight-bold h3">*</span>Tasks created by this form will be
@@ -51,21 +51,6 @@
                                     Task</button>
                             </div>
                         </form>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">Upload Task sheet <br><span
-                                class="text-danger font-weight-bold h3">*</span>Accepted files CSV </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="task_file">Upload Task File: </label>
-                                <input type="file" name="task_file" id="task_fie" class="form-control">
-                            </div>
-                        </div>
-                        <div class="card-footer">
-
-                        </div>
                     </div>
                 </div>
             </div>

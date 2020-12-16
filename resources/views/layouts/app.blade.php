@@ -126,7 +126,7 @@
                                     {{-- <i class="right fas fa-angle-left"></i> --}}
                                 </p>
                             </a>
-                            {{-- <ul class="nav nav-treeview">
+            {{-- <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="./index.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -143,11 +143,33 @@
             </ul> --}}
                         </li>
                     <li class="nav-item">
-                        <a href="/tasks/create" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Create Task</p>
+                        <a href="#" class="nav-link">
+                        <i class="fas fa-tasks nav-icon"></i>
+                        <p>Task <i class="right fas fa-angle-left"></i> </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/tasks" class="nav-link">
+                              <i class="fas fa-tasks nav-icon"></i>
+                              <p>My Task</p>
+                            </a>
+                          </li>
+                          <li class="nav-item">
+                            <a href="/tasks/create" class="nav-link">
+                              <i class="fas fa-plus nav-icon"></i>
+                              <p>Create Task</p>
+                            </a>
+                          </li>
+                          <li class="nav-item">
+                            <a href="" class="nav-link active">
+                              <i class="far fa-circle nav-icon"></i>
+                              <p>Upload Tasks</p>
+                            </a>
+                          </li>
+
+                        </ul>
                     </li>
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

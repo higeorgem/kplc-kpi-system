@@ -22,15 +22,23 @@ use App\Task;
 
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/kpi/tasks/{id}', function ($id) {
-    $target = Task::where('description', $id)
-    ->where('responsible', Auth::user()->staff_no)->get();
-    return response()->json($target, 200);
-});
+Route::get('/kpi/tasks/{id}', 'TargetController@showTasks');
 Route::resource( 'targets', 'TargetController');
-Route::resource( 'tasks', 'TaskController');
+
+// TASKS ROUTES
+Route::get('/tasks/upload', 'TaskController@showUploadTaskForm')->name('tasks.upload');
+Route::post('/tasks/upload', 'TaskController@storeUploadTask')->name('tasks.storeUpload');
+Route::get('/tasks', 'TaskController@index')->name('tasks.index');
+Route::post('/tasks', 'TaskController@store')->name('tasks.store');
+Route::get('tasks/create', 'TaskController@create')->name('tasks.create');
+Route::delete('tasks/{task}', 'TaskController@destroy')->name('tasks.destroy');
+Route::put('tasks/{task}','TaskController@update')->name('tasks.update');
+Route::get('tasks/{task}','TaskController@show')->name('tasks.show');
+Route::get('tasks/{task}/edit', 'TaskController@edit')->name('tasks.edit');
+
+
 Route::resource('kpi', 'KPIController');
