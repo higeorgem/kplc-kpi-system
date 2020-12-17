@@ -39,6 +39,6 @@ Route::delete('tasks/{task}', 'TaskController@destroy')->name('tasks.destroy');
 Route::put('tasks/{task}','TaskController@update')->name('tasks.update');
 Route::get('tasks/{task}','TaskController@show')->name('tasks.show');
 Route::get('tasks/{task}/edit', 'TaskController@edit')->name('tasks.edit');
-
+Route::get('tasks/template/file', 'TaskController@getTemplate')->name('get_Template');
 
 Route::resource('kpi', 'KPIController');

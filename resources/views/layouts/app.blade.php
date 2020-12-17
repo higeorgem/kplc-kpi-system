@@ -161,8 +161,8 @@
                             </a>
                           </li>
                           <li class="nav-item">
-                            <a href="" class="nav-link active">
-                              <i class="far fa-circle nav-icon"></i>
+                            <a href="/tasks/upload" class="nav-link active">
+                              <i class="fas fa-upload nav-icon"></i>
                               <p>Upload Tasks</p>
                             </a>
                           </li>

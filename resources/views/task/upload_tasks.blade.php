@@ -8,8 +8,11 @@
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="card">
-                        <div class="card-header">Upload Task sheet <br><span
-                                class="text-danger font-weight-bold h3">*</span>Accepted files CSV </div>
+                        <div class="card-header">
+                            Upload Task sheet <br>
+                            <span class="text-danger font-weight-bold h3">*</span>Accepted files CSV
+                            <span class="float-right"><a href="{{route('get_Template')}}">Download Template</a></span>
+                        </div>
                         <div class="card-body">
                             <form method='post' action="{{route('tasks.storeUpload')}}" enctype='multipart/form-data' >
                                  {{ csrf_field() }}

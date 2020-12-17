@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
+use File;
+use Illuminate\Support\Facades\File as FacadesFile;
 
 class TaskController extends Controller
 {
@@ -15,7 +19,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        // get tasks 
+        // get tasks
         $tasks = Task::latest()->get();
 
         return view('task.tasks');
@@ -29,6 +33,25 @@ class TaskController extends Controller
     public function create()
     {
         return view('task.create_task');
+    }
+    /**
+     * get the task template.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getTemplate()
+    {
+
+        return Storage::disk('public')
+        ->download('tasks_sample_template.csv', 'tasks_sample_template.csv',
+            [
+            'Content-Description' =>  'File Transfer',
+            'Content-Type' => 'application/octet-stream',
+            'Content-Disposition' => 'attachment; filename=tasks_sample_template.csv'
+
+            ]);
+
+
     }
     /**
      * Show the form for uploading a new resource.
@@ -52,9 +75,9 @@ class TaskController extends Controller
         $request->validate([
             'task_file' => 'required|mimes:csv,txt'
         ]);
-        // get file 
+        // get file
         $file = $request->file('task_file');
-         // File Details 
+         // File Details
         $filename = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
         $tempPath = $file->getRealPath();
@@ -72,20 +95,20 @@ class TaskController extends Controller
 
           // Reading file
           $file = fopen($filepath,"r");
-            
+
           // file variables
             $importData_arr = array();
             $i = 0;
 
             if ($file) {
-                // get the file store values into and array 
+                // get the file store values into and array
                 while (($filedata = fgetcsv($file, 1000, ",")) !== FALSE) {
                  $num = count($filedata );
-                 
+
                  // Skip first row (Remove below comment if you want to skip the first row)
                  /*if($i == 0){
                     $i++;
-                    continue; 
+                    continue;
                  }*/
                  for ($c=0; $c < $num; $c++) {
                     $importData_arr[$i][] = $filedata [$c];
@@ -97,7 +120,7 @@ class TaskController extends Controller
             } else {
                 flash("Unable to open file")->warning();
             }
-          
+
 
           // Insert to MySQL database
             foreach($importData_arr as $importData){
