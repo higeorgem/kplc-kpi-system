@@ -4,13 +4,19 @@
 <div class="container-fluid">
     <div class=" justify-content-center">
         <div class="card">
-            <div class="card-header row">
-                <div class="col-sm-9 h3 text-center text-uppercase">
+            <div class="card-header">
+                <div class="row">
+                     <div class="col-sm-9 h3 text-center text-uppercase">
                     {{ __('Key Performance Indicators') }}
                 </div>
-                <div class="col-sm-3">
-                    <a href="{{route('kpi.create')}}" class="btn btn-sm btn-outline-primary float-right">Add KPI</a>
+
+                @if (Auth::user()->title == 'supervisor')
+                    <div class="col-sm-3">
+                            <a href="{{route('kpi.create')}}" class="btn btn-sm btn-outline-primary float-right">Add KPI</a>
+                    </div>
+                @endif
                 </div>
+
             </div>
             <div class="card-body">
                 <div class="">
