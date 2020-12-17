@@ -26,7 +26,7 @@ Route::get('/', 'HomeController@index');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/kpi/tasks/{id}', 'TargetController@showTasks');
+Route::get('/kpi/tasks/{id}', 'TaskController@showTasks');
 Route::resource( 'targets', 'TargetController');
 
 // TASKS ROUTES
