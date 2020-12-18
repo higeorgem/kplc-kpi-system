@@ -43,15 +43,15 @@ class TaskController extends Controller
     {
 
         return Storage::disk('public')
-        ->download('tasks_sample_template.csv', 'tasks_sample_template.csv',
-            [
-            'Content-Description' =>  'File Transfer',
-            'Content-Type' => 'application/octet-stream',
-            'Content-Disposition' => 'attachment; filename=tasks_sample_template.csv'
-
-            ]);
-
-
+            ->download(
+                'tasks_sample_template.csv',
+                'tasks_sample_template.csv',
+                [
+                    'Content-Description' =>  'File Transfer',
+                    'Content-Type' => 'application/octet-stream',
+                    'Content-Disposition' => 'attachment; filename=tasks_sample_template.csv'
+                ]
+            );
     }
     /**
      * Show the form for uploading a new resource.
@@ -77,71 +77,82 @@ class TaskController extends Controller
         ]);
         // get file
         $file = $request->file('task_file');
-         // File Details
+        // File Details
         $filename = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
         $tempPath = $file->getRealPath();
         $fileSize = $file->getSize();
         $mimeType = $file->getMimeType();
-         // 2MB in Bytes
+        // 2MB in Bytes
         $maxFileSize = 2097152;
         // Check file size
-        if($fileSize <= $maxFileSize){
-         // move the file to temp file upload directory
+        if ($fileSize <= $maxFileSize) {
+            // move the file to temp file upload directory
             $location = 'temp_uploads';
-            $file->move($location,$filename);
+            $file->move($location, $filename);
             // Import CSV to Database
-          $filepath = public_path($location."/".$filename);
+            $filepath = public_path($location . "/" . $filename);
 
-          // Reading file
-          $file = fopen($filepath,"r");
+            // Reading file
+            $file = fopen($filepath, "r");
 
-          // file variables
+            // file variables
             $importData_arr = array();
             $i = 0;
 
             if ($file) {
                 // get the file store values into and array
                 while (($filedata = fgetcsv($file, 1000, ",")) !== FALSE) {
-                 $num = count($filedata );
+                    $num = count($filedata);
 
-                 // Skip first row (Remove below comment if you want to skip the first row)
-                 /*if($i == 0){
+                    // Skip first row
+                    if ($i == 0) {
+                        $i++;
+                        continue;
+                    }
+
+                    for ($c = 0; $c < $num; $c++) {
+                        $importData_arr[$i][] = $filedata[$c];
+                    }
                     $i++;
-                    continue;
-                 }*/
-                 for ($c=0; $c < $num; $c++) {
-                    $importData_arr[$i][] = $filedata [$c];
-                 }
-                 $i++;
-              }
-              // close file
+                }
+                // close file
                 fclose($file);
             } else {
                 flash("Unable to open file")->warning();
             }
+            // dd($importData_arr);
+            // Insert to MySQL database
+            foreach ($importData_arr as $key => $importData) {
+                // count the number of tasks of this kpi
+                $kpi_task_count = Task::withTrashed()
+                                ->where('description', $importData[0])
+                                ->where('flag', 0)->count() + 1;
 
+                //generate the task id
+                $taskID = str_pad($kpi_task_count, 4, '0', STR_PAD_LEFT);
 
-          // Insert to MySQL database
-            foreach($importData_arr as $importData){
-
-                $insertData = array(
-                   "key"=>$importData[1],
-                   "task"=>$importData[2],
-                   "status"=>$importData[3],
-                   "created_date"=>$importData[4],
-                   "resolution_date"=>$importData[5],
-                   "description"=>$importData[6],
-                   "responsible"=>Auth::user()->staff_no);
+                // if (empty($importData[$key])) {
+                //     flash('Empty values Are not allowed.')->warning();
+                //     return redirect()->back();
+                // }else {
+                   $insertData = array(
+                    "key" => $importData[0] . '-' . $taskID,
+                    "task" => $importData[1],
+                    "status" => $importData[2],
+                    "created_date" => $importData[3],
+                    "resolution_date" => $importData[4],
+                    "description" => $importData[0],
+                    "responsible" => Auth::user()->staff_no
+                );
 
                 Task::create($insertData);
-
+                // }
             }
-
-        }else{
-          flash('message','File too large. File must be less than 2MB.')->warning();
+            flash('File Successfully Uploaded')->success();
+        } else {
+            flash('message', 'File too large. File must be less than 2MB.')->warning();
         }
-        flash('File Successfully Uploaded')->success();
         // Redirect to index
         return redirect()->route('tasks.index');
     }
@@ -179,7 +190,7 @@ class TaskController extends Controller
         return response()->json(['success' => true, 'message' => 'Task Saved'], 200);
     }
 
-/**
+    /**
      * Display the specified resources.
      *
      * @param  $task
@@ -187,8 +198,8 @@ class TaskController extends Controller
      */
     public function showTasks($task)
     {
-         $target = Task::where('description', $task)
-        ->where('responsible', Auth::user()->staff_no)->get();
+        $target = Task::where('description', $task)
+            ->where('responsible', Auth::user()->staff_no)->get();
         return response()->json($target, 200);
     }
 
