@@ -31,7 +31,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
 </head>
 {{-- sidebar-collapse --}}
-<body class="hold-transition sidebar-mini  layout-fixed layout-navbar-fixed layout-footer-fixed">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -41,7 +41,7 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="/" class="nav-link">Home</a>
+                    <a href="/" class="nav-link {{Request::is('/') ? 'active' : ''}}">Home</a>
                 </li>
             </ul>
 
@@ -145,7 +145,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link {{ (Request::is('tasks') || Request::is('tasks/create') || Request::is('tasks/upload') || Request::is('tasks/upload') )  ? 'active' : '' }}">
-                                <i class="fas fa-tasks nav-icon"></i>
+                                <i class="fas fa-list nav-icon"></i>
                                 <p>Task <i class="right fas fa-angle-left"></i> </p>
                             </a>
                             <ul class="nav nav-treeview">
@@ -171,7 +171,7 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link {{ Request::is('/') ? 'active' : '' }}">
+                            <a href="/reports" class="nav-link {{ Request::is('reports') ? 'active' : '' }}">
                                 <i class="fas fa-file-alt nav-icon"></i>
                                 <p>Reports</p>
                             </a>

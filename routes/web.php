@@ -42,3 +42,5 @@ Route::get('tasks/{task}/edit', 'TaskController@edit')->name('tasks.edit');
 Route::get('tasks/template/file', 'TaskController@getTemplate')->name('get_Template');
 
 Route::resource('kpi', 'KPIController');
+// report routes
+Route::resource('reports', 'ReportController');
