@@ -30,7 +30,8 @@
     {{-- sweet alert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
 </head>
-<body class="hold-transition sidebar-mini sidebar-collapse layout-fixed layout-navbar-fixed layout-footer-fixed">
+{{-- sidebar-collapse --}}
+<body class="hold-transition sidebar-mini  layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -119,14 +120,14 @@
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                         <li class="nav-item menu-open">
-                            <a href="#" class="nav-link active">
+                            <a href="/" class="nav-link {{ Request::is('/') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard
                                     {{-- <i class="right fas fa-angle-left"></i> --}}
                                 </p>
                             </a>
-            {{-- <ul class="nav nav-treeview">
+                            {{-- <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="./index.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -142,34 +143,39 @@
 
             </ul> --}}
                         </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                        <i class="fas fa-tasks nav-icon"></i>
-                        <p>Task <i class="right fas fa-angle-left"></i> </p>
-                        </a>
-                        <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/tasks" class="nav-link">
-                              <i class="fas fa-tasks nav-icon"></i>
-                              <p>My Task</p>
+                            <a href="#" class="nav-link {{ (Request::is('tasks') || Request::is('tasks/create') || Request::is('tasks/upload') || Request::is('tasks/upload') )  ? 'active' : '' }}">
+                                <i class="fas fa-tasks nav-icon"></i>
+                                <p>Task <i class="right fas fa-angle-left"></i> </p>
                             </a>
-                          </li>
-                          <li class="nav-item">
-                            <a href="/tasks/create" class="nav-link">
-                              <i class="fas fa-plus nav-icon"></i>
-                              <p>Create Task</p>
-                            </a>
-                          </li>
-                          <li class="nav-item">
-                            <a href="/tasks/upload" class="nav-link active">
-                              <i class="fas fa-upload nav-icon"></i>
-                              <p>Upload Tasks</p>
-                            </a>
-                          </li>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/tasks" class="nav-link {{ Request::is('tasks') ? 'active' : '' }}">
+                                        <i class="fas fa-tasks nav-icon"></i>
+                                        <p>My Task</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/tasks/create" class="nav-link {{ (Request::is('tasks/create')) ? 'active' : '' }}">
+                                        <i class="fas fa-plus nav-icon"></i>
+                                        <p>Create Task</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a href="/tasks/upload" class="nav-link {{ Request::is('tasks/upload') ? 'active' : '' }}">
+                                        <i class="fas fa-upload nav-icon"></i>
+                                        <p>Upload Tasks</p>
+                                    </a>
+                                </li>
 
-                        </ul>
-                    </li>
-
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link {{ Request::is('/') ? 'active' : '' }}">
+                                <i class="fas fa-file-alt nav-icon"></i>
+                                <p>Reports</p>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
