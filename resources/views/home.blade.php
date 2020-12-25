@@ -10,7 +10,7 @@
                     {{ __('Key Performance Indicators') }}
                 </div>
 
-                @if (Auth::user()->title == 'supervisor')
+                @if (Auth::user()->title == 'Principal System Analyst')
                     <div class="col-sm-3">
                             <a href="{{route('kpi.create')}}" class="btn btn-sm btn-outline-primary float-right">Add KPI</a>
                     </div>

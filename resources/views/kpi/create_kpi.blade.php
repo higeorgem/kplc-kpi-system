@@ -84,18 +84,18 @@
                             </span>
                             @enderror
                         </div>
+
                         <div class="form-group col-sm-4">
-                            <label for="previous_target">{{ __('Previous Target') }}</label>
-                            <input id="previous_target" type="text"
-                                class="form-control @error('previous_target') is-invalid @enderror"
-                                name="previous_target" value="{{ old('previous_target') }}"
-                                autocomplete="previous_target" >
-                            @error('previous_target')
+                            <label for="target">{{ __('Target') }}</label>
+                            <input id="target" type="text" class="form-control @error('target') is-invalid @enderror"
+                                name="target" value="{{ old('target') }}" autocomplete="target" >
+                            @error('target')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                             @enderror
                         </div>
+
                     </div>
                     <div class="form-row">
                         <div class="form-group col-sm-4">
@@ -122,15 +122,18 @@
                             @enderror
                         </div>
                         <div class="form-group col-sm-4">
-                            <label for="target">{{ __('Target') }}</label>
-                            <input id="target" type="text" class="form-control @error('target') is-invalid @enderror"
-                                name="target" value="{{ old('target') }}" autocomplete="target" >
-                            @error('target')
+                            <label for="previous_target">{{ __('Previous Target') }}</label>
+                            <input id="previous_target" type="text"
+                                class="form-control @error('previous_target') is-invalid @enderror"
+                                name="previous_target" value="{{ old('previous_target') }}"
+                                autocomplete="previous_target" >
+                            @error('previous_target')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                             @enderror
                         </div>
+                        
                     </div>
                     <div class="card-footer text-center">
                         <button type="submit" id="form_submit" class="btn btn-outline-success">Create
