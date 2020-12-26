@@ -40,6 +40,7 @@
                         </div>
                         <div class="form-group col-sm-6">
                             <label for="period">{{ __('Period') }}</label>
+                            <input type="hidden" name="period" value="{{ date('y') }}-{{ date('y')+1 }}">
                             <input id="period" type="text" class="form-control @error('period') is-invalid @enderror" name="period"
                                 value="{{ date('y') }}-{{ date('y')+1 }}" autocomplete="period" placeholder="20-21" disabled>
                             @error('period')
@@ -133,7 +134,7 @@
                             </span>
                             @enderror
                         </div>
-                        
+
                     </div>
                     <div class="card-footer text-center">
                         <button type="submit" id="form_submit" class="btn btn-outline-success">Create
