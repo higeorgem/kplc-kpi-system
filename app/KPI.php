@@ -31,4 +31,9 @@ class KPI extends Model
             return 'kpi' . str_pad(1, 3, "0", STR_PAD_LEFT);
         }
     }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class, 'description', 'code');
+    }
 }

@@ -41,7 +41,7 @@
                         <div class="form-group col-sm-6">
                             <label for="period">{{ __('Period') }}</label>
                             <input id="period" type="text" class="form-control @error('period') is-invalid @enderror" name="period"
-                                value="{{ old('period') }}" autocomplete="period" placeholder="20-21">
+                                value="{{ date('y') }}-{{ date('y')+1 }}" autocomplete="period" placeholder="20-21" disabled>
                             @error('period')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>

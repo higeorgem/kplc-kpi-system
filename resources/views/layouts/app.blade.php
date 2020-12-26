@@ -108,7 +108,16 @@
                     </div>
                     <div class="info">
                         <a href="#" class="d-block">
-                            {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
+                            {{ Auth::user()->first_name }} <br>
+                            <span class="text-sm font-italic">
+                                {{ ucwords(Auth::user()->title) }}
+                            </span>
+                            <br>
+                            <span class="text-sm">
+                                Dept: {{ Auth::user()->division->name}}<br>
+                                <i class="fa fa-circle text-success"></i> Online
+
+                            </span>
                         </a>
                     </div>
                 </div>
@@ -144,7 +153,8 @@
             </ul> --}}
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link {{ (Request::is('tasks') || Request::is('tasks/create') || Request::is('tasks/upload') || Request::is('tasks/upload') )  ? 'active' : '' }}">
+                            <a href="#"
+                                class="nav-link {{ (Request::is('tasks') || Request::is('tasks/create') || Request::is('tasks/upload') || Request::is('tasks/upload') )  ? 'active' : '' }}">
                                 <i class="fas fa-list nav-icon"></i>
                                 <p>Task <i class="right fas fa-angle-left"></i> </p>
                             </a>
@@ -156,13 +166,15 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="/tasks/create" class="nav-link {{ (Request::is('tasks/create')) ? 'active' : '' }}">
+                                    <a href="/tasks/create"
+                                        class="nav-link {{ (Request::is('tasks/create')) ? 'active' : '' }}">
                                         <i class="fas fa-plus nav-icon"></i>
                                         <p>Create Task</p>
                                     </a>
                                 </li>
                                 <li class="nav-item ">
-                                    <a href="/tasks/upload" class="nav-link {{ Request::is('tasks/upload') ? 'active' : '' }}">
+                                    <a href="/tasks/upload"
+                                        class="nav-link {{ Request::is('tasks/upload') ? 'active' : '' }}">
                                         <i class="fas fa-upload nav-icon"></i>
                                         <p>Upload Tasks</p>
                                     </a>
