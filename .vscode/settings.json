@@ -1,3 +1,4 @@
 {
-    "http.proxyAuthorization": null
+    "http.proxyAuthorization": null,
+    "git.ignoreLimitWarning": true
 }
