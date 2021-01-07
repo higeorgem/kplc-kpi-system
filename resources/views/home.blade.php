@@ -10,7 +10,7 @@
                     {{ __('Key Performance Indicators') }}
                 </div>
 
-                @if (Auth::user()->title == 'Principal System Analyst')
+                @if (Auth::user()->title == 'supervisor')
                     <div class="col-sm-3">
                             <a href="{{route('kpi.create')}}" class="btn btn-sm btn-outline-primary float-right">Add KPI</a>
                     </div>
@@ -26,14 +26,14 @@
                                 <th>#CODE</th>
                                 <th>Perspective</th>
                                 <th title="Key Performance Indicator">KPI</th>
-                                <th title="Unit Of Measure">UOM</th>
-                                <th>Weight</th>
-                                <th title="Previous Target">Previous Targets</th>
+                                {{-- <th title="Unit Of Measure">UOM</th>
+                                <th>Weight</th> --}}
+                                {{-- <th title="Previous Target">Previous Targets</th>
                                 <th>Current Target</th>
                                 <th>Achievement</th>
                                 <th>Vailidated Achievement</th>
                                 <th>Raw Score</th>
-                                <th>Weighted Score</th>
+                                <th>Weighted Score</th> --}}
                                 <th>Functions</th>
                             </tr>
                         </thead>
@@ -43,15 +43,15 @@
                                 <td> {{$kpi->code}}</td>
                                 <td> {{$kpi->perspective}}</td>
                                 <td id="kpi"> {{$kpi->kpi}}</td>
-                                <td> {{$kpi->unit_of_measure}}</td>
-                                <td> {{$kpi->weight}}</td>
-                                <td>{{$kpi->target}}</td>
+                                {{-- <td> {{$kpi->unit_of_measure}}</td>
+                                <td> {{$kpi->weight}}</td> --}}
+                                {{-- <td>{{$kpi->target}}</td>
                                 <td></td>
                                 <td>{{$kpi->achievement}}</td>
                                 <td>{{$kpi->validated_achievement}}</td>
                                 <td></td>
-                                {{-- <td>{{$kpi->raw_score}}</td> --}}
-                                <td>{{$kpi->weighted_score}}</td>
+                                {{-- <td>{{$kpi->raw_score}}</td>
+                                <td>{{$kpi->weighted_score}}</td> --}}
                                 <td><a href="{{route('kpi.edit', [$kpi->id])}}" class="btn btn-outline-info btn-sm">Edit</a> </td>
                             </tr>
                             @endforeach
@@ -61,14 +61,14 @@
                                 <th>#CODE</th>
                                 <th>Perspective</th>
                                 <th title="Key Performance Indicator">KPI</th>
-                                <th title="Unit Of Measure">UOM</th>
-                                <th>Weight</th>
-                                <th title="Previous Target">Previous Targets</th>
+                                {{-- <th title="Unit Of Measure">UOM</th>
+                                <th>Weight</th> --}}
+                                {{-- <th title="Previous Target">Previous Targets</th>
                                 <th>Current Target</th>
                                 <th>Achievement</th>
                                 <th>Vailidated Achievement</th>
                                 <th>Raw Score</th>
-                                <th>Weighted Score</th>
+                                <th>Weighted Score</th> --}}
                                 <th>Functions</th>
                             </tr>
                         </tfoot>
