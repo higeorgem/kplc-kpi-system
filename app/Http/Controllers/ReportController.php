@@ -30,12 +30,13 @@ class ReportController extends Controller
         foreach ($kpis as $key => $kpi) {
            $data[$key] = KPI::find($kpi->id)
                         ->tasks()
+                        ->where('description', Auth::user()->staff_no)
                         ->where('flag', '0')
                         ->get();
         }
 
         // dd($kpis);
-        dd($data[0][0]);
+        // dd($data);
 
 
         // loop through the kpi map taks
