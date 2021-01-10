@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\KPI;
 use App\Report;
 use App\Task;
 use Illuminate\Http\Request;
@@ -17,18 +18,27 @@ class ReportController extends Controller
      */
     public function index()
     {
-        // get user's annual task report for each kpi and compile
-        // $tasks = Task::where('responsible', Auth::user()->staff_no)
-        //             ->where('flag', 0)
-        //             // ->orderBy('description')
-        //             // -> groupBy('description')
-        //             ->get();
-        $data = DB::table('k_p_i_s')
-            ->join('tasks', 'tasks.description', '=', 'k_p_i_s.code')
-            // ->having('flag','=', 0)
-            // ->select('k_p_i_s.*', 'tasks.*')
-            ->get();
+        $data = [];
+        /**
+         * reports generated as per kpi
+         * TODO: i. get kpi with tasks
+         * TODO: ii. generate report accordingly
+         */
+        #get kpis
+        $kpis = KPI::all();
 
+        foreach ($kpis as $key => $kpi) {
+           $data[$key] = KPI::find($kpi->id)
+                        ->tasks()
+                        ->where('flag', '0')
+                        ->get();
+        }
+
+        // dd($kpis);
+        dd($data[0][0]);
+
+
+        // loop through the kpi map taks
 
         return view('report.index', ['data' => $data]);
 

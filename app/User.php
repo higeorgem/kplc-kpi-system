@@ -43,4 +43,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function division(){
+        return $this->hasOne(Division::class, 'id', 'division_id');
+    }
 }
