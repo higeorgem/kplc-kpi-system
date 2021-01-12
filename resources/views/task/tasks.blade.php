@@ -5,7 +5,7 @@
     <div class=" justify-content-center">
         <div class="">
             <div class="card" id="tasksCard">
-                <div class="card-header">
+                <div class="card-header bg-info">
                     <div class="kpiTableTitle float-left h3">
                         ALL MY TASKS
                     </div>
@@ -13,7 +13,7 @@
                         <a href="{{route('tasks.create')}}" class="btn btn-success btn-sm">
                           <i class="fas fa-plus"></i>  Add Task
                         </a>
-                        <a href="{{route('tasks.upload')}}" class="btn btn-outline-success btn-sm">
+                        <a href="{{route('tasks.upload')}}" class="btn btn-outline-warning btn-sm">
                            <i class="fas fa-upload"></i> Upload Task
                         </a>
                     </span>
@@ -67,7 +67,7 @@
             "responsive": false, "lengthChange": true, "autoWidth": false,'ordering': true,
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#kpiTable_wrapper .col-md-6:eq(0)');
-        
+
     })
     </script>
     @endsection

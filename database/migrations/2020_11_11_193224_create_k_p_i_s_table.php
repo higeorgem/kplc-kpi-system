@@ -19,6 +19,7 @@ class CreateKPISTable extends Migration
             $table->string('code');
             $table->string('perspective');
             $table->string('period');
+            $table->string('group_id');
             $table->string('kpi');
             $table->string('unit_of_measure');
             $table->string('weight');

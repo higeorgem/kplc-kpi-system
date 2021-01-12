@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="{{asset('css/dist/css/adminlte.min.css')}}">
     {{-- sweet alert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 {{-- sidebar-collapse --}}
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -126,8 +127,6 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
                         <li class="nav-item menu-open">
                             <a href="/" class="nav-link {{ Request::is('/') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -136,21 +135,21 @@
                                     {{-- <i class="right fas fa-angle-left"></i> --}}
                                 </p>
                             </a>
-                            {{-- <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="./index.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v1</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index2.html" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v2</p>
-                </a>
-              </li>
-
-            </ul> --}}
+                        </li>
+                        {{-- kpi --}}
+                        <li class="nav-item">
+                            <a href="" class="nav-link {{ Request::is('kpi') ? 'active' : '' }}">
+                               <i class="fas fa-thumbtack nav-icon"></i>
+                                <p>KPI <i class="right fas fa-angle-left"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('kpi.index')}}" class="nav-link {{ Request::is('kpi') ? 'active' : '' }}">
+                                        <i class="fas fa-user-tag nav-icon"></i>
+                                        <p>My KPIs</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a href="#"

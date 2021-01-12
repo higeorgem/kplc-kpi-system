@@ -19,10 +19,15 @@ class TaskController extends Controller
      */
     public function index()
     {
-        // get tasks
-        $tasks = Task::latest()->get();
+        $user = Auth::user();
 
-        return view('task.tasks');
+        // get tasks
+        $my_tasks = Task::where('responsible', $user->staff_no)
+                        ->latest()
+                        ->get();
+                        // dd($my_tasks);
+
+        return view('task.tasks', ['my_tasks' => $my_tasks]);
     }
 
     /**

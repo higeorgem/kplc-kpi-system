@@ -8,6 +8,8 @@ namespace App\Http\Controllers;
 use App\KPI;
 use Illuminate\Http\Request;
 use flash;
+use Illuminate\Support\Facades\Auth;
+
 class KPIController extends Controller
 {
     /**
@@ -17,10 +19,11 @@ class KPIController extends Controller
      */
     public function index()
     {
-        // get the kpis
-        $kpi = KPI::all();
+        //    get user's kpis
+        $user_kpis = KPI::where('group_id', Auth::user()->group_id)->get();
 
-        return json_encode($kpi);
+        // return view with kpis
+        return view('kpi.index', ['my_kpis' => $user_kpis]);
     }
 
     /**

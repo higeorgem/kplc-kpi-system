@@ -3,12 +3,12 @@
 @section('content')
 <div class="container-fluid">
     <div class="card">
-        <div class="card-header">CREATE TASK</div>
+        <div class="card-header bg-primary">CREATE TASK</div>
         <div class="card-body">
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div class="card container">
-                        <div class="card-header">Create Task Form <br><span
+                        <div class="card-header " >Create Task Form <br><span
                                 class="text-danger font-weight-bold h3">*</span>Tasks created by this form will be
                             assigned to you.</div>
                         <div id="validation-errors"></div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\KPI;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Target;
@@ -44,3 +45,10 @@ Route::get('tasks/template/file', 'TaskController@getTemplate')->name('get_Templ
 Route::resource('kpi', 'KPIController');
 // report routes
 Route::resource('reports', 'ReportController');
+
+// kpi tasks
+Route::get('kpi/tasks/{id}', function ($id) {
+    $kpi = KPI::findOrFail($id);
+   $kpi_tasks =  Task::where('description', $kpi->code)->where('responsible', Auth::user()->staff_no)->get();
+    return view('task.kpi_tasks', ['kpi'=>$kpi,'kpi_tasks' => $kpi_tasks]);
+});

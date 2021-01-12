@@ -58,4 +58,6 @@ class User extends Authenticatable
 
         return Division::select('*')->where('id', $division_id)->first();
     }
+
+  
 }
