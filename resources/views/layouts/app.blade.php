@@ -70,7 +70,7 @@
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                        {{ Auth::user()->first_name }}
+                        {{ Auth::user()->name }}
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -108,7 +108,7 @@
                     </div>
                     <div class="info">
                         <a href="#" class="d-block">
-                            {{ Auth::user()->first_name }} <br>
+                            {{ Auth::user()->name }} <br>
                             <span class="text-sm font-italic">
                                 {{ ucwords(Auth::user()->title) }}
                             </span>
