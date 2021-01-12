@@ -58,8 +58,12 @@
                                 <td>{{$kpi->target}}</td>
                                 <td>{{$kpi->achievement}}</td>
                                 <td>{{$kpi->validated_achievement}}</td>
-                                <td></td>
-                                <td></td>
+                                @php
+                                    $report = new App\KPI;
+                                @endphp
+                                <td>{{$report->rawScore($kpi->target,$kpi->validated_achievement)}}</td>
+                                <td>{{$report->weightedScore($kpi->target,$kpi->validated_achievement, $kpi->weight)}}</td>
+
                             </tr>
                         @empty
                             <tr>
