@@ -2,7 +2,7 @@
 
 ## About Kplc-kpi-system
 
-Kplc-kpi-system it is a web based system meant to solve internally manual work of calculating the kpi's for the company employers.
+Kplc-kpi-system it is a web based system meant to solve internally manual work of calculating the kpi's for the company employees.
 
 ## Contributing
 
