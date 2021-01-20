@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="{{asset('css/dist/css/adminlte.min.css')}}">
     {{-- sweet alert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 {{-- sidebar-collapse --}}
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -71,7 +71,7 @@
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                        {{ Auth::user()->name }}
+                        {{ Auth::user()->fullName(Auth::user()->id) }}
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -109,7 +109,7 @@
                     </div>
                     <div class="info">
                         <a href="#" class="d-block">
-                            {{ Auth::user()->name }} <br>
+                            {{ Auth::user()->fullName(Auth::user()->id) }} <br>
                             <span class="text-sm font-italic">
                                 {{ ucwords(Auth::user()->title) }}
                             </span>
@@ -138,13 +138,38 @@
                         </li>
                         {{-- kpi --}}
                         <li class="nav-item">
-                            <a href="" class="nav-link {{ Request::is('kpi') ? 'active' : '' }}">
-                               <i class="fas fa-thumbtack nav-icon"></i>
+                            <a href=""
+                                class="nav-link {{ Request::is('all/kpis') || Request::is('kpi') || Request::is('kpi/create') ? 'active' : '' }}">
+                                <i class="fas fa-thumbtack nav-icon"></i>
                                 <p>KPI <i class="right fas fa-angle-left"></i></p>
                             </a>
+                            @can('kpi-list')
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{route('kpi.index')}}" class="nav-link {{ Request::is('kpi') ? 'active' : '' }}">
+                                    <a href="{{route('allKpis')}}"
+                                        class="nav-link {{ Request::is('all/kpis') ? 'active' : '' }}">
+                                        <i class="fas fa-user nav-icon"></i>
+                                        <p>All KPIs</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            @endcan
+                            @can('kpi-create')
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('kpi.create')}}"
+                                        class="nav-link {{ Request::is('kpi/create') ? 'active' : '' }}">
+                                        <i class="fas fa-plus nav-icon"></i>
+                                        <p>Create KPIs</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            @endcan
+
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('kpi.index')}}"
+                                        class="nav-link {{ Request::is('kpi') ? 'active' : '' }}">
                                         <i class="fas fa-user-tag nav-icon"></i>
                                         <p>My KPIs</p>
                                     </a>
@@ -187,6 +212,32 @@
                                 <p>Reports</p>
                             </a>
                         </li>
+                        @can('users-list')
+                        <li class="nav-item">
+                            <a href="#"
+                                class="nav-link {{ (Request::is('users') || Request::is('roles/create') || Request::is('roles') || Request::is('users/create'))  ? 'active' : '' }}">
+                                <i class="fas fa-users nav-icon"></i>
+                                <p>User Management <i class="right fas fa-angle-left"></i> </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/users" class="nav-link {{ (Request::is('users')) ? 'active' : '' }}">
+                                        <i class="fas fa-users nav-icon"></i>
+                                        <p>All Users</p>
+                                    </a>
+                                </li>
+                                @can('role-list')
+                                <li class="nav-item ">
+                                    <a href="/roles" class="nav-link {{ Request::is('roles') ? 'active' : '' }}">
+                                        {{-- <i class="fas fa- nav-icon"></i> --}}
+                                        <i class="fab fa-critical-role nav-icon"></i>
+                                        <p>Roles</p>
+                                    </a>
+                                </li>
+                                @endcan
+                            </ul>
+                        </li>
+                        @endcan
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

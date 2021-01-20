@@ -1,17 +1,37 @@
 <?php
+
 /**
  * Manages kpis
  *
  * */
+
 namespace App\Http\Controllers;
 
+use App\Group;
 use App\KPI;
+use App\Task;
 use Illuminate\Http\Request;
 use flash;
 use Illuminate\Support\Facades\Auth;
 
 class KPIController extends Controller
 {
+    public function getAllKpis()
+    {
+        $kpis = KPI::latest()->get();
+        return view('kpi.all_kpis',['kpis'=>$kpis]);
+    }
+    public function getTasks($id)
+    {
+        $kpi = KPI::findOrFail($id);
+        $kpi_tasks =  Task::where('description', $kpi->code)->where('responsible', Auth::user()->staff_no)->get();
+        return view('task.kpi_tasks', ['kpi' => $kpi, 'kpi_tasks' => $kpi_tasks]);
+    }
+    public function getGroups($group_id)
+    {
+        $groups = Group::where('division_id', $group_id)->get();
+        return response()->json(['group_id' => $group_id]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -50,8 +70,10 @@ class KPIController extends Controller
             'unit_of_mesure'  => 'required',
             'weight' => 'required',
             'previous_target' => 'required',
-            'achievement' => 'required',
-            'validated_achievement' => 'required',
+            'group_id' => 'required',
+            'division_id' => 'required',
+            // 'achievement' => 'required',
+            // 'validated_achievement' => 'required',
             'target' => 'required',
             'period' => 'required',
 
@@ -68,8 +90,10 @@ class KPIController extends Controller
             'weight' => $request->weight,
             'period' => $request->period,
             'previous_target' => $request->previous_target,
-            'achievement' => $request->achievement,
-            'validated_achievement' => $request->validated_achievement,
+            'group_id' => $request->group_id,
+            'division_id' => $request->division_id,
+            // 'achievement' => $request->achievement,
+            // 'validated_achievement' => $request->validated_achievement,
             'target' => $request->target,
         ]);
 
@@ -97,9 +121,9 @@ class KPIController extends Controller
      */
     public function edit($kPI)
     {
-       $kpi = KPI::where('id', $kPI)->first();
+        $kpi = KPI::where('id', $kPI)->first();
         // dd($kpi);
-       return view('kpi.edit_kpi')->with('kpi', $kpi);
+        return view('kpi.edit_kpi')->with('kpi', $kpi);
     }
 
     /**
@@ -117,12 +141,14 @@ class KPIController extends Controller
             'unit_of_mesure'  => 'required',
             'weight' => 'required',
             'previous_target' => 'required',
-            'achievement' => 'required',
-            'validated_achievement' => 'required',
+            // 'achievement' => 'required',
+            // 'validated_achievement' => 'required',
             'target' => 'required',
             'period' => 'required',
-
+            'group_id' => 'required',
+            'division_id' => 'required',
         ]);
+
         $kpi = KPI::where('id', $kPI)->first();
 
         $kpi->update([
@@ -132,8 +158,10 @@ class KPIController extends Controller
             'weight' => $request->weight,
             'period' => $request->period,
             'previous_target' => $request->previous_target,
-            'achievement' => $request->achievement,
-            'validated_achievement' => $request->validated_achievement,
+            'group_id' => $request->group_id,
+            'division_id' => $request->division_id,
+            // 'achievement' => $request->achievement,
+            // 'validated_achievement' => $request->validated_achievement,
             'target' => $request->target,
         ]);
 
@@ -150,6 +178,11 @@ class KPIController extends Controller
      */
     public function destroy(KPI $kPI)
     {
-        //
+        $kPI->delete();
+
+        flash('KPI Deleted !!')->success();
+
+        return redirect()->back();
+
     }
 }

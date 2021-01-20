@@ -6,10 +6,12 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -45,22 +47,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function division(){
+    public function division()
+    {
         return $this->hasOne(Division::class, 'id', 'division_id');
     }
 
-    public function fullName()
-    {   $user = Auth::user();
-        return $user->first_name.' '.$user->middle_name.' '.$user->last_name;
+    public function fullName($id)
+    {
+        $user = User::findOrFail($id);
+        return $user->first_name . ' ' . $user->middle_name . ' ' . $user->last_name;
     }
 
-    public function getDivision($division_id){
+    public function getDivision($division_id)
+    {
 
         return Division::select('*')->where('id', $division_id)->first();
     }
-
-//   Division has groups
-/* 
-
- */
 }
