@@ -1,5 +1,6 @@
 <?php
 
+use App\Group;
 use App\KPI;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -21,14 +22,14 @@ use App\Task;
 //     return view('welcome');
 // });
 
-Auth::routes(['register'=> false]);
+Auth::routes(['register' => false]);
 
 Route::get('/', 'HomeController@index');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/kpi/tasks/{id}', 'TaskController@showTasks');
-Route::resource( 'targets', 'TargetController');
+Route::resource('targets', 'TargetController');
 
 // TASKS ROUTES
 Route::get('/tasks/upload', 'TaskController@showUploadTaskForm')->name('tasks.upload');
@@ -37,8 +38,8 @@ Route::get('/tasks', 'TaskController@index')->name('tasks.index');
 Route::post('/tasks', 'TaskController@store')->name('tasks.store');
 Route::get('tasks/create', 'TaskController@create')->name('tasks.create');
 Route::delete('tasks/{task}', 'TaskController@destroy')->name('tasks.destroy');
-Route::put('tasks/{task}','TaskController@update')->name('tasks.update');
-Route::get('tasks/{task}','TaskController@show')->name('tasks.show');
+Route::put('tasks/{task}', 'TaskController@update')->name('tasks.update');
+Route::get('tasks/{task}', 'TaskController@show')->name('tasks.show');
 Route::get('tasks/{task}/edit', 'TaskController@edit')->name('tasks.edit');
 Route::get('tasks/template/file', 'TaskController@getTemplate')->name('get_Template');
 
@@ -46,9 +47,15 @@ Route::resource('kpi', 'KPIController');
 // report routes
 Route::resource('reports', 'ReportController');
 
-// kpi tasks
-Route::get('kpi/tasks/{id}', function ($id) {
-    $kpi = KPI::findOrFail($id);
-   $kpi_tasks =  Task::where('description', $kpi->code)->where('responsible', Auth::user()->staff_no)->get();
-    return view('task.kpi_tasks', ['kpi'=>$kpi,'kpi_tasks' => $kpi_tasks]);
+Route::get('get/kpi/Groups/{id}', 'KPIController@getGroups');
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource('roles', 'RoleController');
+    Route::resource('users', 'UserController');
 });
+
+// // kpi tasks
+Route::get('kpi/tasks/{id}', 'KPIController@getTasks')->name('kpiTasks');
+
+// get all kpis route
+Route::get('/all/kpis', 'KPIController@getAllKpis')->name('allKpis');

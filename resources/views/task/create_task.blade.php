@@ -6,7 +6,7 @@
         <div class="card-header bg-primary">CREATE TASK</div>
         <div class="card-body">
             <div class="row justify-content-center">
-                <div class="col-md-8">
+                <div class="col-md-7">
                     <div class="card container">
                         <div class="card-header " >Create Task Form <br><span
                                 class="text-danger font-weight-bold h3">*</span>Tasks created by this form will be
@@ -18,7 +18,7 @@
                                 <label for="key">Select key:</label>
                                 <select name="key" id="key" class="form-control">
                                     <option value="" selected disabled>Select key</option>
-                                    @foreach (\Illuminate\Support\Facades\DB::table('k_p_i_s')->get() as $kpi)
+                                    @foreach (\Illuminate\Support\Facades\DB::table('k_p_i_s')->where('group_id', Auth::user()->group_id)->get() as $kpi)
                                     <option value="{{$kpi->code}}">{{$kpi->kpi}}</option>
                                     @endforeach
                                 </select>

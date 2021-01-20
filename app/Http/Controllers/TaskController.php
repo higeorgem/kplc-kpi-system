@@ -182,7 +182,7 @@ class TaskController extends Controller
         //generate the task id
         $taskID = str_pad($kpi_task_count, 4, '0', STR_PAD_LEFT);
         // create task
-        Task::create([
+        Task::create([ 
             "key" => $request->key . '-' . $taskID,
             "task" => $request->task,
             "status" => $request->status,
