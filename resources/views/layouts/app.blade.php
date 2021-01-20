@@ -71,7 +71,7 @@
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                        {{ Auth::user()->fullName() }}
+                        {{ Auth::user()->fullName(Auth::user()->id) }}
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -109,7 +109,7 @@
                     </div>
                     <div class="info">
                         <a href="#" class="d-block">
-                            {{ Auth::user()->fullName() }} <br>
+                            {{ Auth::user()->fullName(Auth::user()->id) }} <br>
                             <span class="text-sm font-italic">
                                 {{ ucwords(Auth::user()->title) }}
                             </span>
@@ -212,6 +212,32 @@
                                 <p>Reports</p>
                             </a>
                         </li>
+                        @can('users-list')
+                        <li class="nav-item">
+                            <a href="#"
+                                class="nav-link {{ (Request::is('users') || Request::is('roles/create') || Request::is('roles') || Request::is('users/create'))  ? 'active' : '' }}">
+                                <i class="fas fa-users nav-icon"></i>
+                                <p>User Management <i class="right fas fa-angle-left"></i> </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/users" class="nav-link {{ (Request::is('users')) ? 'active' : '' }}">
+                                        <i class="fas fa-users nav-icon"></i>
+                                        <p>All Users</p>
+                                    </a>
+                                </li>
+                                @can('role-list')
+                                <li class="nav-item ">
+                                    <a href="/roles" class="nav-link {{ Request::is('roles') ? 'active' : '' }}">
+                                        {{-- <i class="fas fa- nav-icon"></i> --}}
+                                        <i class="fab fa-critical-role nav-icon"></i>
+                                        <p>Roles</p>
+                                    </a>
+                                </li>
+                                @endcan
+                            </ul>
+                        </li>
+                        @endcan
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
