@@ -32,16 +32,26 @@
                                     <th>Created</th>
                                     <th>Resolved</th>
                                     <th>Status</th>
+                                    <th>Function</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach(\Illuminate\Support\Facades\DB::table('tasks')->where('responsible', Auth::user()->staff_no)->get() as $kpi)
+                                @foreach(\Illuminate\Support\Facades\DB::table('tasks')->where('responsible', Auth::user()->staff_no)->get() as $task)
                                     <tr>
-                                        <td>{{$kpi->key}}</td>
-                                        <td>{{$kpi->task}}</td>
-                                        <td>{{$kpi->created_date}}</td>
-                                        <td>{{$kpi->resolution_date}}</td>
-                                        <td>{{$kpi->status}}</td>
+                                        <td>{{$task->key}}</td>
+                                        <td>{{$task->task}}</td>
+                                        <td>{{$task->created_date}}</td>
+                                        <td>{{$task->resolution_date}}</td>
+                                        <td>{{$task->status}}</td>
+                                        <td>
+                                            <a href="{{URL::signedRoute('tasks.show', [$task->id])}}" class="btn btn-xs btn-outline-info">Show</a>
+                                            <a href="{{URL::signedRoute('tasks.edit', [$task->id])}}" class="btn btn-xs btn-outline-warning">Edit</a>
+                                            <form action="{{route('tasks.destroy', [$task->id])}}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" onclick="return confirm('Are You Sure ?')" class="btn btn-xs btn-outline-danger" >Trash</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -52,6 +62,7 @@
                                     <th>Created</th>
                                     <th>Resolved</th>
                                     <th>Status</th>
+                                    <th>Function</th>
                                 </tr>
                             </tfoot>
                         </table>

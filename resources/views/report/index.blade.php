@@ -16,7 +16,7 @@ $tws = 0.00;
                 <tbody>
                     <tr>
                         <th>NAME:</th>
-                        <td>{{ Auth::user()->fullName() ?? '' }}</td>
+                        <td>{{ Auth::user()->fullName(Auth::user()->id) ?? '' }}</td>
                     </tr>
                     <tr>
                         <th>STAFF NO:</th>
