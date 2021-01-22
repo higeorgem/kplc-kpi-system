@@ -206,12 +206,28 @@
 
                             </ul>
                         </li>
+
                         <li class="nav-item">
-                            <a href="/reports" class="nav-link {{ Request::is('reports') ? 'active' : '' }}">
+                            <a href="" class="nav-link {{ Request::is('reports') ? 'active' : '' }}">
                                 <i class="fas fa-file-alt nav-icon"></i>
-                                <p>Reports</p>
+                                <p>Reports <i class="right fas fa-angle-left"></i></p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/reports" class="nav-link {{ (Request::is('reports')) ? 'active' : '' }}">
+                                       <i class="icofont-paper nav-icon"></i>
+                                        <p>General Report</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/reports" class="nav-link ">
+                                        <i class="icofont-papers nav-icon"></i>
+                                        <p>Query Report</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
+
                         @can('users-list')
                         <li class="nav-item">
                             <a href="#"

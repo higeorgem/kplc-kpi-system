@@ -21,14 +21,18 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'division_id',
+        'group_id',
         'email',
         'password',
         'staff_no',
-        'name',
         'status',
         'title',
         'division_id',
+        'staff_no'
     ];
 
     /**
@@ -57,7 +61,7 @@ class User extends Authenticatable
     {
         return $this->hasOne(Group::class, 'id', 'group_id');
     }
-    
+
     public function fullName($id)
     {
         $user = User::findOrFail($id);

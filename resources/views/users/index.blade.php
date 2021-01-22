@@ -5,14 +5,14 @@
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="float-left">
-            <h2>Users Management</h2>
+            <h4>Users Management</h4>
         </div>
         <div class="float-right">
             <a class="btn btn-sm btn-success" href="{{ route('users.create') }}"> Create New User</a>
         </div>
     </div>
 </div>
-
+{{-- {{dd($data)}} --}}
 @if ($message = Session::get('success'))
 <div class="alert alert-success">
     <p>{{ $message }}</p>
@@ -31,10 +31,10 @@
     @foreach ($data as $key => $user)
     <tr>
         <td>{{ ++$i }}</td>
-        <td>{{ $user->fullName($user->id) }}</td>
+       <td>{{ $user->fullName($user->id) ?? ''}}</td>
         <td>{{ $user->email }}</td>
-        <td>{{ $user->division->name}}</td>
-        <td>{{ $user->group->group_name}}</td>
+        <td>{{ $user->division->name ?? ''}}</td>
+          <td>{{ $user->group->group_name ?? ''}}</td>
         <td>
             @if(!empty($user->getRoleNames()))
             @foreach($user->getRoleNames() as $v)
