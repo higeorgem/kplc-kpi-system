@@ -18,6 +18,7 @@ class ReportController extends Controller
      */
     public function index()
     {
+        // dd('here');
         $data = [];
         /**
          * reports generated as per kpi

@@ -162,7 +162,13 @@ class KPI extends Model
     // increasing achievement is desirable
     public  function increasingAchievement($t, $ach)
     {
-        $rs = (1.00)+ (4.00 * ((2*$t) - $ach)/(2*$t));
+        // $rs = (1.00 + 4.00) * (((2 * $t) - $ach) / (2 * $t));
+        $rs = (1.00) + (4.00 * ((2 * $t) - $ach) / (2 * $t));
+        // if ($rs > 5.00) {
+        //     $rs = 5.00;
+        // } elseif ($rs  < 1.00) {
+        //     $rs = 1.00;
+        // }
         return $rs;
     }
 

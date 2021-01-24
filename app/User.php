@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     use HasRoles;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -19,14 +21,18 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'division_id',
+        'group_id',
         'email',
         'password',
         'staff_no',
-        'name',
         'status',
         'title',
         'division_id',
+        'staff_no'
     ];
 
     /**
@@ -50,6 +56,10 @@ class User extends Authenticatable
     public function division()
     {
         return $this->hasOne(Division::class, 'id', 'division_id');
+    }
+    public function group()
+    {
+        return $this->hasOne(Group::class, 'id', 'group_id');
     }
 
     public function fullName($id)

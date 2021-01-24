@@ -4,11 +4,11 @@
 @section('content')
 <div class="row">
     <div class="col-lg-12 margin-tb">
-        <div class="pull-left">
+        <div class="float-left">
             <h2>Edit Role</h2>
         </div>
-        <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('roles.index') }}"> Back</a>
+        <div class="float-right">
+            <a class="btn btn-primary btn-xs" href="{{ route('roles.index') }}"> Back</a>
         </div>
     </div>
 </div>
@@ -25,7 +25,7 @@
 </div>
 @endif
 
-
+<div class="card shadow card-body table-responsive">
 {!! Form::model($role, ['method' => 'PATCH','route' => ['roles.update', $role->id]]) !!}
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -50,6 +50,8 @@
     </div>
 </div>
 {!! Form::close() !!}
+</div>
+
 
 
 @endsection

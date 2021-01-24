@@ -182,7 +182,7 @@ class TaskController extends Controller
         //generate the task id
         $taskID = str_pad($kpi_task_count, 4, '0', STR_PAD_LEFT);
         // create task
-        Task::create([ 
+        Task::create([
             "key" => $request->key . '-' . $taskID,
             "task" => $request->task,
             "status" => $request->status,
@@ -216,7 +216,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+         return response()->json($task);
     }
 
     /**
@@ -237,10 +237,10 @@ class TaskController extends Controller
      * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $key)
+    public function update(Request $request, Task $task)
     {
         // get the task
-        $task = Task::where('key', $key)->update([
+        $task->update([
             "task" => $request->task,
             "status" => $request->status,
             "created_date" => $request->created_date,
@@ -256,9 +256,10 @@ class TaskController extends Controller
      * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy($key)
+    public function destroy(Task $task)
     {
-        $task = Task::where('key', $key)->first();
+        // dd('here');
+        // $task = Task::where('key', $key)->first();
 
         $task->delete();
 

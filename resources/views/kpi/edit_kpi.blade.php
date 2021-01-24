@@ -16,7 +16,7 @@
                         <select id="perspective" class="form-control @error('perspective') is-invalid @enderror"
                             name="perspective">
                             <option value="" selected disabled>Select Perspective</option>
-                            <option value=" Customer/ Stakeholder" @if (old('perspective', $kpi->perspective)==" Customer/ Stakeholder" )
+                            <option value=" Customer/ Stakeholder" @if (old('perspective', $kpi->perspective)=="Customer/ Stakeholder" )
                                 selected="selected" @endif>Customer/ Stakeholder</option>
                             <option value="Organizational Capabilities" @if (old('perspective', $kpi->perspective)=="Organizational Capabilities" ) selected="selected" @endif>
                                 Organizational Capabilities</option>

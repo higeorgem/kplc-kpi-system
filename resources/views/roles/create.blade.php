@@ -8,7 +8,7 @@
             <h2>Create New Role</h2>
         </div>
         <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('roles.index') }}"> Back</a>
+            <a class="btn btn-primary btn-xs" href="{{ route('roles.index') }}"> Back</a>
         </div>
     </div>
 </div>
@@ -25,8 +25,8 @@
 </div>
 @endif
 
-
-{!! Form::open(array('route' => 'roles.store','method'=>'POST')) !!}
+<div class="card card-body shadow table-responsive">
+  {!! Form::open(array('route' => 'roles.store','method'=>'POST')) !!}
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
@@ -50,6 +50,9 @@
     </div>
 </div>
 {!! Form::close() !!}
+</div>
+
+
 
 
 @endsection

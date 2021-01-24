@@ -27,6 +27,10 @@ class PermissionTableSeeder extends Seeder
             'kpi-create',
             'kpi-edit',
             'kpi-delete',
+            'task-list',
+            'task-create',
+            'task-edit',
+            'task-delete',
         ];
 
 
