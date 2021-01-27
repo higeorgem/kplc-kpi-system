@@ -114,10 +114,10 @@
                                 {{ ucwords(Auth::user()->title) }}
                             </span>
                             <br>
-                            <span class="text-sm">
-                                Dept: {{ Auth::user()->division->name}}<br>
-                                <i class="fa fa-circle text-success"></i> Online
 
+                            <span class="text-sm">
+                                Dept: {{ Auth::user()->division->name ?? '000'}}<br>
+                                <i class="fa fa-circle text-success"></i> Online
                             </span>
                         </a>
                     </div>

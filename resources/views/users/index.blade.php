@@ -46,7 +46,7 @@
             <a class="btn btn-xs btn-outline-info" href="{{ route('users.show',$user->id) }}">Show</a>
             <a class="btn btn-xs btn-outline-primary" href="{{ route('users.edit',$user->id) }}">Edit</a>
             {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
-            {!! Form::submit('Trash', ['class' => 'btn btn-xs btn-outline-danger ']) !!}
+            {!! Form::submit('Trash', ['class' => 'btn btn-xs btn-outline-danger ', 'onclick']) !!}
             {!! Form::close() !!}
         </td>
     </tr>
