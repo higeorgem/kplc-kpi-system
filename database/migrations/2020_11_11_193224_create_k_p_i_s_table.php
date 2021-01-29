@@ -21,6 +21,7 @@ class CreateKPISTable extends Migration
             $table->string('period');
             $table->string('group_id');
             $table->string('kpi');
+            $table->string('kpi_type');
             $table->string('unit_of_measure');
             $table->string('weight');
             $table->string('previous_target');

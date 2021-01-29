@@ -67,6 +67,7 @@ class KPIController extends Controller
         $request->validate([
             'perspective' => 'required',
             'kpi' => 'required',
+            'kpi_type' => 'required',
             'unit_of_mesure'  => 'required',
             'weight' => 'required',
             'previous_target' => 'required',
@@ -86,6 +87,7 @@ class KPIController extends Controller
             'code' => $kpi->getNewCode(),
             'perspective' => $request->perspective,
             'kpi' => $request->kpi,
+            'kpi_type' => $request->kpi_type,
             'unit_of_measure' => $request->unit_of_mesure,
             'weight' => $request->weight,
             'period' => $request->period,
@@ -138,6 +140,7 @@ class KPIController extends Controller
         $request->validate([
             'perspective' => 'required',
             'kpi' => 'required',
+            'kpi_type' => 'required',
             'unit_of_mesure'  => 'required',
             'weight' => 'required',
             'previous_target' => 'required',
@@ -154,6 +157,7 @@ class KPIController extends Controller
         $kpi->update([
             'perspective' => $request->perspective,
             'kpi' => $request->kpi,
+            'kpi_type' => $request->kpi_type,
             'unit_of_measure' => $request->unit_of_mesure,
             'weight' => $request->weight,
             'period' => $request->period,

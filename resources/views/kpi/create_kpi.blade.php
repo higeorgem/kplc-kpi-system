@@ -11,22 +11,44 @@
                 <div id="validation-errors"></div>
                 <form action="{{route('kpi.store')}}" method="post" id="kpi_form">
                     @csrf
-                    <div class="form-group">
-                        <label for="perspective">Perspective:</label>
-                        <select id="perspective" class="form-control @error('perspective') is-invalid @enderror"
-                            name="perspective">
-                            <option value="" selected disabled>Select Perspective</option>
-                            <option value="Customer/ Stakeholder" @if (old('perspective')=="Customer/ Stakeholder" )
-                                selected="selected" @endif>Customer/ Stakeholder</option>
-                            <option value="Organizational Capabilities"
-                                @if(old('perspective')=="Organizational Capabilities" ) selected="selected" @endif>
-                                Organizational Capabilities</option>
-                        </select>
-                        @error('perspective')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
+                    {{-- perspective --}}
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label for="perspective">Perspective:</label>
+                            <select id="perspective" class="form-control @error('perspective') is-invalid @enderror"
+                                name="perspective">
+                                <option value="" selected disabled>Select Perspective</option>
+                                <option value="Customer/ Stakeholder" @if (old('perspective')=="Customer/ Stakeholder" )
+                                    selected="selected" @endif>Customer/ Stakeholder</option>
+                                <option value="Organizational Capabilities"
+                                    @if(old('perspective')=="Organizational Capabilities" ) selected="selected" @endif>
+                                    Organizational Capabilities</option>
+                            </select>
+                            @error('perspective')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <label for="kpi_type">KPI Type:</label>
+                            <select id="kpi_type" class="form-control @error('kpi_type') is-invalid @enderror"
+                                name="kpi_type">
+                                <option value="" selected disabled>Select KPI Type</option>
+                                <option value="Tasked" @if (old('kpi_type')=="Tasked" )
+                                    selected="selected" @endif>
+                                    Tasked</option>
+                                <option value="NotTasked"
+                                    @if(old('kpi_type')=="NotTasked" ) selected="selected" @endif>
+                                    Not Tasked</option>
+                            </select>
+                            @error('kpi_type')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+
                     </div>
                     {{-- division and group--}}
                     <div class="form-group row">
@@ -184,7 +206,7 @@
                 <button type="submit" id="form_submit" class="btn btn-outline-success">Create
                     KPI</button>
             </div>
-        </form>
+            </form>
         </div>
 
     </div>
