@@ -120,8 +120,11 @@ class KPI extends Model
         return number_format($sumWeight, 2);
     }
     // raw score
-    public function rawScore($T, $Xa)
+    public function rawScore($T, $Xa, $kpi_type)
     {
+        if ($task->kpi_type == 'NotTasked') {
+            return 2.40;
+        }
         //  T <= 0
         if ($T <= 0) {
             return  $this->zeroT($Xa);
