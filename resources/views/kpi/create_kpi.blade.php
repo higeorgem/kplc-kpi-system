@@ -35,11 +35,9 @@
                             <select id="kpi_type" class="form-control @error('kpi_type') is-invalid @enderror"
                                 name="kpi_type">
                                 <option value="" selected disabled>Select KPI Type</option>
-                                <option value="Tasked" @if (old('kpi_type')=="Tasked" )
-                                    selected="selected" @endif>
+                                <option value="Tasked" @if (old('kpi_type')=="Tasked" ) selected="selected" @endif>
                                     Tasked</option>
-                                <option value="NotTasked"
-                                    @if(old('kpi_type')=="NotTasked" ) selected="selected" @endif>
+                                <option value="NotTasked" @if(old('kpi_type')=="NotTasked" ) selected="selected" @endif>
                                     Not Tasked</option>
                             </select>
                             @error('kpi_type')
@@ -218,6 +216,29 @@
 @section('scripts')
 <script>
     $(document).ready(function(){
+        // var declaration
+        // var weight = $('#weight');
+        // var int_kpi_type = $('#kpi_type :selected').val();
+        //     fillWeight(int_kpi_type);
+
+        // // on select kpi_type toggle the weight
+        // $('#kpi_type').on('change', function(){
+        //     // if the value is not tasked populate and disable the weight
+        // var kpi_type = $(this).val();
+        //     fillWeight(kpi_type);
+        // });
+
+        // function fillWeight(kpi_type_val) {
+        //     if(kpi_type_val == 'NotTasked'){
+        //         weight.val(100);
+        //         weight.prop("readonly", true);
+        //     }else{
+        //         weight.val('');
+        //         weight.prop("readonly", false);
+        //     }
+        // }
+
+
     $('#division_id').on('change', function() {
         $.ajaxSetup({
         headers: {

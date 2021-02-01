@@ -18,7 +18,10 @@
                                 <label for="key">Select key:</label>
                                 <select name="key" id="key" class="form-control">
                                     <option value="" selected disabled>Select key</option>
-                                    @foreach (\Illuminate\Support\Facades\DB::table('k_p_i_s')->where('group_id', Auth::user()->group_id)->get() as $kpi)
+                                    @foreach (\Illuminate\Support\Facades\DB::table('k_p_i_s')
+                                    ->where('group_id', Auth::user()->group_id)
+                                    ->where('kpi_type', 'Tasked')
+                                    ->get() as $kpi)
                                     <option value="{{$kpi->code}}">{{$kpi->kpi}}</option>
                                     @endforeach
                                 </select>

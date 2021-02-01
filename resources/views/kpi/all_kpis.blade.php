@@ -12,6 +12,7 @@
                     <th>#CODE</th>
                     <th>Perspective</th>
                     <th title="Key Performance Indicator">KPI</th>
+                    <th title="KPI Type">Type</th>
                     <th>Function</th>
                 </tr>
             </thead>
@@ -21,10 +22,14 @@
                     <td> {{$kpi->code}}</td>
                     <td> {{$kpi->perspective}}</td>
                     <td id="kpi"> {{$kpi->kpi}}</td>
+                    <td> {{$kpi->kpi_type}}</td>
                     <td>
-                        <a href="{{URL::signedRoute('kpiTasks',[$kpi->id])}}" class="btn btn-xs btn-outline-primary float-left mr-1">
+                        @if ($kpi->kpi_type == 'Tasked')
+                        <a href="{{URL::signedRoute('kpiTasks',[$kpi->id])}}"
+                            class="btn btn-xs btn-outline-primary float-left mr-1">
                             <i class="badge badge-info">{{$kpi->tasks->count()}}</i> Tasks
                         </a>
+                        @endif
                         @can('kpi-edit')
                         <a href="{{URL::signedRoute('kpi.edit',[$kpi->id])}}"
                             class="btn btn-xs btn-outline-warning float-left mr-1">
@@ -52,6 +57,7 @@
                     <th>#CODE</th>
                     <th>Perspective</th>
                     <th title="Key Performance Indicator">KPI</th>
+                    <th title="KPI Type">Type</th>
                     <th>Function</th>
                 </tr>
             </tfoot>
@@ -61,7 +67,7 @@
 @endsection
 @section('scripts')
 <script>
-//
+    //
 $(function () {
     $("#kpiTable").DataTable({
     "responsive": true, "lengthChange": true, "autoWidth": false,'ordering': true,

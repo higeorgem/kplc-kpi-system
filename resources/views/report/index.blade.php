@@ -54,18 +54,18 @@ $tws = 0.00;
                     <th>Weighted Score</th>
                 </thead>
                 <tbody>
-                    @forelse (\Illuminate\Support\Facades\DB::table('k_p_i_s')->where('group_id',
-                    Auth::user()->group_id)->get() as $key => $kpi)
+                    @forelse (\Illuminate\Support\Facades\DB::table('k_p_i_s')
+                    ->where('group_id', Auth::user()->group_id)->get() as $key => $kpi)
                     <tr>
                         <td>{{$key+1}}</td>
                         <td>{{$kpi->kpi}}</td>
                         <td>{{$kpi->unit_of_measure}}</td>
                         <td>{{$kpi->weight}}</td>
-                        <td>{{$kpi->previous_target}}</td>
-                        <td>{{$kpi->target}}</td>
+                        <td>{{number_format($kpi->previous_target, 2)}}</td>
+                        <td>{{number_format($kpi->target, 2)}}</td>
 
-                        <td>{{$report->achievement($kpi->code)}}</td>
-                        <td>{{$report->achievement($kpi->code)}}</td>
+                        <td>{{number_format($report->achievement($kpi->code), 2)}}</td>
+                        <td>{{number_format($report->achievement($kpi->code), 2)}}</td>
                         <td>{{ number_format($report->rawScore($kpi->target,$report->achievement($kpi->code)), 2)}}</td>
                         <td>{{ number_format($report->weightedScore($kpi->target,$report->achievement($kpi->code), $kpi->weight), 2)}}
                         </td>

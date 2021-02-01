@@ -72,6 +72,10 @@ class KPI extends Model
     //achievement
     public function achievement($id)
     {
+        $task = KPI::where('code', $id)->first();
+        if ($task->kpi_type == 'NotTasked') {
+            return 2.40;
+        }
         // dd('here');
         // get number of hours
         $numberOfHours = DB::table('tasks')
@@ -93,7 +97,6 @@ class KPI extends Model
         foreach ($numberOfHours as $key => $hour) {
             $totalHours += $hour->result;
         }
-
 
         // return dd($numberOfHours);
 
@@ -162,6 +165,7 @@ class KPI extends Model
     // increasing achievement is desirable
     public  function increasingAchievement($t, $ach)
     {
+        // if($ach)
         // $rs = (1.00 + 4.00) * (((2 * $t) - $ach) / (2 * $t));
         $rs = (1.00) + (4.00 * ((2 * $t) - $ach) / (2 * $t));
         // if ($rs > 5.00) {
