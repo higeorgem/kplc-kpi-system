@@ -72,10 +72,10 @@ class KPI extends Model
     //achievement
     public function achievement($id)
     {
-        $task = KPI::where('code', $id)->first();
-        if ($task->kpi_type == 'NotTasked') {
-            return 2.40;
-        }
+        // $task = KPI::where('code', $id)->first();
+        // if ($task->kpi_type == 'NotTasked') {
+        //     return 2.40;
+        // }
         // dd('here');
         // get number of hours
         $numberOfHours = DB::table('tasks')
@@ -120,9 +120,9 @@ class KPI extends Model
         return number_format($sumWeight, 2);
     }
     // raw score
-    public function rawScore($T, $Xa, $kpi_type)
+    public function rawScore($T, $Xa, $kpi_type = 'Tasked')
     {
-        if ($task->kpi_type == 'NotTasked') {
+        if ($kpi_type == 'Not Tasked') {
             return 2.40;
         }
         //  T <= 0
@@ -139,9 +139,13 @@ class KPI extends Model
         }
     }
     // weighted score
-    public function weightedScore($T, $Xa, $W)
+    public function weightedScore($T, $Xa, $W, $kpi_type ='Tasked')
     {
-        $ws = ($this->rawScore($T, $Xa) * $W) / 100;
+        if ($kpi_type === "Not Tasked") {
+         $ws = $this->rawScore($T, $Xa, $kpi_type) / 100;
+        }else{
+            $ws = ($this->rawScore($T, $Xa, $kpi_type) * $W) / 100;
+        }
 
         return $ws;
     }

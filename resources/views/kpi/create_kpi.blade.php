@@ -37,7 +37,7 @@
                                 <option value="" selected disabled>Select KPI Type</option>
                                 <option value="Tasked" @if (old('kpi_type')=="Tasked" ) selected="selected" @endif>
                                     Tasked</option>
-                                <option value="NotTasked" @if(old('kpi_type')=="NotTasked" ) selected="selected" @endif>
+                                <option value="Not Tasked" @if(old('kpi_type')=="Not Tasked" ) selected="selected" @endif>
                                     Not Tasked</option>
                             </select>
                             @error('kpi_type')

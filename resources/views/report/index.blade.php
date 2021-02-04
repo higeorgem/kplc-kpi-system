@@ -66,8 +66,8 @@ $tws = 0.00;
 
                         <td>{{number_format($report->achievement($kpi->code), 2)}}</td>
                         <td>{{number_format($report->achievement($kpi->code), 2)}}</td>
-                        <td>{{ number_format($report->rawScore($kpi->target, $report->achievement($kpi->code), $kpi->kpi_type), 2)}}</td>
-                        <td>{{ number_format($report->weightedScore($kpi->target,$report->achievement($kpi->code), $kpi->weight), 2)}}
+                        <td>{{ number_format($report->rawScore($kpi->target, $report->achievement($kpi->code), $kpi->kpi_type), 3)}}</td>
+                        <td>{{ number_format($report->weightedScore($kpi->target,$report->achievement($kpi->code), $kpi->weight, $kpi->kpi_type), 3)}}
                         </td>
                         @php
                             $tws += $report->weightedScore($kpi->target,$report->achievement($kpi->code), $kpi->weight);
