@@ -45,6 +45,10 @@ class ReportController extends Controller
         return view('report.index', ['data' => $data]);
 
     }
+    public function getQuery()
+    {
+        return view('report.queryReport');
+    }
 
     /**
      * Show the form for creating a new resource.

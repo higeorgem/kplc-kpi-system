@@ -10,7 +10,7 @@ class Report extends Model
     public $target;
     public $actual_achievement;
 
-    public function __construct($target, $actual_achievement)
+    public function __construct($target = 0, $actual_achievement = 0)
     {
         $this->target = $target;
         $this->actual_achievement = $actual_achievement;

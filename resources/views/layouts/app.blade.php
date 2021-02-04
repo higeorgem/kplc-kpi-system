@@ -220,7 +220,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="/reports" class="nav-link ">
+                                    <a href="{{URL::signedRoute('get_query')}}" class="nav-link ">
                                         <i class="icofont-papers nav-icon"></i>
                                         <p>Query Report</p>
                                     </a>

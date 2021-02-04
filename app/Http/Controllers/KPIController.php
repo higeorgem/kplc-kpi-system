@@ -29,8 +29,9 @@ class KPIController extends Controller
     }
     public function getGroups($group_id)
     {
+        // return response()->json(['reg'=>request('id')]);
         $groups = Group::where('division_id', $group_id)->get();
-        return response()->json(['group_id' => $group_id]);
+        return response()->json($groups);
     }
     /**
      * Display a listing of the resource.

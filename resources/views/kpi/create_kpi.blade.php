@@ -56,8 +56,8 @@
                                 name="division_id">
                                 <option value="" selected disabled>Select Division</option>
                                 @forelse (\Illuminate\Support\Facades\DB::table('divisions')->get() as $division)
-                                <option value="{{$division->id}}" @if(old('division_id')==$division->id )
-                                    selected="selected" @endif>
+                                <option value="{{$division->id}}">
+                                     {{-- @if(old('division_id')==$division->id )selected="selected" @endif> --}}
                                     {{$division->name}}
                                 </option>
                                 @empty
@@ -75,15 +75,15 @@
                             <label for="group_id">Group:</label>
                             <select id="group_id" class="form-control @error('group_id') is-invalid @enderror"
                                 name="group_id">
-                                <option value="" selected disabled>Select Division</option>
-                                @forelse (\Illuminate\Support\Facades\DB::table('groups')->get() as $group)
-                                <option value="{{$group->id}}" @if(old('group_id')==$group->id )
-                                    selected="selected" @endif>
-                                    {{$group->group_name}}
-                                </option>
+                               <option value="" selected disabled>Select Division</option>
+                               {{--   @forelse (\Illuminate\Support\Facades\DB::table('groups')->get() as $group)
+                                    <option value="{{$group->id}}" @if(old('group_id')==$group->id )
+                                        selected="selected" @endif>
+                                        {{$group->group_name}}
+                                    </option>
                                 @empty
                                 <option value="" selected disabled>No Division Data</option>
-                                @endforelse
+                                @endforelse --}}
 
                             </select>
                             @error('group_id')
@@ -237,23 +237,28 @@
         //         weight.prop("readonly", false);
         //     }
         // }
-
+$.ajaxSetup({
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
 
     $('#division_id').on('change', function() {
-        $.ajaxSetup({
-        headers: {
-        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-        }
-        });
+        // clear groups options
+        $("#group_id").children('option:not(:first)').remove();
+
         var dept_id = $(this).val();
         // console.log(dept_id);
         $.ajax({
-            url: '{{url("get/kpi/Groups/'+dept_id+'")}}',
+            url: '/get/kpi/groups/'+dept_id,
             type: 'GET',
             dataType: 'json',
-            data:'_token = <?php echo csrf_token() ?>',
             success: function(response){
-                console.log(response)
+                // console.log(response)
+                $.each(response, function(index, value){
+                    // console.log(value.group_name)
+                    $("#group_id").append('<option vlaue='+value.id+' @if(old("group_id") == '+value.id+' ) selected="selected" @endif>'+value.group_name+'</option>')
+                })
             },
             error: function(error){
                 console.log(error)
