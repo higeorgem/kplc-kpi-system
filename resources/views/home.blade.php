@@ -12,7 +12,10 @@
                 <div class="info-box-content">
                     <span class="info-box-text border-bottom border-warning">My KPIs</span>
                     <span class="info-box-number h5">
-                        {{\Illuminate\Support\Facades\DB::table('k_p_i_s')->where('group_id', Auth::user()->group_id)->count()}}
+                        {{\Illuminate\Support\Facades\DB::table('k_p_i_s')
+                        ->where('group_id', Auth::user()->group_id)
+                        ->whereNull('deleted_at')
+                        ->where('division_id', Auth::user()->division_id)->count()}}
                     </span>
 
                 </div>
@@ -28,7 +31,10 @@
                 <div class="info-box-content">
                     <span class="info-box-text border-bottom border-warining">My Tasks</span>
                     <span class="info-box-number h5">
-                        {{\Illuminate\Support\Facades\DB::table('tasks')->where('responsible', Auth::user()->staff_no)->count()}}
+                        {{\Illuminate\Support\Facades\DB::table('tasks')
+                        ->where('responsible', Auth::user()->staff_no)
+                        ->whereNull('deleted_at')
+                        ->count()}}
                     </span>
                 </div>
                 <!-- /.info-box-content -->

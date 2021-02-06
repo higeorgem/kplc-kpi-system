@@ -48,6 +48,8 @@ Route::resource('kpi', 'KPIController');
 Route::resource('reports', 'ReportController');
 // query reports route
 Route::get('/reports/query/report', 'ReportController@getQuery')->name('get_query');
+// get query route
+Route::post('/reports/task/Query', 'ReportController@getTaskQuery')->name('get_task_query');
 
 Route::get('/get/kpi/groups/{group_id}', 'KPIController@getGroups')->name('getGroups');
 
