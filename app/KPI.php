@@ -122,11 +122,7 @@ class KPI extends Model
     // raw score
     public function rawScore($T, $Xa, $kpi_type = 'Tasked')
     {
-<<<<<<< HEAD
-        if ($kpi_type == 'Not Tasked') {
-=======
         if ($kpi_type == 'NotTasked') {
->>>>>>> 24202ccb49e7e9261a99b1fa2a50daf99af828b4
             return 2.40;
         }
         //  T <= 0
@@ -143,21 +139,12 @@ class KPI extends Model
         }
     }
     // weighted score
-<<<<<<< HEAD
-    public function weightedScore($T, $Xa, $W, $kpi_type ='Tasked')
-    {
-        if ($kpi_type === "Not Tasked") {
-         $ws = $this->rawScore($T, $Xa, $kpi_type) / 100;
-        }else{
-            $ws = ($this->rawScore($T, $Xa, $kpi_type) * $W) / 100;
-=======
     public function weightedScore($T, $Xa, $W, $kpi_type)
     {
         if($kpi_type == "Not Tasked"){
            $ws = ($this->rawScore($T, $Xa, $kpi_type)) / 100;
         }else{
            $ws = ($this->rawScore($T, $Xa, $kpi_type) * $W) / 100; 
->>>>>>> 24202ccb49e7e9261a99b1fa2a50daf99af828b4
         }
 
         return $ws;
