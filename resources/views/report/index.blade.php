@@ -55,7 +55,7 @@ $tws = 0.00;
                 </thead>
                 <tbody>
                     @forelse (\Illuminate\Support\Facades\DB::table('k_p_i_s')
-                    ->where('group_id', Auth::user()->group_id)->get() as $key => $kpi)
+                    ->where('group_id', Auth::user()->group_id)->whereNull('deleted_at')->get() as $key => $kpi)
                     <tr>
                         <td>{{$key+1}}</td>
                         <td>{{$kpi->kpi}}</td>
@@ -70,7 +70,7 @@ $tws = 0.00;
                         <td>{{ number_format($report->weightedScore($kpi->target,$report->achievement($kpi->code), $kpi->weight, $kpi->kpi_type), 3)}}
                         </td>
                         @php
-                            $tws += $report->weightedScore($kpi->target,$report->achievement($kpi->code), $kpi->weight);
+                            $tws += $report->weightedScore($kpi->target,$report->achievement($kpi->code), $kpi->weight, $kpi->kpi_type);
                         @endphp
                     </tr>
                     @empty

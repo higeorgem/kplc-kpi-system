@@ -1,13 +1,15 @@
-@extends('layouts.app')
+@extends('layouts.auth_layout')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-7">
-            <div class="card">
-                <div class="card-header h3 text-center">{{ __('KPI BOT Login') }}</div>
+        <div class="col-md-6">
+            <div class="card shadow " >
+                <div class="card-header h3 text-center border-bottom border-warning bg-secondary">
+                    {{ __('KPI BOT LOGIN') }}
+                </div>
 
-                <div class="card-body">
+                <div class="card-body bg-light">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="form-group row">
@@ -51,13 +53,13 @@
                         </div>
 
                         <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary btn-sm btn-block">
                                     {{ __('Login') }}
                                 </button>
 
                                 @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
+                                    <a class="btn btn-link btn-sm" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif

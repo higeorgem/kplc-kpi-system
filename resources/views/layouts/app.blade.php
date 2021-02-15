@@ -23,6 +23,9 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{asset('css/plugins/fontawesome-free/css/all.min.css')}}">
+{{-- icofont --}}
+    <link rel="stylesheet" href="{{asset('css/plugins/icofont/icofont.min.css')}}">
+
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="{{asset('css/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
     <!-- Theme style -->
@@ -30,6 +33,7 @@
     {{-- sweet alert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+@yield('styles')
 </head>
 {{-- sidebar-collapse --}}
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -208,7 +212,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="" class="nav-link {{ Request::is('reports') ? 'active' : '' }}">
+                            <a href="" class="nav-link {{ Request::is('reports') || Request::is('reports/query/report') ? 'active' : '' }}">
                                 <i class="fas fa-file-alt nav-icon"></i>
                                 <p>Reports <i class="right fas fa-angle-left"></i></p>
                             </a>
@@ -220,7 +224,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="/reports" class="nav-link ">
+                                    <a href="{{URL::signedRoute('get_query')}}" class="nav-link {{ (Request::is('reports/query/report')) ? 'active' : '' }}">
                                         <i class="icofont-papers nav-icon"></i>
                                         <p>Query Report</p>
                                     </a>
