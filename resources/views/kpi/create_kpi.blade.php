@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="card shadow">
-        <div class="card-header bg-light">CREATE KPI</div>
+        <div class="card-header bg-dark">CREATE KPI</div>
         <div class="card-body row justify-content-center">
             <div class="card container col-md-8">
                 <div class="card-header text-uppercase h3">Create KPI Form
@@ -75,7 +75,7 @@
                             <label for="group_id">Group:</label>
                             <select id="group_id" class="form-control @error('group_id') is-invalid @enderror"
                                 name="group_id">
-                               <option value="" selected disabled>Select Division</option>
+                               <option value="" selected disabled>Select Group</option>
                                {{--   @forelse (\Illuminate\Support\Facades\DB::table('groups')->get() as $group)
                                     <option value="{{$group->id}}" @if(old('group_id')==$group->id )
                                         selected="selected" @endif>
@@ -214,6 +214,7 @@
 </div>
 @endsection
 @section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 <script>
     $(document).ready(function(){
         // var declaration
@@ -249,16 +250,37 @@ $.ajaxSetup({
 
         var dept_id = $(this).val();
         // console.log(dept_id);
+        // add loading
+            $("#group_id").LoadingOverlay("show", {
+                    background : "rgba(165, 190, 100, 0.5)"
+            });
+            // timeout for loading
+            setTimeout(function(){
+                $("#group_id").LoadingOverlay("hide", true);
+            }, 1000);
+
         $.ajax({
             url: '/get/kpi/groups/'+dept_id,
             type: 'GET',
             dataType: 'json',
             success: function(response){
-                // console.log(response)
-                $.each(response, function(index, value){
-                    // console.log(value.group_name)
-                    $("#group_id").append('<option vlaue='+value.id+' @if(old("group_id") == '+value.id+' ) selected="selected" @endif>'+value.group_name+'</option>')
-                })
+                // console.log(response.length)
+                if (response.length == 0) {
+                    // add invalid class to the group select
+                    $("#group_id").addClass('is-invalid')
+                    // add no data message to the group select
+                    $("#group_id").append('<option selected disabled>No Data !!</option>');
+                } else {
+                    // remove the invalid class from the group select
+                    $("#group_id").removeClass('is-invalid');
+
+                    $.each(response, function(index, value){
+                        // console.log(value.group_name)
+                        $("#group_id").append('<option vlaue='+value.id+' @if(old("group_id") == '+value.id+' ) selected="selected" @endif>'+value.group_name+'</option>')
+                    })
+                }
+
+
             },
             error: function(error){
                 console.log(error)

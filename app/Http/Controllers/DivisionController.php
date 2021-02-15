@@ -14,7 +14,9 @@ class DivisionController extends Controller
      */
     public function index()
     {
-        //
+        $divisions = Division::latest()->paginate(10);
+
+        return view('division.index', compact('divisions'));
     }
 
     /**
@@ -24,7 +26,7 @@ class DivisionController extends Controller
      */
     public function create()
     {
-        //
+        return view('division.create');
     }
 
     /**
@@ -35,7 +37,14 @@ class DivisionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|unique:divisions,name'
+        ]);
+
+        $division = Division::create(['name' => $request->input('name')]);
+
+        return redirect()->route('divisions.index')
+        ->with('success', 'Division created successfully');
     }
 
     /**
@@ -46,7 +55,9 @@ class DivisionController extends Controller
      */
     public function show(Division $division)
     {
-        //
+
+        // $division = Division::findOrFail($id);
+        return view('division.show', compact('division'));
     }
 
     /**
@@ -57,7 +68,8 @@ class DivisionController extends Controller
      */
     public function edit(Division $division)
     {
-        //
+        return view('division.edit', compact('division'));
+
     }
 
     /**
@@ -69,7 +81,15 @@ class DivisionController extends Controller
      */
     public function update(Request $request, Division $division)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required'
+        ]);
+
+        $division->name = $request->input('name');
+        $division->save();
+
+        return redirect()->route('divisions.index')
+        ->with('success', 'Division updated successfully');
     }
 
     /**
@@ -80,6 +100,8 @@ class DivisionController extends Controller
      */
     public function destroy(Division $division)
     {
-        //
+        $division->delete();
+        return redirect()->route('divisions.index')
+        ->with('success', 'Division deleted successfully');
     }
 }

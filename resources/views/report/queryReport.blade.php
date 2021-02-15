@@ -2,47 +2,55 @@
 
 @section('styles')
 {{-- datatables --}}
-<link rel="stylesheet" href="{{asset('css/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
-<link rel="stylesheet" href="{{asset('css/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+{{-- <link rel="stylesheet" href="{{asset('css/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}"> --}}
+{{-- <link rel="stylesheet" href="{{asset('css/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}"> --}}
 @endsection
 
 @section('content')
-<div class="row">
-    <div class="col-md-12 card shadow">
-        <form class="form-inline p-2" id="query_form">
+<div class="container-fluid">
+    <div class=" card card-body shadow">
+        <form class="" id="query_form" action="{{route('create_pdf')}}">
             @csrf
-            <div class="form-group ">
-                <label for="staticEmail2">Filter</label>
-            </div>
-            <div class="form-group mx-sm-4">
-                <label for="kpi_id" class="sr-only">Password</label>
-                <select name="kpi_id" id="kpi_id" class="form-control" required>
-                    <option value="" selected disabled>Category</option>
-                    <option value="all"> All My Tasks</option>
-                    @forelse (\Illuminate\Support\Facades\DB::table('k_p_i_s')
-                    ->whereNUll('deleted_at')
-                    ->where('division_id', Auth::user()->division_id)->get() as $kpi)
-                    <option value="{{$kpi->id}}" {{old('kpi_id') == $kpi->id ? 'selected' : ''}}> {{$kpi->kpi}}</option>
-                    @empty
+            <div class="form-group row">
+                <div class="col-md-3">
+                        <label for="kpi_id" >Category</label>
+                        <select name="kpi_id" id="kpi_id" class="form-control" required>
+                            <option value="" selected disabled>Category</option>
+                            <option value="all"> All My Tasks</option>
+                            @forelse (\Illuminate\Support\Facades\DB::table('k_p_i_s')
+                            ->whereNUll('deleted_at')
+                            ->where('division_id', Auth::user()->division_id)->get() as $kpi)
+                            <option value="{{$kpi->code}}" {{old('kpi_code') == $kpi->code ? 'selected' : ''}}> {{$kpi->kpi}}
+                            </option>
+                            @empty
 
-                    @endforelse
-                </select>
+                            @endforelse
+                        </select>
+                </div>
+                <div class="col-md-3 ">
+                        <label for="inputStartDate" >Start Date</label>
+                        <input type="date" class="form-control" value="{{old('inputStartDate')}}" id="inputStartDate"
+                            name="inputStartDate" placeholder="Start Date" required>
+                </div>
+                <div class="col-md-3 ">
+                        <label for="inputEndDate" >End date</label>
+                        <input type="date" class="form-control" value="{{old('inputEndDate')}}" id="inputEndDate"
+                            name="inputEndDate" placeholder="End Date" required>
+                </div>
+                <div class="col-md-3">
+                    <label for="operations">Execute</label> <br>
+                    <button type="submit" id="submit_report" class="btn btn-outline-secondary btn-xs">
+                         Search <i class="icofont-search-2"></i>
+                    </button>
+                    <button type="button" id="print_report" class="btn btn-xs btn-outline-primary"><i class="icofont-print"></i>
+                        Print
+                    </button>
+                </div>
             </div>
-            <div class="form-group mx-xs-3">
-                <label for="inputStartDate" class="sr-only">Start Date</label>
-                <input type="date" class="form-control" value="{{old('inputStartDate')}}" id="inputStartDate"
-                    name="inputStartDate" placeholder="Start Date" required>
-            </div>
-            <div class="form-group mx-sm-3">
-                <label for="inputEndDate" class="sr-only">End date</label>
-                <input type="date" class="form-control" value="{{old('inputEndDate')}}" id="inputEndDate"
-                    name="inputEndDate" placeholder="End Date" required>
-            </div>
-            <button type="submit" class="btn btn-outline-secondary btn-sm"><i class="icofont-question"></i>
-                Query</button>
         </form>
     </div>
 </div>
+
 <div class="row">
     <div class="col-md-12">
         <div class="card shadow" id="table_card">
@@ -80,9 +88,9 @@
 
 @endsection
 @section('scripts')
-<script src="{{asset('css/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>p
-<script src="{{asset('css/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>p
-<script src="{{asset('css/plugins/pdfmake/pdfmake.min.js')}}"></script>p
+{{-- <script src="{{asset('css/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>p --}}
+{{-- <script src="{{asset('css/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>p --}}
+{{-- <script src="{{asset('css/plugins/pdfmake/pdfmake.min.js')}}"></script>p --}}
 <script>
     // $(function () {
     //     var table = $('.data-table').DataTable({
@@ -102,7 +110,9 @@
     // });
     $(document).ready(function(){
         $('#table_card').hide();
+        $('#print_report').hide();
     // data tables initialization
+        // $('#example1').DataTable();
     // global variable declaration
     var kpi_id;
     var start_date;
@@ -112,7 +122,7 @@
     $('#kpi_id').on('change', function(){
         // variable declaration
        kpi_id = $(this).val();
-        console.log(kpi_id)
+        // console.log(kpi_id)
         // if kpi_id is all
     });
 
@@ -120,28 +130,29 @@
     $('#inputStartDate').on('change', function(){
         // variable declaration
        start_date = $(this).val();
-        console.log(start_date)
+        // console.log(start_date)
         // if kpi_id is all
     });
       // select end date change
     $('#inputEndDate').on('change', function(){
         // variable declaration
        end_date = $(this).val();
-        console.log(end_date)
+        // console.log(end_date)
         // if kpi_id is all
     });
 
     // submit query form
     $('#query_form').submit(function(e){
         e.preventDefault();
+        // hide div
+        $('#table_card').hide(500);
         // load gif
-        console.log('loading gif')
+        // console.log('loading gif')
 
         // display query data
         var form_data = $(this).serializeArray();
         // console.log(form_data);
         getQuery(form_data);
-        // $('#example1').DataTable();
     })
     // ajax setup
     $.ajaxSetup({
@@ -149,6 +160,27 @@
             'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
         }
     });
+        // print btn click function
+        $('#print_report').click(function(){
+            $.ajax({
+                url: '{{route("create_pdf")}}',
+                type: 'Post',
+                dataType: 'json',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "kpi_id" : $('#kpi_id').val(),
+                    "inputStartDate" : $('#inputStartDate').val(),
+                    "inputEndDate" : $('#inputEndDate').val(),
+                },
+                success: function(response){
+console.log(response)
+                },
+                error: function(err){
+console.log(err)
+                }
+            })
+        })
+
 
     function getQuery(params) {
         $.ajax({
@@ -158,12 +190,31 @@
             success: function(response){
                 // console.log(response)
                 // $('#example1 tbody').text('')
-                 $('#table_card').show(1000);
                 $('#helper_text').text($('#kpi_id :selected').text()+' '+ start_date + ' To '+ end_date)
-                $.each(response, function(index, value){
-                    console.log(value)
-                    $('#example1 tbody').append('<tr><td>'+ ++index +'</td><td>'+value.task+'</td><td>'+value.created_at+'</td></tr>')
-                })
+                // hide the print button
+                $('#print_report').hide();
+                if (response.length == 0) {
+                    $(document).Toasts('create', {
+                        title: 'Warning',
+                        body: 'No Tasks',
+                        autohide: true,
+                        fade: true,
+                        class: 'bg-warning',
+                        delay: 2000,
+                    })
+                } else {
+                    // show report table
+                 $('#table_card').show(1000);
+                //  show print button
+                $('#print_report').show(500);
+                // print data to table
+                 $('#example1 tbody').text('')
+                    $.each(response, function(index, value){
+                        // console.log(value)
+                        $('#example1 tbody').append('<tr><td>'+ ++index +'</td><td>'+value.task+'</td><td>'+new Date(value.created_at).toLocaleString()+'</td></tr>')
+                    })
+                }
+
 
             },
             error: function(err){

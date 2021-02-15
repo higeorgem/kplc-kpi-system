@@ -5,11 +5,14 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card shadow " >
-                <div class="card-header h3 text-center border-bottom border-warning bg-secondary">
-                    {{ __('KPI BOT LOGIN') }}
+                <div class="card-header h3 text-center border-bottom border-primary bg-secondary">
+                 <div class="image">
+                    <img src="{{asset('css/dist/img/logo_2.jpeg')}}" width="100px" class="img-circle elevation-3" alt="User Image">
+                </div>
+                {{ __('KPI BOT LOGIN') }}
                 </div>
 
-                <div class="card-body bg-light">
+                <div class="card-body " style="background-color: azure">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="form-group row">

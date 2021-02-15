@@ -56,10 +56,16 @@ Route::get('/get/kpi/groups/{group_id}', 'KPIController@getGroups')->name('getGr
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('roles', 'RoleController');
     Route::resource('users', 'UserController');
+    // division routes
+    Route::resource('divisions', 'DivisionController');
+    // group routes
+    Route::resource('groups', 'GroupController');
+
 });
 
 // // kpi tasks
 Route::get('kpi/tasks/{id}', 'KPIController@getTasks')->name('kpiTasks');
+Route::post('/tasks/pdf', 'ReportController@createPDF')->name('create_pdf');
 
 // get all kpis route
 Route::get('/all/kpis', 'KPIController@getAllKpis')->name('allKpis');

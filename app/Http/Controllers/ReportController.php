@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\KPI;
 use App\Report;
 use App\Task;
+use PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -51,55 +52,56 @@ class ReportController extends Controller
     {
         return view('report.queryReport');
     }
-// return json response for the query results
+    // return json response for the query results
     public function getTaskQuery(Request $query)
     {
         $query->validate([
             'kpi_id' => 'required',
             'inputStartDate' => 'required',
-            'inputEndDate'=> 'required',
+            'inputEndDate' => 'required',
         ]);
-         $tasks =[];
+        $tasks = [];
         // all my tasks
-        if($query->kpi_id === 'all'){
-            // $tasks = ['something' => 'yes'];
-        //    $tasks = Task::all()->filter(function($query) {
-        //         if (Carbon::now()->between($query->inputStartDate, $query->inputendDate)) {
-        //             return $query;
-        //         }
-        //     });
-                 $tasks = Task::whereRaw("(created_date >= ? AND created_date <= ?)",[$query->inputStartDate."T00:00:00", $query->inputEndDate."T23:59:59"])
-                    ->where('responsible', Auth::user()->staff_no)
-                    ->whereNull('deleted_at')->get();
-            // dd($tasks);
-            // return DataTables::of($tasks)
-            //         ->addIndexColumn()
-            //         ->addColumn('action', function($row){
-            //             $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
-            //             return $btn;
-            //         })->rawColumns(['action'])->make(true);
-
-            // $tasks = Task::whereBetween('created_date', [date($query->inputStartDate),date($query->inputendDate)])
-            //         ->where('responsible', Auth::user()->staff_no)->get();
-
-            // $tasks = Task::where('created_date', 'LIKE', "%{date($query->inputStartDate)}%")
-            //     ->where('created_date', 'LIKE', "%{date($query->inputEndtDate)}%")
-            //     ->where('responsible', Auth::user()->staff_no)->get();
-        //    $tasks = Task::whereRaw(
-        //         "(created_date >= ? AND created_date <= ?)",
-        //         [$query->inputStartDate."T00:00:00", $query->inputEndDate."T23:59:59"]
-        //         )->get();
-
-        }else{
-             $tasks = ['nothing'=>'yes'];
+        if ($query->kpi_id === 'all') {
+            $tasks = Task::whereRaw("(created_date >= ? AND created_date <= ?)", [$query->inputStartDate . "T00:00:00", $query->inputEndDate . "T23:59:59"])
+                ->where('responsible', Auth::user()->staff_no)
+                ->whereNull('deleted_at')->get();
+        } else {
+            $tasks = Task::whereRaw("(created_date >= ? AND created_date <= ?)", [$query->inputStartDate . "T00:00:00", $query->inputEndDate . "T23:59:59"])
+                ->where('responsible', Auth::user()->staff_no)
+                ->where('description', $query->kpi_id)
+                ->whereNull('deleted_at')->get();
         }
-        // else{
-        //     $tasks = Task::where('')->get();
-        // }
 
 
         return response()->json($tasks);
     }
+    public function createPDF(Request $pdf)
+    {
+        $pdf->validate([
+            'kpi_id' => 'required',
+            'inputStartDate' => 'required',
+            'inputEndDate' => 'required',
+        ]);
+        $tasks = [];
+        if ($pdf->kpi_id === 'all') {
+        $tasks = Task::whereRaw("(created_date >= ? AND created_date <= ?)", [$pdf->inputStartDate . "T00:00:00", $pdf->inputEndDate . "T23:59:59"])
+                ->where('responsible', Auth::user()->staff_no)
+                ->whereNull('deleted_at')->get();
+        } else {
+        $tasks = Task::whereRaw("(created_date >= ? AND created_date <= ?)", [$pdf->inputStartDate . "T00:00:00", $pdf->inputEndDate . "T23:59:59"])
+                ->where('responsible', Auth::user()->staff_no)
+                ->where('description', $pdf->kpi_id)
+                ->whereNull('deleted_at')->get();
+        }
+        // share data to view
+        // view('pdf.tasks_pdf')->with(['tasks'=> $tasks]);
+        $pdf = PDF::loadView('pdf.tasks_pdf', $tasks);
+
+        // download PDF file with download method
+        return $pdf->download('pdf_file.pdf');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
