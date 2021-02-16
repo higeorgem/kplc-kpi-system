@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="card">
-    <div class="card-header h4 bg-info">
+    <div class="card-header h4 bg-dark">
         ALL KPIS
     </div>
     <div class="table-responsive card-body">
@@ -26,14 +26,15 @@
                     <td>
                         @if ($kpi->kpi_type == 'Tasked')
                         <a href="{{URL::signedRoute('kpiTasks',[$kpi->id])}}"
-                            class="btn btn-xs btn-outline-primary float-left mr-1">
+                            class="btn btn-xs btn-outline-primary float-left m-1">
                             <i class="badge badge-info">{{$kpi->tasks->count()}}</i> Tasks
                         </a>
                         @endif
                         @can('kpi-edit')
                         <a href="{{URL::signedRoute('kpi.edit',[$kpi->id])}}"
                             class="btn btn-xs btn-outline-warning float-left mr-1">
-                            <i class="fa fa-edit"></i> Edit
+                            {{-- <i class="fa fa-edit"></i> --}}
+                             Edit
                         </a>
                         @endcan
                         @can('kpi-delete')

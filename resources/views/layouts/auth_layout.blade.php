@@ -33,7 +33,7 @@
 
 </head>
 {{-- sidebar-collapse --}}
-<body style="background: linear-gradient(110deg, #f8da7e 60%, #f5e76a 60%);">
+<body style="background: linear-gradient(110deg, #82f87e 60%, #f5e76a 60%);">
 
     <section class="mt-4">
         <div class="container-fluid">
