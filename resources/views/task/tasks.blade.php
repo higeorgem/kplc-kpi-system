@@ -162,7 +162,7 @@
                 e.preventDefault();
                 var key = $('#task_key').val();
                 $.ajax({
-                    url: "{{route('tasks.update',["+key+"])}}",
+                    url: "tasks/"+key,
                     // url: 'tasks',
                     type: 'POST',
                     dataType: 'json',

@@ -1,12 +1,14 @@
 @extends('layouts.app')
+@section('styles')
 
+@endsection
 @section('content')
 <section class="content">
     <div class="row">
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box bg-primary">
                 <span class="info-box-icon">
-                   <i class="fas fa-user-tag"></i>
+                    <i class="fas fa-user-tag"></i>
                 </span>
 
                 <div class="info-box-content">
@@ -77,6 +79,38 @@
         <!-- /.col -->
     </div>
     <!-- /.row -->
+    <div class="row">
+        <div class="col-md-5">
+            <!-- Chart's container -->
+            <div id="chart" style="height: 300px;"></div>
+            <!-- Charting library -->
+            <script src="https://unpkg.com/echarts/dist/echarts.min.js"></script>
+            <!-- Chartisan -->
+            <script src="https://unpkg.com/@chartisan/echarts/dist/chartisan_echarts.js"></script>
+            <!-- Your application script -->
+            <script>
+                const chart = new Chartisan({
+                el: '#chart',
+                url: "@chart('chart_route_name')",
+                error: {
+                    color: '#ff00ff',
+                    size: [30, 30],
+                    text: 'There was an error...',
+                    textColor: '#ffff00',
+                    type: 'general',
+                    debug: true,
+                },
+                hooks: new ChartisanHooks()
+                    // .colors(['#ECC94B', '#4299E1'])
+                    // .responsive()
+                    // .beginAtZero()
+                    // .legend({ position: 'bottom' })
+                    .title('Users by trimester')
+                    .datasets([{ type: 'line', fill: true }, 'line'])
+              });
+            </script>
+        </div>
+    </div>
 </section>
 @endsection
 @section('scripts')

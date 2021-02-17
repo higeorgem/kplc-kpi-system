@@ -36,10 +36,10 @@ class KPI extends Model
  */
         $year = date('Y');
         $month = 6;
-        $day = 1;
+        $day = 30;
         $current_date = date($year."-".$month."-".$day);
         $strtotime = strtotime($current_date);
-        $last_year = strtotime("-1 year", $strtotime);
+        $last_year = strtotime("-1 year -29 day", $strtotime);
         echo date("Y-m-d", $last_year);
         echo " To " . $current_date;
     }
@@ -144,7 +144,7 @@ class KPI extends Model
         if($kpi_type == "Not Tasked"){
            $ws = ($this->rawScore($T, $Xa, $kpi_type)) / 100;
         }else{
-           $ws = ($this->rawScore($T, $Xa, $kpi_type) * $W) / 100; 
+           $ws = ($this->rawScore($T, $Xa, $kpi_type) * $W) / 100;
         }
 
         return $ws;

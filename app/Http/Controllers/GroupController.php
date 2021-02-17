@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Division;
 use App\Group;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,9 @@ class GroupController extends Controller
      */
     public function index()
     {
-        //
+        $groups = Group::latest()->paginate(10);
+
+        return view('group.index', compact('groups'));
     }
 
     /**
@@ -24,7 +27,9 @@ class GroupController extends Controller
      */
     public function create()
     {
-        //
+        $divisions = Division::get();
+
+        return view('group.create', compact('divisions'));
     }
 
     /**
@@ -35,7 +40,18 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'group_name' => 'required|unique:groups,group_name',
+            'dept_id' => 'required'
+        ]);
+// dd($request);
+        $group = Group::create([
+            'group_name' => $request->input('group_name'),
+            'division_id' => $request->input('dept_id')
+            ]);
+
+        return redirect()->route('groups.index')
+            ->with('success', 'Group created successfully');
     }
 
     /**
@@ -46,7 +62,9 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
-        //
+
+        // $group = Group::findOrFail($id);
+        return view('group.show', compact('group'));
     }
 
     /**
@@ -57,7 +75,9 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
-        //
+        $divisions = Division::get();
+
+        return view('group.edit', compact(['group','divisions']));
     }
 
     /**
@@ -69,7 +89,17 @@ class GroupController extends Controller
      */
     public function update(Request $request, Group $group)
     {
-        //
+        $this->validate($request, [
+            'group_name' => 'required',
+            'dept_id' => 'required'
+        ]);
+
+        $group->group_name = $request->input('group_name');
+        $group->division_id = $request->input('dept_id');
+        $group->save();
+
+        return redirect()->route('groups.index')
+            ->with('success', 'Group updated successfully');
     }
 
     /**
@@ -80,6 +110,8 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
-        //
+        $group->delete();
+        return redirect()->route('groups.index')
+            ->with('success', 'Group deleted successfully');
     }
 }
