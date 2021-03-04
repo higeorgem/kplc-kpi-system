@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
-            <h2>Create New Group</h2>
+            <h2>Create New Section</h2>
         </div>
         <div class="pull-right">
             <a class="btn btn-primary btn-xs" href="{{ route('groups.index') }}"> Back</a>
@@ -43,8 +43,8 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Group Name:</strong>
-                {!! Form::text('group_name', null, array('placeholder' => 'Group Name','class' => 'form-control')) !!}
+                <strong>Section Name:</strong>
+                {!! Form::text('group_name', null, array('placeholder' => 'Section Name','class' => 'form-control')) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">

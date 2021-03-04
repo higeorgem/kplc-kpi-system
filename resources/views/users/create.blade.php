@@ -30,12 +30,12 @@
     {!! Form::open(array('route' => 'users.store','method'=>'POST')) !!}
     <div class="row">
         <div class="col-sm-4">
-            <label for="staff_no">User ID : </label>
+            <label for="staff_no">Staff Number : </label>
             @php
-                $staff_no = \Illuminate\Support\Facades\DB::table('users')->select('staff_no')->max('staff_no') + 1;
+                // $staff_no = \Illuminate\Support\Facades\DB::table('users')->select('staff_no')->max('staff_no') + 1;
             @endphp
-            <input type="hidden" name="staff_no" value="{{$staff_no}}" required>
-            <input type="text" name="staff_no" id="staff_no" value="{{$staff_no}}" class="w-25" disabled>
+            <input type="text" name="staff_no" value="{{old('staff_no')}}" required>
+            {{-- <input type="text" name="staff_no" id="staff_no" value="{{$staff_no}}" class="w-25" disabled> --}}
         </div>
     </div>
     <div class="row">

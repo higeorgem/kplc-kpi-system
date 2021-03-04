@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="float-left">
-            <h2>Edit Group</h2>
+            <h2>Edit Section</h2>
         </div>
         <div class="float-right">
             <a class="btn btn-primary btn-xs" href="{{ route('groups.index') }}"> Back</a>
@@ -44,7 +44,7 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Group Name:</strong>
+            <strong>Section Name:</strong>
             {!! Form::text('group_name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
         </div>
     </div>

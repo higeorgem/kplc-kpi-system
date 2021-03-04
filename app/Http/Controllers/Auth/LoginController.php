@@ -53,7 +53,13 @@ class LoginController extends Controller
         $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'staff_no';
 
         if (Auth::attempt(array($fieldType => $input['username'], 'password' => $input['password']))) {
-            return redirect()->route('home');
+            // dd('1');
+            if (Auth::user()->password_changed_at == null) {
+                return redirect()->route('change-password');
+            } else {
+                // dd(3);   
+                return redirect()->route('home');
+            }
         } else {
             flash('Email-Address / Staff Number And Password Are Wrong.')->warning();
             return redirect()->route('login');

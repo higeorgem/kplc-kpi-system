@@ -32,7 +32,8 @@ class User extends Authenticatable
         'status',
         'title',
         'division_id',
-        'staff_no'
+        'staff_no',
+        'password_changed_at'
     ];
 
     /**

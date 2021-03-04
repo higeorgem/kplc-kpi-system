@@ -23,7 +23,7 @@
                     <td id="kpi"> {{$kpi->kpi}}</td>
                     <td>
                         <a href="kpi/tasks/{{$kpi->id}}" class="btn btn-xs btn-outline-primary float-left mr-1">
-                            <i class="badge badge-info">{{$kpi->tasks->count()}}</i> Tasks
+                            <i class="badge badge-info">{{$kpi->user_tasks->count()}}</i> Tasks
                         </a>
                         @can('kpi-edit')
                         <a href="{{URL::signedRoute('kpi.edit',[$kpi->id])}}" class="btn btn-xs btn-outline-warning float-left mr-1">

@@ -68,6 +68,11 @@ class KPI extends Model
         return $this->hasMany(Task::class, 'description', 'code');
     }
 
+    // kpi tasks relationship
+    public function user_tasks()
+    {
+        return $this->hasMany(Task::class, 'responsible', Auth::user()->staff_id);
+    }
 
     //achievement
     public function achievement($id)

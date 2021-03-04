@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="float-left">
-            <h2>Show Group</h2>
+            <h2>Show Section</h2>
         </div>
         <div class="float-right">
             <a class="btn btn-primary btn-xs" href="{{ route('groups.index') }}"> Back</a>
@@ -23,7 +23,7 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Group Name:</strong> <br>
+            <strong>Section Name:</strong> <br>
             {{ $group->group_name }}
         </div>
     </div>
