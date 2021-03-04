@@ -80,7 +80,7 @@
     </div>
     <!-- /.row -->
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-12">
             <!-- Chart's container -->
             <div id="chart" style="height: 300px;"></div>
             <!-- Charting library -->
@@ -105,12 +105,25 @@
                     // .responsive()
                     // .beginAtZero()
                     // .legend({ position: 'bottom' })
-                    .title('Users by trimester')
+                    .title('User Registration')
                     .datasets([{ type: 'line', fill: true }, 'line'])
               });
             </script>
+
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="taskchart" style="height: 300px;"></div>
+            <script>
+                const chart = new Chartisan({
+                    el: '#taskchart',
+                    url: "@chart('task_chart')",
+                  });
+            </script>
+        </div>
+    </div>
+
 </section>
 @endsection
 @section('scripts')
