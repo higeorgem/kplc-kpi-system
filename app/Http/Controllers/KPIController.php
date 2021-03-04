@@ -41,8 +41,10 @@ class KPIController extends Controller
     public function index()
     {
         //    get user's kpis
-        $user_kpis = KPI::where('group_id', Auth::user()->group_id)->get();
-
+        $user_kpis = KPI::where('group_id', Auth::user()->group_id)
+            ->where('division_id', Auth::user()->division_id)
+            ->get();
+            
         // return view with kpis
         return view('kpi.index', ['my_kpis' => $user_kpis]);
     }

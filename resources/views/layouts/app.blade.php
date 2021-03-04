@@ -47,7 +47,7 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="/" class="nav-link {{Request::is('/') ? 'active' : ''}}">Home</a>
+                    <a href="/" class="nav-link {{Request::is('/') ? 'active' : ''}}"><i class="fa fa-home"></i> Home</a>
                 </li>
             </ul>
 
@@ -80,9 +80,12 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item"  href="/changePassword">
+                            <i class="fas fa-key"></i> Change Password
+                            </a>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
+                           <i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}
                         </a>
 
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -243,7 +246,7 @@
                         <li class="nav-item ">
                             <a href="/groups" class="nav-link {{ Request::is('groups') ? 'active' : '' }}">
                                 <i class="icofont-briefcase nav-icon"></i>
-                                <p>Group</p>
+                                <p>Section</p>
                             </a>
                         </li>
                         @can('users-list')

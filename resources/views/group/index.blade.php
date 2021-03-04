@@ -5,11 +5,11 @@
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="float-left">
-            <h2>Group Management</h2>
+            <h2>Section Management</h2>
         </div>
         <div class="float-right">
             {{-- @can('role-create') --}}
-            <a class="btn btn-success btn-xs" href="{{ route('groups.create') }}"> Create New Division</a>
+            <a class="btn btn-success btn-xs" href="{{ route('groups.create') }}"> Create New Section</a>
             {{-- @endcan --}}
         </div>
     </div>
@@ -26,7 +26,7 @@
 <table class="table table-bordered table-sm">
     <tr>
         <th>No</th>
-        <th>Group Name</th>
+        <th>Section Name</th>
         <th>Division</th>
         <th width="">Action</th>
     </tr>

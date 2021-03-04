@@ -19,7 +19,9 @@
                             <option value="all"> All My Tasks</option>
                             @forelse (\Illuminate\Support\Facades\DB::table('k_p_i_s')
                             ->whereNUll('deleted_at')
-                            ->where('division_id', Auth::user()->division_id)->get() as $kpi)
+                            ->where('division_id', Auth::user()->division_id)
+                            ->where('group_id', Auth::user()->group_id)
+                            ->get() as $kpi)
                             <option value="{{$kpi->code}}" {{old('kpi_code') == $kpi->code ? 'selected' : ''}}> {{$kpi->kpi}}
                             </option>
                             @empty

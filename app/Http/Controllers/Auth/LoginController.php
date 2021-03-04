@@ -55,8 +55,9 @@ class LoginController extends Controller
         if (Auth::attempt(array($fieldType => $input['username'], 'password' => $input['password']))) {
             // dd('1');
             if (Auth::user()->password_changed_at == null) {
-                return redirect(route('change-password'));
+                return redirect()->route('change-password');
             } else {
+                // dd(3);   
                 return redirect()->route('home');
             }
         } else {
