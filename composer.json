@@ -21,7 +21,8 @@
         "laravel/ui": "^2.5",
         "laravelcollective/html": "^6.2",
         "spatie/laravel-permission": "^3.18",
-        "yajra/laravel-datatables-oracle": "^9.15"
+        "yajra/laravel-datatables-oracle": "^9.15",
+        "khill/lavacharts": "3.1.*"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

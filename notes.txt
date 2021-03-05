@@ -5,3 +5,7 @@ php artisan db:seed --class=PermissionTableSeeder
 php artisan db:seed --class=CreateAdminUserSeeder
 
 SELECT SUM(time_to_sec(timediff(resolution_date, created_date)) / 3600) as result FROM `tasks` WHERE responsible = 14758
+
+#spatie clear cache config
+php artisan cache:forget spatie.permission.cache
+php artisan cache:clear

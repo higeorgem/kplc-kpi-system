@@ -44,7 +44,7 @@ class KPIController extends Controller
         $user_kpis = KPI::where('group_id', Auth::user()->group_id)
             ->where('division_id', Auth::user()->division_id)
             ->get();
-            
+
         // return view with kpis
         return view('kpi.index', ['my_kpis' => $user_kpis]);
     }
@@ -147,8 +147,8 @@ class KPIController extends Controller
             'unit_of_mesure'  => 'required',
             'weight' => 'required',
             'previous_target' => 'required',
-            // 'achievement' => 'required',
-            // 'validated_achievement' => 'required',
+            'achievement' => 'required',
+            'validated_achievement' => 'required',
             'target' => 'required',
             'period' => 'required',
             'group_id' => 'required',
@@ -167,8 +167,8 @@ class KPIController extends Controller
             'previous_target' => $request->previous_target,
             'group_id' => $request->group_id,
             'division_id' => $request->division_id,
-            // 'achievement' => $request->achievement,
-            // 'validated_achievement' => $request->validated_achievement,
+            'achievement' => $request->achievement,
+            'validated_achievement' => $request->validated_achievement,
             'target' => $request->target,
         ]);
 

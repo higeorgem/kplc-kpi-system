@@ -163,7 +163,7 @@
                             </span>
                             @enderror
                         </div>
-                        {{-- <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-6">
                             <label for="achievement">{{ __('achievement') }}</label>
                         <input id="achievement" type="text"
                             class="form-control @error('achievement') is-invalid @enderror" name="achievement"
@@ -174,7 +174,7 @@
                         </span>
                         @enderror
                     </div>
-                    <div class="form-group col-sm-4">
+                    <div class="form-group col-sm-6">
                         <label for="validated_achievement">{{ __('Validated Achievement') }}</label>
                         <input id="validated_achievement" type="text"
                             class="form-control @error('validated_achievement') is-invalid @enderror"
@@ -186,7 +186,7 @@
                             <strong>{{ $message }}</strong>
                         </span>
                         @enderror
-                    </div> --}}
+                    </div>
                     <div class="form-group col-sm-6">
                         <label for="previous_target">{{ __('Previous Target') }}</label>
                         <input id="previous_target" type="text"
