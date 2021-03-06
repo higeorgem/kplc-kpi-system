@@ -9,7 +9,7 @@
                  <div class="image">
                     <img src="{{asset('css/dist/img/logo_2.jpeg')}}" width="100px" class="img-circle elevation-3" alt="User Image">
                 </div>
-                {{ __('KPI BOT LOGIN') }}
+                {{ __('KPLC-PERFORM LOGIN') }}
                 </div>
 
                 <div class="card-body " style="background-color: azure">
