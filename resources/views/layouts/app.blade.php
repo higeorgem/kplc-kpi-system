@@ -236,19 +236,24 @@
                             </ul>
                         </li>
                         {{-- Division --}}
-                        <li class="nav-item ">
+                        @can('division-list')
+                          <li class="nav-item ">
                             <a href="/divisions" class="nav-link {{ Request::is('divisions') ? 'active' : '' }}">
                                 <i class="icofont-building nav-icon"></i>
                                 <p>Division</p>
                             </a>
-                        </li>
+                        </li>  
+                        @endcan                        
                         {{-- group --}}
-                        <li class="nav-item ">
+                        @can('section-list')
+                          <li class="nav-item ">
                             <a href="/groups" class="nav-link {{ Request::is('groups') ? 'active' : '' }}">
                                 <i class="icofont-briefcase nav-icon"></i>
                                 <p>Section</p>
                             </a>
-                        </li>
+                        </li>  
+                        @endcan
+                        
                         @can('users-list')
                         <li class="nav-item">
                             <a href="#"

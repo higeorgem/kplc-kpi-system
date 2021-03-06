@@ -31,6 +31,15 @@ class PermissionTableSeeder extends Seeder
             'task-create',
             'task-edit',
             'task-delete',
+            'division-list',
+            'division-create',
+            'division-edit',
+            'division-delete',
+            'section-list',
+            'section-create',
+            'section-edit',
+            'section-delete',
+
         ];
 
 

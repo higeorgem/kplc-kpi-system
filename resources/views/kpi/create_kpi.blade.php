@@ -23,6 +23,12 @@
                                 <option value="Organizational Capabilities"
                                     @if(old('perspective')=="Organizational Capabilities" ) selected="selected" @endif>
                                     Organizational Capabilities</option>
+                                    <option value="Organizational Capabilities"
+                                    @if(old('perspective')=="Financial" ) selected="selected" @endif>
+                                    Financial</option>
+                                    <option value="Organizational Capabilities"
+                                    @if(old('perspective')=="Internal Business Processes" ) selected="selected" @endif>
+                                    Internal Business Processes</option>
                             </select>
                             @error('perspective')
                             <span class="invalid-feedback" role="alert">
