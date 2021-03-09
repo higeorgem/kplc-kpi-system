@@ -72,3 +72,6 @@ Route::post('/tasks/pdf', 'ReportController@createPDF')->name('create_pdf');
 
 // get all kpis route
 Route::get('/all/kpis', 'KPIController@getAllKpis')->name('allKpis');
+
+// lava charts
+Route::get('task_chart', 'ChartController@taskChart')->name('task_chart');

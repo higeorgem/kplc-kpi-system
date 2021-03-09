@@ -7,7 +7,10 @@
             <div class="card card-default">
                 <div class="card-header h3 text-center border-bottom border-primary bg-secondary">
                     <div class="image">
-                        <img src="{{asset('css/dist/img/logo_2.jpeg')}}" width="100px" class="img-circle elevation-3" alt="User Image">
+                        <a href="/home">
+                            <img src="{{asset('css/dist/img/logo_2.jpeg')}}" width="100px"
+                                class="img-circle elevation-3" alt="User Image">
+                        </a>
                     </div>
                     {{ __('KPI BOT CHANGE PASSWORD') }}
                 </div>
