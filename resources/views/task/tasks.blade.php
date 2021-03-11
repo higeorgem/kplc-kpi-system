@@ -5,7 +5,7 @@
     <div class=" justify-content-center">
         <div class="">
             <div class="card" id="tasksCard">
-                <div class="card-header bg-info">
+                <div class="card-header bg-dark">
                     <div class="kpiTableTitle float-left h3">
                         ALL MY TASKS
                     </div>
@@ -21,8 +21,8 @@
                 </div>
 
                 <div class="card-body">
-                    <div id="scroll_to"></div>
-                    <div id="taskAlert" class="alert"></div>
+                    {{-- <div id="scroll_to"></div> --}}
+                    {{-- <div id="taskAlert" class="alert"></div> --}}
                     <table id="tasksTable" class="table table-bordered table-hover table-sm">
                         <thead>
                             <tr>
@@ -44,17 +44,21 @@
                                 <td>{{$task->task}}</td>
                                 <td>{{$task->created_date}}</td>
                                 <td>{{$task->resolution_date}}</td>
-                                <td>{{$task->status}}</td>
+                                <td>{{$task->status}} @if($task->status == 'open')<a href="#"
+                                        class="btn btn-xs btn-rounded btn-success close_task"
+                                        id="{{$task->id}}">close</a> @endif</td>
                                 <td>
                                     {{-- <a href="{{URL::signedRoute('tasks.show', [$task->id])}}"
-                                        class="btn btn-xs btn-outline-info">Show</a> --}}
-                                    <a href="#" class="btn btn-xs btn-outline-warning edit" id="{{$task->id}}">Edit</a>
-                                    <button type="submit" id="{{$task->id}}" class="btn btn-xs btn-outline-danger delete">Trash</button>
+                                    class="btn btn-xs btn-outline-info">Show</a> --}}
+                                    @if($task->status == 'open') <a href="#" class="btn btn-xs btn-outline-warning edit"
+                                        id="{{$task->id}}">Edit</a> @endif
+                                    <button type="submit" id="{{$task->id}}"
+                                        class="btn btn-xs btn-outline-danger delete">Trash</button>
                                     {{-- <form action="{{route('tasks.destroy', [$task->id])}}" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" onclick="return confirm('Are You Sure ?')"
-                                            class="btn btn-xs btn-outline-danger">Trash</button>
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" onclick="return confirm('Are You Sure ?')"
+                                        class="btn btn-xs btn-outline-danger">Trash</button>
                                     </form> --}}
                                 </td>
                             </tr>
@@ -102,25 +106,25 @@
                                         <label for="task">Task: </label>
                                         <textarea name="task" id="task" class="form-control" required></textarea>
                                     </div>
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label for="status">Task Status: </label>
                                         <select name="status" id="status" class="form-control" required>
                                             <option value="" selected disabled>Select Status</option>
                                             <option value="open" >Open</option>
                                             <option value="closed" >Closed</option>
                                         </select>
-                                    </div>
+                                    </div> --}}
                                     <div class="form-group row">
                                         <div class="col-sm-6">
                                             <label for="created_date">Created Date</label>
                                             <input type="datetime-local" name="created_date" id="created_date"
                                                 class="form-control" required>
                                         </div>
-                                        <div class="col-sm-6">
+                                        {{-- <div class="col-sm-6">
                                             <label for="resolution_date">Resolution Date</label>
                                             <input type="datetime-local" name="resolution_date" id="resolution_date"
                                                 class="form-control" required>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                     {{-- <div class="card-footer text-center">
                                                     <button type="submit" id="form_submit" class="btn btn-outline-success">Create
@@ -152,6 +156,50 @@
     </script>
     <script>
         $(function () {
+            // close task
+            $('.close_task').on('click', function () {
+            // confirm choice
+            // var choice = confirm('Close Task ??');
+            // console.log(choice);
+                Swal.fire({
+                    title: 'Close Task ?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, close it !'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajaxSetup({
+                            headers: {
+                            'X-CSRF-TOKEN' : jQuery('meta[name="csrf-token"]').attr('content')
+                            }
+                            })
+                            $.ajax({
+                            url: '/tasks/close/'+$(this).attr('id'),
+                            type: 'get',
+                            dataType: 'json',
+                            cache: false,
+                            data: {
+                            id: $(this).attr('id')
+                            },
+                            success: function(respon){
+                            // console.log(respon);
+                            // display close success message
+                            Swal.fire('Task Closed !!','','success')
+                            setTimeout(function() {
+                                location.reload();
+                            }, 2500);
+
+                            },
+                            error: function(err){
+                            // console.log(err)
+                            }
+                            })
+                        }
+                });
+            });
             // tr click event on the kpi table get the kpi id use to search tasks
             $('.edit').on('click', function () {
             // fetch tasks
@@ -186,7 +234,7 @@
                 cache:false,
                 success: function(response){
                 // console.log(response)
-                console.log(response)
+                // console.log(response)
                     // show the edit modal
                     $('#editTaskModal').modal('show');
                     // append kpi
@@ -200,7 +248,7 @@
                     // append created date
                     $('#created_date').val(response.created_date).change();
                     // append resolution date
-                    $('#resolution_date').val(response.resolution_date).change();
+                    // $('#resolution_date').val(response.resolution_date).change();
 
                 },
                 error: function(err){
@@ -237,7 +285,7 @@
                         id: $(this).attr('id')
                     },
                     success: function(respon){
-                        console.log(respon);
+                        // console.log(respon);
                         // display delete success message
                         Swal.fire('Deleted!','Your file has been deleted.','success')
                         },

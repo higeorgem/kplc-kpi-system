@@ -65,11 +65,11 @@
             </select>
         </div>
         <div class="form-group col-sm-6">
-            <strong>Group:</strong>
+            <strong>Section:</strong>
             <select name="group_id" id="group_id" class="form-control @error('group_id') is-invalid @enderror">
                 <option value="" selected disabled>Select Group</option>
-                @forelse (\Illuminate\Support\Facades\DB::table('groups')->get() as $group)
-                <option value="{{$group->id}}" {{old('group_id') == $group->id ? 'selected' : ''}}>{{$group->group_name}}
+                @forelse (\Illuminate\Support\Facades\DB::table('sections')->get() as $section)
+                <option value="{{$section->id}}" {{old('group_id') == $section->id ? 'selected' : ''}}>{{$section->section_name}}
                 </option>
                 @empty
                 <option value="" disabled>No Group Data</option>

@@ -45,6 +45,8 @@ Route::put('tasks/{task}', 'TaskController@update')->name('tasks.update');
 Route::get('tasks/{task}', 'TaskController@show')->name('tasks.show');
 Route::get('tasks/{task}/edit', 'TaskController@edit')->name('tasks.edit');
 Route::get('tasks/template/file', 'TaskController@getTemplate')->name('get_Template');
+// close task
+Route::get('/tasks/close/{id}', 'TaskController@closeTask')->name('close_task');
 
 Route::resource('kpi', 'KPIController');
 // report routes
@@ -54,7 +56,7 @@ Route::get('/reports/query/report', 'ReportController@getQuery')->name('get_quer
 // get query route
 Route::post('/reports/task/Query', 'ReportController@getTaskQuery')->name('get_task_query');
 
-Route::get('/get/kpi/groups/{group_id}', 'KPIController@getGroups')->name('getGroups');
+Route::get('/get/kpi/sections/{section_id}', 'KPIController@getGroups')->name('getGroups');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('roles', 'RoleController');
@@ -62,8 +64,11 @@ Route::group(['middleware' => ['auth']], function () {
     // division routes
     Route::resource('divisions', 'DivisionController');
     // group routes
-    Route::resource('groups', 'GroupController');
-
+    Route::resource('sections', 'SectionController');
+    // subsection routes
+    Route::resource('subsections', 'SubSectionController');
+    // department route
+    Route::resource('department', 'DepartmentController');
 });
 
 // // kpi tasks
@@ -72,6 +77,8 @@ Route::post('/tasks/pdf', 'ReportController@createPDF')->name('create_pdf');
 
 // get all kpis route
 Route::get('/all/kpis', 'KPIController@getAllKpis')->name('allKpis');
-
 // lava charts
 Route::get('task_chart', 'ChartController@taskChart')->name('task_chart');
+// manage structures
+Route::get('manage/{structure}/{structure_id}/{manager_type}', 'ManageStructuresController@manageStructure')->name('manage_structure');
+Route::post('manage/manager', 'ManageStructuresController@saveManager')->name('saveManager');

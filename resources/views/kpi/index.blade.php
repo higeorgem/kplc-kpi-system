@@ -2,8 +2,13 @@
 
 @section('content')
 <div class="card">
-    <div class="card-header h4 bg-info">
+    <div class="card-header h4 bg-dark">
         MY KPIS
+        @can('kpi-create')
+        <a href="{{route('kpi.create')}}" class="float-right btn btn-xs btn-success">
+            <i class="fas fa-plus nav-icon"></i> Create KPI
+        </a>
+        @endcan
     </div>
     <div class="table-responsive card-body">
         <table id="kpiTable" class="table table-striped table-sm table-bordered table-hover">

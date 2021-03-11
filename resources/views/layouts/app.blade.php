@@ -23,7 +23,7 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{asset('css/plugins/fontawesome-free/css/all.min.css')}}">
-{{-- icofont --}}
+    {{-- icofont --}}
     <link rel="stylesheet" href="{{asset('css/plugins/icofont/icofont.min.css')}}">
 
     <!-- overlayScrollbars -->
@@ -47,7 +47,8 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="/" class="nav-link {{Request::is('/') ? 'active' : ''}}"><i class="fa fa-home"></i> Home</a>
+                    <a href="/" class="nav-link {{Request::is('/') ? 'active' : ''}}"><i class="fa fa-home"></i>
+                        Home</a>
                 </li>
             </ul>
 
@@ -76,16 +77,16 @@
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                      <i class="icofont-user"></i>  {{ Auth::user()->fullName(Auth::user()->id) }}
+                        <i class="icofont-user"></i> {{ Auth::user()->fullName(Auth::user()->id) }}
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item"  href="/changePassword">
+                        <a class="dropdown-item" href="/changePassword">
                             <i class="fas fa-key"></i> Change Password
-                            </a>
+                        </a>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
-                           <i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}
+                            <i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}
                         </a>
 
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -162,118 +163,155 @@
                                 </li>
                             </ul>
                             @endcan
-                            @can('kpi-create')
-                            <ul class="nav nav-treeview">
+                            {{-- @can('kpi-create')
+                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="{{route('kpi.create')}}"
-                                        class="nav-link {{ Request::is('kpi/create') ? 'active' : '' }}">
-                                        <i class="fas fa-plus nav-icon"></i>
-                                        <p>Create KPIs</p>
-                                    </a>
-                                </li>
-                            </ul>
-                            @endcan
-
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{route('kpi.index')}}"
-                                        class="nav-link {{ Request::is('kpi') ? 'active' : '' }}">
-                                        <i class="fas fa-user-tag nav-icon"></i>
-                                        <p>My KPIs</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#"
-                                class="nav-link {{ (Request::is('tasks') || Request::is('tasks/create') || Request::is('tasks/upload') || Request::is('tasks/upload') )  ? 'active' : '' }}">
-                                <i class="fas fa-list nav-icon"></i>
-                                <p>Task <i class="right fas fa-angle-left"></i> </p>
+                            class="nav-link {{ Request::is('kpi/create') ? 'active' : '' }}">
+                            <i class="fas fa-plus nav-icon"></i>
+                            <p>Create KPIs</p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/tasks" class="nav-link {{ Request::is('tasks') ? 'active' : '' }}">
-                                        <i class="fas fa-tasks nav-icon"></i>
-                                        <p>My Task</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
+                        </li>
+                    </ul>
+                    @endcan --}}
+
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('kpi.index')}}" class="nav-link {{ Request::is('kpi') ? 'active' : '' }}">
+                                <i class="fas fa-user-tag nav-icon"></i>
+                                <p>My KPIs</p>
+                            </a>
+                        </li>
+                    </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#"
+                            class="nav-link {{ (Request::is('tasks') || Request::is('tasks/create') || Request::is('tasks/upload') || Request::is('tasks/upload') )  ? 'active' : '' }}">
+                            <i class="fas fa-list nav-icon"></i>
+                            <p>Task <i class="right fas fa-angle-left"></i> </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/tasks" class="nav-link {{ Request::is('tasks') ? 'active' : '' }}">
+                                    <i class="fas fa-tasks nav-icon"></i>
+                                    <p>My Task</p>
+                                </a>
+                            </li>
+                            {{-- <li class="nav-item">
                                     <a href="/tasks/create"
                                         class="nav-link {{ (Request::is('tasks/create')) ? 'active' : '' }}">
-                                        <i class="fas fa-plus nav-icon"></i>
-                                        <p>Create Task</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item ">
-                                    <a href="/tasks/upload"
-                                        class="nav-link {{ Request::is('tasks/upload') ? 'active' : '' }}">
-                                        <i class="fas fa-upload nav-icon"></i>
-                                        <p>Upload Tasks</p>
-                                    </a>
-                                </li>
+                            <i class="fas fa-plus nav-icon"></i>
+                            <p>Create Task</p>
+                            </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a href="/tasks/upload" class="nav-link {{ Request::is('tasks/upload') ? 'active' : '' }}">
+                            <i class="fas fa-upload nav-icon"></i>
+                            <p>Upload Tasks</p>
+                        </a>
+                    </li> --}}
+                    </ul>
+                    </li>
 
-                            </ul>
-                        </li>
+                    <li class="nav-item">
+                        <a href=""
+                            class="nav-link {{ Request::is('reports') || Request::is('reports/query/report') ? 'active' : '' }}">
+                            <i class="fas fa-file-alt nav-icon"></i>
+                            <p>Reports <i class="right fas fa-angle-left"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/reports" class="nav-link {{ (Request::is('reports')) ? 'active' : '' }}">
+                                    <i class="icofont-paper nav-icon"></i>
+                                    <p>General Report</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{URL::signedRoute('get_query')}}"
+                                    class="nav-link {{ (Request::is('reports/query/report')) ? 'active' : '' }}">
+                                    <i class="icofont-papers nav-icon"></i>
+                                    <p>Query Report</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    {{-- structures --}}
+                    @can('structures-list')
+                    <li class="nav-item">
+                        <a href="#"
+                            class="nav-link {{ Request::is('divisions') || Request::is('department') || Request::is('sections') || Request::is('subsections')  ? 'active' : '' }}">
+                            <i class="icofont-building-alt"></i>
+                            <p>Structure <i class="right fas fa-angle-left"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            {{-- Division --}}
+                            @can('division-list')
+                            <li class="nav-item ">
+                                <a href="/divisions" class="nav-link {{ Request::is('divisions') ? 'active' : '' }}">
+                                    <i class="icofont-building"></i>
+                                    <p>Division</p>
+                                </a>
+                            </li>
+                            @endcan
+                            {{-- Department --}}
+                            @can('department-list')
+                            <li class="nav-item ">
+                                <a href="/department" class="nav-link {{ Request::is('department') ? 'active' : '' }}">
+                                    <i class="icofont-building"></i>
+                                    <p>Department</p>
+                                </a>
+                            </li>
+                            @endcan
+                            {{-- section --}}
+                            @can('section-list')
+                            <li class="nav-item ">
+                                <a href="/sections" class="nav-link {{ Request::is('sections') ? 'active' : '' }}">
+                                    <i class="icofont-building"></i>
+                                    <p>Section</p>
+                                </a>
+                            </li>
+                            @endcan
+                            {{-- sub-section --}}
+                            @can('subsection-list')
+                            <li class="nav-item ">
+                                <a href="/subsections"
+                                    class="nav-link {{ Request::is('subsections') ? 'active' : '' }}">
+                                    <i class="icofont-building"></i>
+                                    <p>Sub-Section</p>
+                                </a>
+                            </li>
+                            @endcan
 
-                        <li class="nav-item">
-                            <a href="" class="nav-link {{ Request::is('reports') || Request::is('reports/query/report') ? 'active' : '' }}">
-                                <i class="fas fa-file-alt nav-icon"></i>
-                                <p>Reports <i class="right fas fa-angle-left"></i></p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/reports" class="nav-link {{ (Request::is('reports')) ? 'active' : '' }}">
-                                       <i class="icofont-paper nav-icon"></i>
-                                        <p>General Report</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{URL::signedRoute('get_query')}}" class="nav-link {{ (Request::is('reports/query/report')) ? 'active' : '' }}">
-                                        <i class="icofont-papers nav-icon"></i>
-                                        <p>Query Report</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        {{-- Division --}}
-                        <li class="nav-item ">
-                            <a href="/divisions" class="nav-link {{ Request::is('divisions') ? 'active' : '' }}">
-                                <i class="icofont-building nav-icon"></i>
-                                <p>Division</p>
-                            </a>
-                        </li>
-                        {{-- group --}}
-                        <li class="nav-item ">
-                            <a href="/groups" class="nav-link {{ Request::is('groups') ? 'active' : '' }}">
-                                <i class="icofont-briefcase nav-icon"></i>
-                                <p>Section</p>
-                            </a>
-                        </li>
-                        @can('users-list')
-                        <li class="nav-item">
-                            <a href="#"
-                                class="nav-link {{ (Request::is('users') || Request::is('roles/create') || Request::is('roles') || Request::is('users/create'))  ? 'active' : '' }}">
-                                <i class="fas fa-users nav-icon"></i>
-                                <p>User Management <i class="right fas fa-angle-left"></i> </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/users" class="nav-link {{ (Request::is('users')) ? 'active' : '' }}">
-                                        <i class="fas fa-users nav-icon"></i>
-                                        <p>All Users</p>
-                                    </a>
-                                </li>
-                                @can('role-list')
-                                <li class="nav-item ">
-                                    <a href="/roles" class="nav-link {{ Request::is('roles') ? 'active' : '' }}">
-                                       <i class="fab fa-critical-role nav-icon"></i>
-                                        <p>Roles</p>
-                                    </a>
-                                </li>
-                                @endcan
-                            </ul>
-                        </li>
-                        @endcan
+                        </ul>
+                    </li>
+                    @endcan
+
+                    {{-- endstructures --}}
+                    @can('users-list')
+                    <li class="nav-item">
+                        <a href="#"
+                            class="nav-link {{ (Request::is('users') || Request::is('roles/create') || Request::is('roles') || Request::is('users/create'))  ? 'active' : '' }}">
+                            <i class="fas fa-users nav-icon"></i>
+                            <p>User Management <i class="right fas fa-angle-left"></i> </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/users" class="nav-link {{ (Request::is('users')) ? 'active' : '' }}">
+                                    <i class="fas fa-users nav-icon"></i>
+                                    <p>All Users</p>
+                                </a>
+                            </li>
+                            @can('role-list')
+                            <li class="nav-item ">
+                                <a href="/roles" class="nav-link {{ Request::is('roles') ? 'active' : '' }}">
+                                    <i class="fab fa-critical-role nav-icon"></i>
+                                    <p>Roles</p>
+                                </a>
+                            </li>
+                            @endcan
+                        </ul>
+                    </li>
+                    @endcan
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -302,7 +340,7 @@
             </div>
             <!-- /.content-header -->
             <!-- Main content -->
-            <section class="content " >
+            <section class="content ">
                 <div class="container-fluid">
                     @include('flash::message')
                     @yield('content')

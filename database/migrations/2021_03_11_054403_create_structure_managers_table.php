@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGroupsTable extends Migration
+class CreateStructureManagersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('groups', function (Blueprint $table) {
+        Schema::create('structure_managers', function (Blueprint $table) {
             $table->id();
-            $table->string('division_id');
-            $table->foreign('division_id')->references('id')->on('divisions')->onDelete('cascade');
-            $table->string('group_name');
+            $table->string('structure_id');
+            $table->enum('manager_type', ['General Manager','Manager','Chief','Principle']);
+            $table->string('manager_id');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +30,6 @@ class CreateGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('groups');
+        Schema::dropIfExists('structure_managers');
     }
 }

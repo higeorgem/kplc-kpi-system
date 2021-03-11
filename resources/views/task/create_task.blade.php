@@ -6,18 +6,18 @@
         <div class="card-header bg-dark">CREATE TASK</div>
         <div class="card-body">
             <div class="row justify-content-center">
-                <div class="col-md-7">
+                <div class="col-md-8">
                     <div class="card container">
-                        <div class="card-header " >
+                        <div class="card-header ">
                             {{-- Create Task Form <br> --}}
                             <span class="text-danger font-weight-bold h3">*</span>Tasks created by this form will be
                             assigned to you.</div>
-                        <div id="validation-errors"></div>
-                        <form action="" method="post" id="task_form">
+                        {{-- <div id="validation-errors"></div> --}}
+                        <form action="{{route('tasks.store')}}" method="post" id="task_form">
                             @csrf
                             <div class="form-group">
-                                <label for="key">Select key:</label>
-                                <select name="key" id="key" class="form-control">
+                                <label for="key">Select KPI:</label>
+                                <select name="key" id="key" class="form-control @error('key') is-invalid @enderror">
                                     <option value="" selected disabled>Select key</option>
                                     @foreach (\Illuminate\Support\Facades\DB::table('k_p_i_s')
                                     ->where('group_id', Auth::user()->group_id)
@@ -26,29 +26,50 @@
                                     <option value="{{$kpi->code}}">{{$kpi->kpi}}</option>
                                     @endforeach
                                 </select>
+                                @error('key')
+                                <span class="invalid-feedback">
+                                    <strong>{{$message}}</strong>
+                                </span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="task">Task: </label>
-                                <textarea name="task" id="task"
-                                    class="form-control "></textarea>
+                                <textarea name="task" id="task" class="form-control @error('task') is-invalid @enderror"></textarea>
+                            @error('task')
+                            <span class="invalid-feedback">
+                                <strong>{{$message}}</strong>
+                            </span>
+                            @enderror
                             </div>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="status">Task Status: </label>
                                 <select name="status" id="status" class="form-control">
                                     <option value="" selected disabled>Select Status</option>
                                     <option value="open">Open</option>
                                     <option value="closed">Closed</option>
                                 </select>
-                            </div>
+                            </div> --}}
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <label for="created_date">Created Date</label>
-                                    <input type="datetime-local" name="created_date" id="created_date" class="form-control">
+                                    <input type="datetime-local" name="created_date" id="created_date"
+                                        class="form-control @error('created_date') is-invalid @enderror">
+                                        @error('created_date')
+                                        <span class="invalid-feedback">
+                                            <strong>{{$message}}</strong>
+                                        </span>
+                                        @enderror
                                 </div>
-                                <div class="col-sm-6">
+                                {{-- <div class="col-sm-6">
                                     <label for="resolution_date">Resolution Date</label>
-                                    <input type="datetime-local" name="resolution_date" id="resolution_date" class="form-control">
-                                </div>
+                                    <input type="datetime-local" name="resolution_date" id="resolution_date"
+                                        class="form-control @error('resolution_date') is-invalid @enderror">
+                                        @error('resolution_date')
+                                        <span class="invalid-feedback">
+                                            <strong>{{$message}}</strong>
+                                        </span>
+                                        @enderror
+                                </div> --}}
                             </div>
                             <div class="card-footer text-center">
                                 <button type="submit" id="form_submit" class="btn btn-outline-success">Create
@@ -66,56 +87,56 @@
 @section('scripts')
 <script>
     $(function () {
-        // hide validation errors div
-        $('#validation-errors').hide();
-        $('#validation-errors').html('');
+        // // hide validation errors div
+        // $('#validation-errors').hide();
+        // $('#validation-errors').html('');
 
-        // on click submit
-        $('form').submit(function(e){
-            // e.preventDefault();
-            submitTaskForm();
-            return false;
-        })
+        // // on click submit
+        // $('form').submit(function(e){
+        //     // e.preventDefault();
+        //     submitTaskForm();
+        //     return false;
+        // })
 
-        function submitTaskForm() {
-        //    console.log($('#task_form').serializeArray());
-           $.ajaxSetup({
-               headers: {
-                   'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-               }
-           });
-           $.ajax({
-               url: '{{route("tasks.store")}}',
-               type: 'POST',
-               dataType: 'json',
-               cache: false,
-               data: $('#task_form').serialize(),
-               success: function(response){
-                //    console.log(response)
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Task Created Successfully',
-                    showConfirmButton: false,
-                    timer: 2000
-                    });
-                    $('#task_form')[0].reset();
-               },
-               error: function (error) {
-                   console.log(error)
-                    $('.alert').hide()
-                    $('.form-control').removeClass('is-invalid');
-                    $('#validation-errors').show(600);
-                if (error.statusText != 'OK') {
-                    $('#validation-errors').append('<div class="alert alert-danger">'+error.responseJSON.message+'</div');
-                    $.each(error.responseJSON.errors, function(key,value) {
-                        $(document).find('[id='+key+']').addClass('is-invalid');
-                        $(document).find('[id='+key+']').after('<span class="alert text-danger">'+value+'</span>')
-                    });
-                }
+        // function submitTaskForm() {
+        // //    console.log($('#task_form').serializeArray());
+        //    $.ajaxSetup({
+        //        headers: {
+        //            'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+        //        }
+        //    });
+        //    $.ajax({
+        //        url: '{{route("tasks.store")}}',
+        //        type: 'POST',
+        //        dataType: 'json',
+        //        cache: false,
+        //        data: $('#task_form').serialize(),
+        //        success: function(response){
+        //         //    console.log(response)
+        //         Swal.fire({
+        //             icon: 'success',
+        //             title: 'Task Created Successfully',
+        //             showConfirmButton: false,
+        //             timer: 2000
+        //             });
+        //             $('#task_form')[0].reset();
+        //        },
+        //        error: function (error) {
+        //            console.log(error)
+        //             $('.alert').hide()
+        //             $('.form-control').removeClass('is-invalid');
+        //             $('#validation-errors').show(600);
+        //         if (error.statusText != 'OK') {
+        //             $('#validation-errors').append('<div class="alert alert-danger">'+error.responseJSON.message+'</div');
+        //             $.each(error.responseJSON.errors, function(key,value) {
+        //                 $(document).find('[id='+key+']').addClass('is-invalid');
+        //                 $(document).find('[id='+key+']').after('<span class="alert text-danger">'+value+'</span>')
+        //             });
+        //         }
 
-               }
-           })
-        }
+        //        }
+        //    })
+        // }
 
     })
 </script>

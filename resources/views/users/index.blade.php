@@ -25,7 +25,9 @@
         <th>Full-Name</th>
         <th>Email</th>
         <th>Division</th>
-        <th>Group</th>
+        <th>Department</th>
+        <th>Section</th>
+        <th>Sub-Section</th>
         <th>Roles</th>
         <th width="280px">Action</th>
     </tr>
@@ -35,7 +37,9 @@
        <td>{{ $user->fullName($user->id) ?? ''}}</td>
         <td>{{ $user->email }}</td>
         <td>{{ $user->division->name ?? ''}}</td>
-          <td>{{ $user->group->group_name ?? ''}}</td>
+          <td>{{ $user->section->section_name ?? ''}}</td>
+          <td></td>
+          <td></td>
         <td>
             @if(!empty($user->getRoleNames()))
             @foreach($user->getRoleNames() as $v)

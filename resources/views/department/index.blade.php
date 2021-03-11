@@ -5,11 +5,11 @@
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="float-left">
-            <h2>Section Management</h2>
+            <h2>Department Management</h2>
         </div>
         <div class="float-right">
             {{-- @can('role-create') --}}
-            <a class="btn btn-success btn-xs" href="{{ route('groups.create') }}"> Create New Section</a>
+            <a class="btn btn-success btn-xs" href="{{ route('department.create') }}"> Create New Department</a>
             {{-- @endcan --}}
         </div>
     </div>
@@ -26,22 +26,22 @@
 <table class="table table-bordered table-sm">
     <tr>
         <th>No</th>
-        <th>Section Name</th>
-        <th>Division</th>
+        <th>Department Name</th>
+        <th>Division Name</th>
         <th width="">Action</th>
     </tr>
-    @foreach ($groups as $key => $group)
+    @foreach ($departments as $key => $department)
     <tr>
         <td>{{ ++$key }}</td>
-        <td>{{ $group->group_name }}</td>
-        <td>{{ $group->division->name ?? ''}}</td>
+        <td>{{ $department->department_name }}</td>
+        <td>{{ $department->division->name ?? '' }}</td>
         <td>
-            <a class="btn btn-info btn-xs" href="{{ route('groups.show',$group->id) }}">Show</a>
-            {{-- @can('group-edit') --}}
-            <a class="btn btn-primary btn-xs" href="{{ route('groups.edit',$group->id) }}">Edit</a>
+            <a class="btn btn-info btn-xs" href="{{ route('department.show',$department ->id) }}">Show</a>
+            {{-- @can('department -edit') --}}
+            <a class="btn btn-primary btn-xs" href="{{ route('department.edit',$department ->id) }}">Edit</a>
             {{-- @endcan --}}
-            {{-- @can('group-delete') --}}
-            {!! Form::open(['method' => 'DELETE','route' => ['groups.destroy', $group->id],'style'=>'display:inline']) !!}
+            {{-- @can('department -delete') --}}
+            {!! Form::open(['method' => 'DELETE','route' => ['department.destroy', $department ->id],'style'=>'display:inline']) !!}
             {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-xs', 'onClick'=>'return confirm("Are you sure")']) !!}
             {!! Form::close() !!}
             {{-- @endcan --}}
@@ -52,6 +52,6 @@
 </div>
 
 
-{!! $groups->render() !!}
+{!! $departments->render() !!}
 
 @endsection

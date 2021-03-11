@@ -15,7 +15,7 @@
                     <span class="info-box-text border-bottom border-warning">My KPIs</span>
                     <span class="info-box-number h5">
                         {{\Illuminate\Support\Facades\DB::table('k_p_i_s')
-                        ->where('group_id', Auth::user()->group_id)
+                        ->where('section_id', Auth::user()->section_id)
                         ->whereNull('deleted_at')
                         ->where('division_id', Auth::user()->division_id)->count()}}
                     </span>

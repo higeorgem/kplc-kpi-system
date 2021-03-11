@@ -23,11 +23,21 @@ class TaskController extends Controller
 
         // get tasks
         $my_tasks = Task::where('responsible', $user->staff_no)
-                        ->latest()
-                        ->get();
-                        // dd($my_tasks);
+            ->latest()
+            ->get();
+        // dd($my_tasks);
 
         return view('task.tasks', ['my_tasks' => $my_tasks]);
+    }
+    public function closeTask($id)
+    {
+        $task = Task::where('id', $id)
+            ->update([
+                'status' => 'closed',
+                'resolution_date' => \Carbon\Carbon::now()
+                ]);
+
+        return response()->json(['success' => true, 'message' => 'Task Saved', 'data' => $task], 200);
     }
 
     /**
@@ -131,8 +141,8 @@ class TaskController extends Controller
             foreach ($importData_arr as $key => $importData) {
                 // count the number of tasks of this kpi
                 $kpi_task_count = Task::withTrashed()
-                                ->where('description', $importData[0])
-                                ->where('flag', 0)->count() + 1;
+                    ->where('description', $importData[0])
+                    ->where('flag', 0)->count() + 1;
 
                 //generate the task id
                 $taskID = str_pad($kpi_task_count, 4, '0', STR_PAD_LEFT);
@@ -141,7 +151,7 @@ class TaskController extends Controller
                 //     flash('Empty values Are not allowed.')->warning();
                 //     return redirect()->back();
                 // }else {
-                   $insertData = array(
+                $insertData = array(
                     "key" => $importData[0] . '-' . $taskID,
                     "task" => $importData[1],
                     "status" => $importData[2],
@@ -173,9 +183,9 @@ class TaskController extends Controller
         $request->validate([
             'task' => 'required',
             'key' => 'required',
-            'status' => 'required',
+            // 'status' => 'required',
             "created_date" => 'required',
-            "resolution_date" => 'required'
+            // "resolution_date" => 'required'
         ]);
         // count the number of tasks of this kpi
         $kpi_task_count = Task::withTrashed()->where('description', $request->key)->where('flag', 0)->count() + 1;
@@ -185,14 +195,14 @@ class TaskController extends Controller
         Task::create([
             "key" => $request->key . '-' . $taskID,
             "task" => $request->task,
-            "status" => $request->status,
+            "status" => 'open',
             "created_date" => $request->created_date,
-            "resolution_date" => $request->resolution_date,
+            // "resolution_date" => $request->resolution_date,
             "description" => $request->key,
             "responsible" => Auth::user()->staff_no
         ]);
-
-        return response()->json(['success' => true, 'message' => 'Task Saved'], 200);
+        return redirect()->back()->with('success', 'Task Saved');
+        // return response()->json(['success' => true, 'message' => 'Task Saved'], 200);
     }
 
     /**
@@ -216,7 +226,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-         return response()->json($task);
+        return response()->json($task);
     }
 
     /**
@@ -241,10 +251,11 @@ class TaskController extends Controller
     {
         // get the task
         $task->update([
+            "key" => $request->kpi,
             "task" => $request->task,
-            "status" => $request->status,
+            // "status" => $request->status,
             "created_date" => $request->created_date,
-            "resolution_date" => $request->resolution_date,
+            // "resolution_date" => $request->resolution_date,
         ]);
 
         return response()->json(['success' => true, 'message' => 'Task Updated', 'kpi_key' => $request->key], 200);
