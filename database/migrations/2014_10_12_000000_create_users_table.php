@@ -22,7 +22,9 @@ class CreateUsersTable extends Migration
             $table->string('title');
             $table->tinyInteger('status')->default(0);
             $table->string('division_id');
-            $table->string('group_id');
+            $table->string('department_id');
+            $table->string('section_id');
+            $table->string('sub_section_id');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

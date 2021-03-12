@@ -21,7 +21,7 @@ class CreateSubSectionsTable extends Migration
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
             $table->string('section_id');
             $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
-            $table->string('subsection_name');
+            $table->string('sub_section_name');
             $table->timestamps();
             $table->softDeletes();
         });

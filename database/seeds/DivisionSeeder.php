@@ -14,12 +14,12 @@ class DivisionSeeder extends Seeder
     {
         $division_names = [
             'MD & CEO', 'Corporate Affairs & Company Sec.', 'Network Management', 'Infrastructure Development',
-            'HR & Administration', 'Finance', 'ICT', 'Supply Chain', 'Customer Service', 'Business Strategy',
+            'HR & Administration', 'Finance', 'Supply Chain', 'Customer Service', 'Business Strategy',
             'Regional Operations', 'Internal Audit'
         ];
         foreach ($division_names as $key => $name) {
             DB::table('divisions')->insert([
-                'name' => $name
+                'division_name' => $name
             ]);
         }
     }

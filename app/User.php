@@ -33,7 +33,9 @@ class User extends Authenticatable
         'title',
         'division_id',
         'staff_no',
-        'password_changed_at'
+        'password_changed_at',
+        'section_id',
+        'sub_section_id',
     ];
 
     /**
@@ -58,9 +60,21 @@ class User extends Authenticatable
     {
         return $this->hasOne(Division::class, 'id', 'division_id');
     }
-    public function group()
+
+    public function department()
     {
-        return $this->hasOne(Group::class, 'id', 'group_id');
+        return $this->belongsTo(Department::class, 'department_id', 'id');
+    }
+
+    public function section()
+    {
+        return $this->belongsTo(Section::class, 'section_id', 'id');
+    }
+
+    public function subsection()
+    {
+        // dd('here');
+        return $this->belongsTo(SubSection::class, 'sub_section_id', 'id');
     }
 
     public function fullName($id)

@@ -19,7 +19,7 @@ class CreateAdminUserSeeder extends Seeder
     public function run()
     {
         // division
-        $division = Division::create(['name' => 'ICT']);
+        $division = Division::create(['division_name' => 'ICT']);
 
         // department
         $department = Department::create([
@@ -36,7 +36,7 @@ class CreateAdminUserSeeder extends Seeder
             'division_id'=> $division->id,
             'department_id'=> $department->id,
             'section_id' => $section->id,
-            'subsection_name'=> 'Super Admins'
+            'sub_section_name'=> 'Super Admins'
         ]);
 
         $user = User::create([
@@ -45,6 +45,10 @@ class CreateAdminUserSeeder extends Seeder
             'middle_name' => 'A',
             'last_name' => 'Administrator',
             'title' => 'System Administrator',
+            'division_id'=> $division->id,
+            'department_id'=> $department->id,
+            'section_id'=> $section->id,
+            'sub_section_id'=> $subsection->id,
             'email' => 'systemadmin@gmail.com',
             'password' => bcrypt('sys@kplc#2020')
         ]);

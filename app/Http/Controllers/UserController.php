@@ -22,9 +22,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $data = User::orderBy('id', 'DESC')->paginate(5);
-        return view('users.index', compact('data'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+        $data = User::orderBy('id', 'DESC')->get();
+        return view('users.index', compact('data'));
+        // ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
 
@@ -54,10 +54,12 @@ class UserController extends Controller
             'last_name' => 'required',
             'division_id' => 'required',
             'group_id' => 'required',
-            'staff_no' => 'required',
+            'staff_no' => 'required|unique:users,staff_no',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
-            'roles' => 'required'
+            'roles' => 'required',
+            'section_id' => 'required',
+            'sub_section_id' => 'required',
         ]);
 
 
@@ -135,7 +137,6 @@ class UserController extends Controller
             $usr = User::find($id);
             $usr->password_changed_at = NULL;
             $usr->save();
-
         } else {
             $input = \Arr::except($input, array('password'));
         }
