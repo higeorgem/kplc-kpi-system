@@ -120,12 +120,14 @@
                         <a href="#" class="d-block">
                             {{ Auth::user()->fullName(Auth::user()->id) }} <br>
                             <span class="text-sm font-italic">
-                                {{ ucwords(Auth::user()->title) }}
+                                @php
+                                    $user = Auth::user();
+                                @endphp
+                              Role:  {{ ucwords(Auth::user()->roles->pluck('name')[0]) }}
                             </span>
                             <br>
-
                             <span class="text-sm">
-                                Dept: {{ Auth::user()->division->name ?? '000'}}<br>
+                                Dept: {{ Auth::user()->division->division_name ?? '000'}}<br>
                                 <i class="fa fa-circle text-success"></i> Online
                             </span>
                         </a>

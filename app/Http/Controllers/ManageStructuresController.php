@@ -5,22 +5,37 @@ namespace App\Http\Controllers;
 use App\ManageStructures;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Exceptions\RoleDoesNotExist;
+use Spatie\Permission\Models\Role;
 
 class ManageStructuresController extends Controller
 {
     public function manageStructure($structure, $structure_id, $manager_type)
     {
         // dd($structure, $structure_id, $manager_type);
+       
+        // check if role exists
+        try {
+            Role::findByName($manager_type)->get();
+            // dd('re');
+        } catch (RoleDoesNotExist $e) {
+            flash('Create '. $manager_type.' Role to proceed.')->warning();
+            return redirect()->back();
+
+        }
         // get used manager ids
         $invalid_manager_ids = ManageStructures::pluck('manager_id')->toArray();
+        // dd($invalid_manager_ids);
         // get not signed users with manager roles
         $valid_managers = User::role($manager_type)
             ->whereNotIn('id', $invalid_manager_ids)
             ->get();
+// dd($valid_managers);
         // no manager ? go back : proceed
         if (count($valid_managers) == 0) {
-            flash('Create Manager User to proceed.')->warning();
+            flash('Create ' . $manager_type . ' User to proceed.')->warning();
             return redirect()->back();
         } else {
             // get the structure
@@ -29,7 +44,7 @@ class ManageStructuresController extends Controller
                 ->where('id', $structure_id)->first();
 
 
-            // dd($structure_details, $valid_managers);
+            // dd($structure_id, $structure, $structure_details, $valid_managers);
 
             return view('structureManager.create', [
                 'structure' => $structure_details,
@@ -54,7 +69,7 @@ class ManageStructuresController extends Controller
             "manager_type" => $request->manager_type,
             "manager_id" => $request->manager_id,
         ]);
-        
+
 
         flash(ucfirst($request->manager_type) . ' Created')->success();
         // flash(ucfirst('Manager Created'))->success();

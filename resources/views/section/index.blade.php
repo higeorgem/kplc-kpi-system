@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="float-left">
-            <h2>Section Management</h2>
+            <h2>{{ucfirst($title)}}</h2>
         </div>
         <div class="float-right">
             {{-- @can('role-create') --}}
@@ -29,6 +29,7 @@
         <th>Section Name</th>
         <th>Department</th>
         <th>Division</th>
+        <th>Chief</th>
         <th width="">Action</th>
     </tr>
     @foreach ($sections as $key => $section)
@@ -36,7 +37,19 @@
         <td>{{ ++$key }}</td>
         <td>{{ $section->section_name }}</td>
         <td>{{ $section->department->department_name ?? ''}}</td>
-        <td>{{ $section->division->name ?? ''}}</td>
+        <td>{{ $section->department->division->division_name ?? ''}}</td>
+        <td>
+            {{-- {{dd($section->department->division)}} --}}
+
+            @php
+            $manager = ($section->manageStructure != null) ?
+            ($section->department->division->head($section->manageStructure->manager_id)->first_name.'
+            '.$section->department->division->head($section->manageStructure->manager_id)->last_name) :
+            '<a href="'.URL::signedRoute("manage_structure",['sections', $section->id ,'Chief']).'" class="btn btn-sm
+                btn-outline-success"><i class="icofont icofont-plus"></i> Add Chief</a>';
+            @endphp
+            {!!$manager!!}
+        </td>
         <td>
             <a class="btn btn-info btn-xs" href="{{ route('sections.show',$section->id) }}">Show</a>
             {{-- @can('section-edit') --}}

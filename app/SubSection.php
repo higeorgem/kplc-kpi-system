@@ -15,7 +15,8 @@ class SubSection extends Model
         'division_id',
         'department_id',
         'section_id',
-        'subsection_name'
+        'subsection_name',
+        'created_by'
     ];
 
     public function section()
@@ -29,5 +30,9 @@ class SubSection extends Model
     public function division()
     {
         return $this->belongsTo(Division::class);
+    }
+    public function manageStructure()
+    {
+        return $this->hasOne(ManageStructures::class, 'structure_id', 'id');
     }
 }

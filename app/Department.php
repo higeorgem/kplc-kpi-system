@@ -11,11 +11,17 @@ class Department extends Model
     // protected $table = 'departmetns';
     protected $fillable = [
         'division_id',
-        'department_name'
+        'department_name',
+        'created_by'
     ];
 
     public function division()
     {
         return $this->belongsTo(Division::class, 'division_id', 'id');
+    }
+
+    public function manageStructure()
+    {
+        return $this->hasOne(ManageStructures::class, 'structure_id', 'id');
     }
 }

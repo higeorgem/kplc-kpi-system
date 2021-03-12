@@ -9,7 +9,7 @@ class Division extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['division_name'];
 
     // public function groups()
     // {
@@ -29,7 +29,7 @@ class Division extends Model
     public function head($id)
     {
         $head = User::find($id);
-        
+
         return $head;
     }
 }

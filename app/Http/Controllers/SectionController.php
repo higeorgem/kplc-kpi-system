@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Department;
 use App\Division;
+use App\ManageStructures;
 use App\Section;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SectionController extends Controller
 {
@@ -16,9 +18,28 @@ class SectionController extends Controller
      */
     public function index()
     {
-        $sections = Section::latest()->paginate(10);
+        // variable declaration
+        $sections = [];
+        $title = '';
 
-        return view('section.index', compact('sections'));
+        $user = Auth::user();
+
+        if ($user->hasRole('Administrator')) {
+            $sections = Section::latest()->paginate(10);
+            $title = 'All Sections Management';
+        } else {
+            $sections = Section::where('created_by', $user->id)->latest()->paginate(10);
+            // get user's structure
+            $user_department = ManageStructures::where('manager_id', $user->id)->first();
+
+            // dd($user_department->structure_id);
+            // division
+            $department = Department::where('id', $user_department->structure_id)->first();
+            // dd($department);
+            $title = $department->department_name . ' Department Sections Management';
+        }
+
+        return view('section.index', compact(['sections', 'title']));
     }
 
     /**
@@ -51,7 +72,8 @@ class SectionController extends Controller
         $section = Section::create([
             'section_name' => $request->input('section_name'),
             'division_id' => $request->input('division_name'),
-            'department_id' => $request->input('department_name')
+            'department_id' => $request->input('department_name'),
+            'created_by' => Auth::user()->id
             ]);
 
         return redirect()->route('sections.index')
@@ -102,6 +124,7 @@ class SectionController extends Controller
         $section->section_name = $request->input('section_name');
         $section->division_id = $request->input('division_name');
         $section->department_id = $request->input('department_name');
+        $section->created_by = Auth::user()->id;
         $section->save();
 
         return redirect()->route('sections.index')

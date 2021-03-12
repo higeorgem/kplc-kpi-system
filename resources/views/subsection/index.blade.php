@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="float-left">
-            <h2>Sub-Section Management</h2>
+            <h3>{{$title}}</h3>
         </div>
         <div class="float-right">
             {{-- @can('role-create') --}}
@@ -30,15 +30,26 @@
         <th>Section Name</th>
         <th>Department</th>
         <th>Division</th>
+        <th>Principle</th>
         <th width="">Action</th>
     </tr>
     @foreach ($subsections as $key => $subsection)
     <tr>
         <td>{{ ++$key }}</td>
-        <td>{{ $subsection->subsection_name }}</td>
-        <td>{{ $subsection->section->section_name }}</td>
+        <td>{{ ucfirst($subsection->sub_section_name) ?? '' }}</td>
+        <td>{{ $subsection->section->section_name ?? '' }}</td>
         <td>{{ $subsection->department->department_name ?? ''}}</td>
-        <td>{{ $subsection->division->name ?? ''}}</td>
+        <td>{{ $subsection->division->division_name ?? ''}}</td>
+        <td>
+            @php
+            $manager = ($subsection->manageStructure != null) ?
+            ($subsection->division->head($subsection->manageStructure->manager_id)->first_name.'
+            '.$subsection->division->head($subsection->manageStructure->manager_id)->last_name) :
+            '<a href="'.URL::signedRoute("manage_structure",['sub_sections', $subsection->id ,'principle']).'" class="btn btn-sm
+                btn-outline-success"><i class="icofont icofont-plus"></i> Add Principle</a>';
+            @endphp
+            {!!$manager!!}
+        </td>
         <td>
             <a class="btn btn-info btn-xs" href="{{ route('subsections.show',$subsection->id) }}">Show</a>
             {{-- @can('subsection-edit') --}}

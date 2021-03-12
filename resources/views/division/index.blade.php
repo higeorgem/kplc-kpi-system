@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="float-left">
-            <h2>Division Management</h2>
+            <h2>All Divisions Management</h2>
         </div>
         <div class="float-right">
             @can('division-create')
@@ -37,8 +37,9 @@
         <td>
             {{-- {{ $division->manageStructure->manager_id}} --}}
             @php
-               $manager = ($division->manageStructure != null) ?  ($division->head($division->manageStructure->manager_id)->first_name.' '.$division->head($division->manageStructure->manager_id)->last_name) : '<a href="'.URL::signedRoute("manage_structure",['divisions', $division->id ,'General Manager']).'" class="btn btn-sm btn-outline-success"><i class="icofont icofont-plus"></i>
-                 Add Manager</a>';
+               $manager = ($division->manageStructure != null) ?
+                ($division->head($division->manageStructure->manager_id)->first_name.' '.$division->head($division->manageStructure->manager_id)->last_name) :
+                '<a href="'.URL::signedRoute("manage_structure",['divisions', $division->id ,'General Manager']).'" class="btn btn-sm btn-outline-success"><i class="icofont icofont-plus"></i> Add General Manager</a>';
             @endphp
             {!!$manager!!}
         </td>

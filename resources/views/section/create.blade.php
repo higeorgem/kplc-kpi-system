@@ -30,11 +30,12 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
+                
                 <strong>Select Division:</strong><br>
                 <select name="division_name" id="division_name" class="form-control @error('division_name') is-invalid @enderror">
                     <option value="" selected disabled>Select Division</option>
                     @forelse ($divisions as $division)
-                    <option value="{{$division->id}}" {{old('division_name') == $division->id ? 'selected' : ''}}>{{$division->name}}</option>
+                    <option value="{{$division->id}}" {{old('division_name') == $division->id ? 'selected' : ''}}>{{$division->division_name}}</option>
                     @empty
 <option value="" selected disabled>No Division Data</option>
                     @endforelse

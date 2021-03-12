@@ -38,10 +38,10 @@ class DivisionController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:divisions,name'
+            'division_name' => 'required|unique:divisions,division_name'
         ]);
 
-        $division = Division::create(['name' => $request->input('name')]);
+        $division = Division::create(['division_name' => $request->input('division_name')]);
 
         return redirect()->route('divisions.index')
         ->with('success', 'Division created successfully');
@@ -82,10 +82,10 @@ class DivisionController extends Controller
     public function update(Request $request, Division $division)
     {
         $this->validate($request, [
-            'name' => 'required'
+            'division_name' => 'required'
         ]);
 
-        $division->name = $request->input('name');
+        $division->division_name = $request->input('division_name');
         $division->save();
 
         return redirect()->route('divisions.index')

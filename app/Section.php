@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Section extends Model
 {
     use SoftDeletes;
-    
+
     protected $table = 'sections';
 
     protected $fillable = [
@@ -19,11 +19,18 @@ class Section extends Model
 
     public function division()
     {
-        return $this->belongsTo(Division::class);
+        return $this->belongsTo(Division::class, 'division_id', 'id');
     }
 
     public function department()
     {
         return $this->belongsTo(Department::class);
     }
+
+    public function manageStructure()
+    {
+        return $this->hasOne(ManageStructures::class, 'structure_id', 'id');
+    }
+
+
 }

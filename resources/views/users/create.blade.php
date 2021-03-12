@@ -58,7 +58,7 @@
             <select name="division_id" id="division_id" class="form-control @error('division_id') is-invalid @enderror">
                 <option value="" selected disabled>Select Division</option>
                 @forelse (\Illuminate\Support\Facades\DB::table('divisions')->get() as $division)
-                <option value="{{$division->id}}" {{old('division_id') == $division->id ? 'selected' : ''}}>{{$division->name}}</option>
+                <option value="{{$division->id}}" {{old('division_id') == $division->id ? 'selected' : ''}}>{{$division->division_name}}</option>
                 @empty
                 <option value="" disabled>No Division Data</option>
                 @endforelse
@@ -110,7 +110,4 @@
     </div>
     {!! Form::close() !!}
 </div>
-
-
-
 @endsection

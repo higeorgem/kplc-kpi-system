@@ -15,9 +15,11 @@ class CreateSectionsTable extends Migration
     {
         Schema::create('sections', function (Blueprint $table) {
             $table->id();
+            $table->string('division_id');
             $table->string('department_id');
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
             $table->string('section_name');
+            $table->string('created_by');
             $table->timestamps();
             $table->softDeletes();
         });

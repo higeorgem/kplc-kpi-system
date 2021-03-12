@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Department;
 use App\Division;
+use App\ManageStructures;
 use App\Section;
 use App\SubSection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SubSectionController extends Controller
 {
@@ -17,9 +19,39 @@ class SubSectionController extends Controller
      */
     public function index()
     {
-        $subsections = SubSection::latest()->paginate(10);
+        // variable declaration
+        $subsections = [];
+        $title = '';
 
-        return view('subsection.index', compact('subsections'));
+        $user = Auth::user();
+
+        // principles to view and edit members of their departments
+        if ($user->hasRole('Principle')) {
+            
+            return view('structureManager.structure_members');
+        }
+
+        if ($user->hasRole('Administrator')) {
+            $subsections = SubSection::latest()->paginate(10);
+            $title = 'All Sub-Sections Management';
+        } else {
+            $subsections = SubSection::where('created_by', $user->id)->latest()->paginate(10);
+
+            // get user's structure
+            $user_subsection = ManageStructures::where('manager_id', $user->id)->first();
+
+            // dd($subsections);
+
+            // dd($user_department->structure_id);
+
+            // division
+            $section = Section::where('id', $user_subsection->structure_id)->first();
+            // dd($section);
+            $title = $section->section_name . ' Section Subsections Management';
+        }
+        // $subsections = SubSection::latest()->paginate(10);
+
+        return view('subsection.index', compact(['subsections','title']));
     }
 
     /**
@@ -55,7 +87,8 @@ class SubSectionController extends Controller
             'division_id' => $request->input('division_name'),
             'department_id' => $request->input('department_name'),
             'section_id' => $request->input('section_name'),
-            'subsection_name' => $request->input('subsection_name')
+            'sub_section_name' => $request->input('subsection_name'),
+            'created_by' => Auth::user()->id
         ]);
 
         return redirect()->route('subsections.index')
@@ -109,7 +142,7 @@ class SubSectionController extends Controller
         $subsection->section_id = $request->input('section_name');
         $subsection->division_id = $request->input('division_name');
         $subsection->department_id = $request->input('department_name');
-        $subsection->subsection_name = $request->input('subsection_name');
+        $subsection->sub_section_name = $request->input('subsection_name');
         $subsection->save();
 
         return redirect()->route('subsections.index')

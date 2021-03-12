@@ -7,6 +7,7 @@
         <div class="float-left">
             <h2 class="text-uppercase">
                 Create
+                {{-- {{dd($structure)}} --}}
                 <b>{{ $structure->structure_name }}
                     {{$structure_type}}</b>
                 {{$manager_type}}

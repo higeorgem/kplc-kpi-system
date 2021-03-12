@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Department;
 use App\Division;
+use App\ManageStructures;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DepartmentController extends Controller
 {
@@ -15,9 +17,30 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $departments = Department::latest()->paginate(10);
+        $departments = [];
+        $title = '';
 
-        return view('department.index', compact('departments'));
+        $user = Auth::user();
+
+        // admin departments all
+        if ($user->hasRole('Administrator')) {
+            $departments = Department::latest()->paginate(10);
+            $title = 'All Departments Management';
+        }else{
+            $departments = Department::where('created_by', $user->id)->latest()->paginate(10);
+            // get user's structure
+            $user_division = ManageStructures::where('manager_id', $user->id)->first();
+            // dd($user_division);
+            // division
+            $division = Division::where('id', $user_division->structure_id)->first();
+            // dd($division);
+            $title = $division->division_name.' Division Departments Management';
+        }
+
+        return view('department.index', [
+            'departments' => $departments,
+            'title' => $title
+        ]);
     }
 
     /**
@@ -27,8 +50,23 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        $divisions = Division::orderBy('name')->get();
-        return view('department.create', compact('divisions'));
+        // check roles
+        $user = Auth::user();
+
+        $divisions = [];
+        $division_select = false;
+
+        if ($user->hasRole('Administrator')) {
+            $divisions = Division::orderBy('division_name')->get();
+            $division_select = true;
+            // dD($divisions);
+        }else{
+            // get user assigned division id
+            $user_division = ManageStructures::where('manager_id', $user->id)->first();
+            $divisions = Division::where('id', $user_division->structure_id)->orderBy('division_name')->first();
+        }
+
+        return view('department.create', compact(['divisions', 'division_select']));
     }
 
     /**
@@ -44,12 +82,13 @@ class DepartmentController extends Controller
             'department_name' => 'required|unique:departments,department_name',
         ]);
 
-// dd($request);
+        // dd(Auth::user()->id);
 
         $department = Department::create([
             'division_id' => $request->input('division_name'),
-            'department_name' => $request->input('department_name')
-            ]);
+            'department_name' => $request->input('department_name'),
+            'created_by'=> Auth::user()->id
+        ]);
 
         return redirect()->route('department.index')
             ->with('success', 'Department created successfully');
