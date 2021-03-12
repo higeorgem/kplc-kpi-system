@@ -27,15 +27,15 @@ class SubSectionController extends Controller
 
         // principles to view and edit members of their departments
         if ($user->hasRole('Principle')) {
-            
+
             return view('structureManager.structure_members');
         }
 
         if ($user->hasRole('Administrator')) {
-            $subsections = SubSection::latest()->paginate(10);
+            $subsections = SubSection::latest()->get();
             $title = 'All Sub-Sections Management';
         } else {
-            $subsections = SubSection::where('created_by', $user->id)->latest()->paginate(10);
+            $subsections = SubSection::where('created_by', $user->id)->latest()->get();
 
             // get user's structure
             $user_subsection = ManageStructures::where('manager_id', $user->id)->first();

@@ -23,15 +23,15 @@
 @endif
 
 <div class="card shadow card-body table-responsive">
-<table class="table table-bordered table-sm">
-    <tr>
+<table class="display compact table table-bordered table-sm" id="sectionTable">
+    <thead>
         <th>No</th>
         <th>Section Name</th>
         <th>Department</th>
         <th>Division</th>
         <th>Chief</th>
         <th width="">Action</th>
-    </tr>
+    </thead>
     @foreach ($sections as $key => $section)
     <tr>
         <td>{{ ++$key }}</td>
@@ -40,7 +40,6 @@
         <td>{{ $section->department->division->division_name ?? ''}}</td>
         <td>
             {{-- {{dd($section->department->division)}} --}}
-
             @php
             $manager = ($section->manageStructure != null) ?
             ($section->department->division->head($section->manageStructure->manager_id)->first_name.'
@@ -67,6 +66,14 @@
 </div>
 
 
-{!! $sections->render() !!}
+{{-- {!! $sections->render() !!} --}}
 
+@endsection
+@section('scripts')
+<script>
+    $(document).ready(function() {
+         $('#sectionTable').DataTable();
+        //  $('body').toggle().addClass('sidebar-collaplse');
+    } );
+</script>
 @endsection

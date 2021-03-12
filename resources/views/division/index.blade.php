@@ -23,13 +23,13 @@
 @endif
 
 <div class="card shadow card-body table-responsive">
-<table class="table table-bordered table-sm">
-    <tr>
+<table class="display compact table table-bordered table-sm" id="divisionTable">
+    <thead>
         <th>No</th>
         <th>Division Name</th>
         <th>General Manager</th>
         <th width="">Action</th>
-    </tr>
+    </thead>
     @foreach ($divisions as $key => $division)
     <tr>
         <td>{{ ++$key }}</td>
@@ -56,10 +56,24 @@
         </td>
     </tr>
     @endforeach
+    <tfoot>
+        <th>No</th>
+        <th>Division Name</th>
+        <th>General Manager</th>
+        <th width="">Action</th>
+    </tfoot>
 </table>
 </div>
 
 
-{!! $divisions->render() !!}
+{{-- {!! $divisions->render() !!} --}}
 
+@endsection
+@section('scripts')
+<script>
+    $(document).ready(function() {
+         $('#divisionTable').DataTable();
+        //  $('body').toggle().addClass('sidebar-collaplse');
+    } );
+</script>
 @endsection

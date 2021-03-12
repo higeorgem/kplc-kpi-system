@@ -25,10 +25,10 @@ class SectionController extends Controller
         $user = Auth::user();
 
         if ($user->hasRole('Administrator')) {
-            $sections = Section::latest()->paginate(10);
+            $sections = Section::latest()->get();
             $title = 'All Sections Management';
         } else {
-            $sections = Section::where('created_by', $user->id)->latest()->paginate(10);
+            $sections = Section::where('created_by', $user->id)->latest()->get();
             // get user's structure
             $user_department = ManageStructures::where('manager_id', $user->id)->first();
 

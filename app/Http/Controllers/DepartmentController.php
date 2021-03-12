@@ -24,10 +24,10 @@ class DepartmentController extends Controller
 
         // admin departments all
         if ($user->hasRole('Administrator')) {
-            $departments = Department::latest()->paginate(10);
+            $departments = Department::latest()->get();
             $title = 'All Departments Management';
         }else{
-            $departments = Department::where('created_by', $user->id)->latest()->paginate(10);
+            $departments = Department::where('created_by', $user->id)->latest()->get();
             // get user's structure
             $user_division = ManageStructures::where('manager_id', $user->id)->first();
             // dd($user_division);

@@ -23,8 +23,8 @@
 @endif
 
 <div class="card shadow card-body table-responsive">
-<table class="table table-bordered table-sm">
-    <tr>
+<table class="display compact table table-bordered table-sm" id="subsectionTable">
+    <thead>
         <th>No</th>
         <th>Sub-Section Name</th>
         <th>Section Name</th>
@@ -32,7 +32,7 @@
         <th>Division</th>
         <th>Principle</th>
         <th width="">Action</th>
-    </tr>
+    </thead>
     @foreach ($subsections as $key => $subsection)
     <tr>
         <td>{{ ++$key }}</td>
@@ -67,6 +67,14 @@
 </div>
 
 
-{!! $subsections->render() !!}
+{{-- {!! $subsections->render() !!} --}}
 
+@endsection
+@section('scripts')
+<script>
+    $(document).ready(function() {
+         $('#subsectionTable').DataTable();
+        //  $('body').toggle().addClass('sidebar-collaplse');
+    } );
+</script>
 @endsection

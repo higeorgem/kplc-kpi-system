@@ -23,14 +23,14 @@
 @endif
 
 <div class="card shadow card-body table-responsive">
-<table class="table table-bordered table-sm">
-    <tr>
+<table class="dispaly compact table table-bordered table-sm" id="departmentTable">
+    <thead>
         <th>No</th>
         <th>Department Name</th>
         <th>Division Name</th>
         <th>Manager</th>
-        <th width="">Action</th>
-    </tr>
+        <th>Action</th>
+    </thead>
     @foreach ($departments as $key => $department)
     <tr>
         <td>{{ ++$key }}</td>
@@ -62,8 +62,13 @@
     @endforeach
 </table>
 </div>
-
-
-{!! $departments->render() !!}
-
+{{-- {!! $departments->render() !!} --}}
+@endsection
+@section('scripts')
+<script>
+    $(document).ready(function() {
+         $('#departmentTable').DataTable();
+        //  $('body').toggle().addClass('sidebar-collaplse');
+    } );
+</script>
 @endsection
