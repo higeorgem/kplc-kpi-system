@@ -15,11 +15,14 @@
     </div>
 </div>
 
-
-@if ($message = Session::get('success'))
-<div class="alert alert-success">
-    <p>{{ $message }}</p>
-</div>
+@if (!$admin)
+    @include('includes.structure_nav', [
+    'user_title'=> explode(' ',$title)[0].' '.explode(' ',$title)[1],
+    'users_url'=> explode(' ',$title)[0].' '.strtolower(explode(' ',$title)[1]).'/users/'.$structure->id,
+    'kpi_url' => 'structure/kpi/',
+    'visual_url' => 'structure/visual/',
+    'report_url' => 'structure/report',
+    ])
 @endif
 
 <div class="card shadow card-body table-responsive">

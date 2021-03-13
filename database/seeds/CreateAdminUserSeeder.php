@@ -19,24 +19,30 @@ class CreateAdminUserSeeder extends Seeder
     public function run()
     {
         // division
-        $division = Division::create(['division_name' => 'ICT']);
+        $division = Division::create([
+            'division_name' => 'ICT',
+            'created_by' => 1
+            ]);
 
         // department
         $department = Department::create([
             'division_id'=> $division->id,
-            'department_name' => 'Systems'
+            'department_name' => 'Systems',
+            'created_by' => 1
         ]);
         // section
         $section = Section::create([
             'department_id'=> $department->id,
-            'section_name' => 'System Administrators'
+            'section_name' => 'System Administrators',
+            'created_by' => 1
         ]);
         // subsection
         $subsection = SubSection::create([
             'division_id'=> $division->id,
             'department_id'=> $department->id,
             'section_id' => $section->id,
-            'sub_section_name'=> 'Super Admins'
+            'sub_section_name'=> 'Super Admins',
+            'created_by' => 1
         ]);
 
         $user = User::create([

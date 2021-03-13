@@ -19,13 +19,17 @@ class DepartmentController extends Controller
     {
         $departments = [];
         $title = '';
-
+        $admin = false;
+        $division = [];
         $user = Auth::user();
 
         // admin departments all
         if ($user->hasRole('Administrator')) {
+
             $departments = Department::latest()->get();
             $title = 'All Departments Management';
+            $admin = true;
+
         }else{
             $departments = Department::where('created_by', $user->id)->latest()->get();
             // get user's structure
@@ -39,7 +43,9 @@ class DepartmentController extends Controller
 
         return view('department.index', [
             'departments' => $departments,
-            'title' => $title
+            'title' => $title,
+            'structure' => $division,
+            'admin' => $admin
         ]);
     }
 

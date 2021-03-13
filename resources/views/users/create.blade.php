@@ -34,7 +34,7 @@
             @php
             // $staff_no = \Illuminate\Support\Facades\DB::table('users')->select('staff_no')->max('staff_no') + 1;
             @endphp
-            <input type="text" name="staff_no" value="{{old('staff_no')}}" required>
+            <input type="text" name="staff_no" class="form-control" value="{{old('staff_no')}}" required autofocus>
             {{-- <input type="text" name="staff_no" id="staff_no" value="{{$staff_no}}" class="w-25" disabled> --}}
         </div>
     </div>

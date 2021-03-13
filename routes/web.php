@@ -7,20 +7,6 @@ use Illuminate\Support\Facades\Route;
 use App\Target;
 use App\Task;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
 Auth::routes(['register' => false]);
 
@@ -77,8 +63,11 @@ Route::post('/tasks/pdf', 'ReportController@createPDF')->name('create_pdf');
 
 // get all kpis route
 Route::get('/all/kpis', 'KPIController@getAllKpis')->name('allKpis');
+
 // lava charts
 Route::get('task_chart', 'ChartController@taskChart')->name('task_chart');
 // manage structures
 Route::get('manage/{structure}/{structure_id}/{manager_type}', 'ManageStructuresController@manageStructure')->name('manage_structure');
 Route::post('manage/manager', 'ManageStructuresController@saveManager')->name('saveManager');
+Route::get('{structure_type}/{query_type}/{structure_id}', 'StructureNavigationController@structureUsers');
+Route::get('{type}/{id}', 'ManageStructuresController@structureKPI')->name('kpi_structure');

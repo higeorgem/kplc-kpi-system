@@ -15,8 +15,13 @@ class DivisionController extends Controller
     public function index()
     {
         $divisions = Division::latest()->get();
-
-        return view('division.index', compact('divisions'));
+        
+        $title = 'All Divisions Management';
+        return view('division.index',
+                [
+                'divisions' => $divisions,
+                'title' => $title
+                ]);
     }
 
     /**
@@ -44,7 +49,7 @@ class DivisionController extends Controller
         $division = Division::create(['division_name' => $request->input('division_name')]);
 
         return redirect()->route('divisions.index')
-        ->with('success', 'Division created successfully');
+            ->with('success', 'Division created successfully');
     }
 
     /**
@@ -69,7 +74,6 @@ class DivisionController extends Controller
     public function edit(Division $division)
     {
         return view('division.edit', compact('division'));
-
     }
 
     /**
@@ -89,7 +93,7 @@ class DivisionController extends Controller
         $division->save();
 
         return redirect()->route('divisions.index')
-        ->with('success', 'Division updated successfully');
+            ->with('success', 'Division updated successfully');
     }
 
     /**
@@ -102,6 +106,6 @@ class DivisionController extends Controller
     {
         $division->delete();
         return redirect()->route('divisions.index')
-        ->with('success', 'Division deleted successfully');
+            ->with('success', 'Division deleted successfully');
     }
 }

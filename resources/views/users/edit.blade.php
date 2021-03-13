@@ -8,7 +8,7 @@
             <h4>Edit New User</h4>
         </div>
         <div class="float-right">
-            <a class="btn btn-xs btn-primary" href="{{ route('users.index') }}"> Back</a>
+            <a class="btn btn-xs btn-primary" href="{{ url()->previous() }}"> Back</a>
         </div>
     </div>
 </div>

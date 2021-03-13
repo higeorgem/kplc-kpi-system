@@ -39,7 +39,7 @@
                         <a href="{{URL::signedRoute('kpi.edit',[$kpi->id])}}"
                             class="btn btn-xs btn-outline-warning float-left mr-1">
                             {{-- <i class="fa fa-edit"></i> --}}
-                             Edit
+                            Edit
                         </a>
                         @endcan
                         @can('kpi-delete')
@@ -54,7 +54,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td class="text-center" colspan="5">No Data</td>
+                    <td class="text-center" colspan="4">No Data</td>
                 </tr>
                 @endforelse
             </tbody>

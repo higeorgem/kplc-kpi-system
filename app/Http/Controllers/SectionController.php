@@ -23,10 +23,15 @@ class SectionController extends Controller
         $title = '';
 
         $user = Auth::user();
+        $admin = false;
+        $division = [];
 
         if ($user->hasRole('Administrator')) {
+
             $sections = Section::latest()->get();
             $title = 'All Sections Management';
+            $admin = true;
+
         } else {
             $sections = Section::where('created_by', $user->id)->latest()->get();
             // get user's structure
@@ -39,7 +44,7 @@ class SectionController extends Controller
             $title = $department->department_name . ' Department Sections Management';
         }
 
-        return view('section.index', compact(['sections', 'title']));
+        return view('section.index', compact(['sections', 'title', 'admin']));
     }
 
     /**

@@ -401,6 +401,8 @@
     <script src="{{asset('css/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
     <script src="{{asset('css/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
     <script src="{{asset('css/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+    {{-- <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script> --}}
+    {{-- {{-- <script src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script> --}} --}}
     <!-- AdminLTE for demo purposes -->
     <script src="{{asset('css/dist/js/demo.js')}}"></script>
     <script>

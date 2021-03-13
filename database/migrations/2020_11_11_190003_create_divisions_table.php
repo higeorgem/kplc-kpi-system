@@ -18,6 +18,7 @@ class CreateDivisionsTable extends Migration
             $table->id()->autoIncrement()->from(1001);
             $table->string('division_name');
             $table->string('manager_id')->nullable();
+            $table->string('created_by');
             $table->timestamps();
             $table->softDeletes();
         });

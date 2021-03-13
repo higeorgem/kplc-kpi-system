@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\KPI;
+use App\KPIStructure;
 use App\ManageStructures;
 use App\User;
 use Illuminate\Http\Request;
@@ -15,15 +17,14 @@ class ManageStructuresController extends Controller
     public function manageStructure($structure, $structure_id, $manager_type)
     {
         // dd($structure, $structure_id, $manager_type);
-       
+
         // check if role exists
         try {
             Role::findByName($manager_type)->get();
             // dd('re');
         } catch (RoleDoesNotExist $e) {
-            flash('Create '. $manager_type.' Role to proceed.')->warning();
+            flash('Create ' . $manager_type . ' Role to proceed.')->warning();
             return redirect()->back();
-
         }
         // get used manager ids
         $invalid_manager_ids = ManageStructures::pluck('manager_id')->toArray();
@@ -32,7 +33,7 @@ class ManageStructuresController extends Controller
         $valid_managers = User::role($manager_type)
             ->whereNotIn('id', $invalid_manager_ids)
             ->get();
-// dd($valid_managers);
+        // dd($valid_managers);
         // no manager ? go back : proceed
         if (count($valid_managers) == 0) {
             flash('Create ' . $manager_type . ' User to proceed.')->warning();
@@ -75,5 +76,21 @@ class ManageStructuresController extends Controller
         // flash(ucfirst('Manager Created'))->success();
 
         return redirect()->route('home');
+    }
+
+    public function structureKPI($type, $id)
+    {
+        //get kpi structure
+        $structure = KPIStructure::where('structure_type', $type)->where('structure_id', $id)->get();
+
+        if (count($structure) == 0) {
+            flash('No assigned KPIs for this division.')->warning();
+            return redirect()->back();
+        }
+
+        // get kpis for the structure
+        $structure_kpis = KPI::where('id', $structure->kpi_id)->get();
+
+        dd($structure_kpis);
     }
 }

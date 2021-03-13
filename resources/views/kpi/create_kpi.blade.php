@@ -58,7 +58,7 @@
                                 @forelse (\Illuminate\Support\Facades\DB::table('divisions')->get() as $division)
                                 <option value="{{$division->id}}">
                                      {{-- @if(old('division_id')==$division->id )selected="selected" @endif> --}}
-                                    {{$division->name}}
+                                    {{$division->division_name}}
                                 </option>
                                 @empty
                                 <option value="" selected disabled>No Division Data</option>

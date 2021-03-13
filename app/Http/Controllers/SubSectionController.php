@@ -24,6 +24,8 @@ class SubSectionController extends Controller
         $title = '';
 
         $user = Auth::user();
+        $admin = false;
+        $division = [];
 
         // principles to view and edit members of their departments
         if ($user->hasRole('Principle')) {
@@ -32,8 +34,10 @@ class SubSectionController extends Controller
         }
 
         if ($user->hasRole('Administrator')) {
+
             $subsections = SubSection::latest()->get();
             $title = 'All Sub-Sections Management';
+            $admin = true;
         } else {
             $subsections = SubSection::where('created_by', $user->id)->latest()->get();
 
@@ -51,7 +55,7 @@ class SubSectionController extends Controller
         }
         // $subsections = SubSection::latest()->paginate(10);
 
-        return view('subsection.index', compact(['subsections','title']));
+        return view('subsection.index', (['subsections' => $subsections, 'title'=>$title, 'admin'=>$admin]));
     }
 
     /**
@@ -120,7 +124,7 @@ class SubSectionController extends Controller
         $departments = Department::get();
         $sections = Section::get();
 
-        return view('subsection.edit', compact(['subsection', 'divisions', 'departments','sections']));
+        return view('subsection.edit', compact(['subsection', 'divisions', 'departments', 'sections']));
     }
 
     /**

@@ -19,6 +19,7 @@ class KPIController extends Controller
     public function getAllKpis()
     {
         $kpis = KPI::latest()->get();
+
         return view('kpi.all_kpis',['kpis'=>$kpis]);
     }
     public function getTasks($id)
@@ -41,7 +42,7 @@ class KPIController extends Controller
     public function index()
     {
         //    get user's kpis
-        $user_kpis = KPI::where('group_id', Auth::user()->group_id)
+        $user_kpis = KPI::where('section_id', Auth::user()->section_id)
             ->where('division_id', Auth::user()->division_id)
             ->get();
 
