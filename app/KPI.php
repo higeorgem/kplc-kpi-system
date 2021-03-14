@@ -37,7 +37,7 @@ class KPI extends Model
         $year = date('Y');
         $month = 6;
         $day = 30;
-        $current_date = date($year."-".$month."-".$day);
+        $current_date = date($year . "-" . $month . "-" . $day);
         $strtotime = strtotime($current_date);
         $last_year = strtotime("-1 year -29 day", $strtotime);
         echo date("Y-m-d", $last_year);
@@ -146,10 +146,10 @@ class KPI extends Model
     // weighted score
     public function weightedScore($T, $Xa, $W, $kpi_type)
     {
-        if($kpi_type == "Not Tasked"){
-           $ws = ($this->rawScore($T, $Xa, $kpi_type)) / 100;
-        }else{
-           $ws = ($this->rawScore($T, $Xa, $kpi_type) * $W) / 100;
+        if ($kpi_type == "Not Tasked") {
+            $ws = ($this->rawScore($T, $Xa, $kpi_type)) / 100;
+        } else {
+            $ws = ($this->rawScore($T, $Xa, $kpi_type) * $W) / 100;
         }
 
         return $ws;
@@ -223,9 +223,51 @@ class KPI extends Model
                 $grade = 'Poor';
                 break;
             default:
-                return  $value.' Is Out Of Range > 1 and < 5';
+                return  $value . ' Is Out Of Range > 1 and < 5';
                 break;
         }
         return  $grade;
     }
+
+    public function kpiunitofmeasure()
+    {
+        return $this->hasMany(KPIUnitOfMeasure::class, 'kpi_id', 'id')->latest();
+    }
+    public function unitofmeasure($id)
+    {
+        $uom = UnitOfMeasure::find($id);
+        return $uom;
+    }
+    public function kpiWeight()
+    {
+        return $this->hasMany(KPIWeight::class, 'kpi_id', 'id')->latest();
+    }
+
+
+
+    public function kpiTarget()
+    {
+        return $this->hasMany(KPITarget::class, 'kpi_id', 'id')->latest();
+    }
+
+    // get previous
+    public function getPreviousTargets($id)
+    {
+        $target = KPITarget::where('kpi_id', $id)->latest()->get();
+
+        return $target;
+    }
+
+    public function kpiAchievement()
+    {
+        return $this->hasMany(KPIAchievement::class, 'kpi_id', 'id')->latest();
+    }
+
+    public function kpiPerspective($id)
+    {
+        $perspective = KPIPerspective::find($id);
+        
+        return $perspective;
+    }
+
 }

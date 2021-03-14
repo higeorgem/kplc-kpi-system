@@ -9,10 +9,15 @@ namespace App\Http\Controllers;
 
 use App\Group;
 use App\KPI;
+use App\KPIAchievement;
+use App\KPITarget;
+use App\KPIUnitOfMeasure;
+use App\KPIWeight;
 use App\Task;
 use Illuminate\Http\Request;
 use flash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class KPIController extends Controller
 {
@@ -20,7 +25,7 @@ class KPIController extends Controller
     {
         $kpis = KPI::latest()->get();
 
-        return view('kpi.all_kpis',['kpis'=>$kpis]);
+        return view('kpi.all_kpis', ['kpis' => $kpis]);
     }
     public function getTasks($id)
     {
@@ -28,12 +33,19 @@ class KPIController extends Controller
         $kpi_tasks =  Task::where('description', $kpi->code)->where('responsible', Auth::user()->staff_no)->get();
         return view('task.kpi_tasks', ['kpi' => $kpi, 'kpi_tasks' => $kpi_tasks]);
     }
-    public function getGroups($group_id)
+
+    public function getStructure($structure)
     {
-        // return response()->json(['reg'=>request('id')]);
-        $groups = Group::where('division_id', $group_id)->get();
-        return response()->json($groups);
+        // dd(['reg'=>$structure]);
+        $data = DB::table($structure)
+            ->select('id', substr($structure, 0, -1) . '_name as name')
+            ->get();
+
+        // $groups = Group::where('structure', $structure_id)->get();
+
+        return response()->json($data);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -68,44 +80,47 @@ class KPIController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $request->validate([
             'perspective' => 'required',
-            'kpi' => 'required',
             'kpi_type' => 'required',
+            'structure' => 'required',
+            'structure_id' => 'required',
+            'kpi' => 'required',
+            'period' => 'required',
             'unit_of_mesure'  => 'required',
             'weight' => 'required',
-            'previous_target' => 'required',
-            'group_id' => 'required',
-            'division_id' => 'required',
-            // 'achievement' => 'required',
-            // 'validated_achievement' => 'required',
-            'target' => 'required',
-            'period' => 'required',
-
         ]);
         // get last inserted kpi code
         $kpi = new KPI();
         // dd($kpi->getNewCode());
-
-        KPI::create([
+        $user = Auth::user()->id;
+        $kpi = KPI::create([
             'code' => $kpi->getNewCode(),
             'perspective' => $request->perspective,
-            'kpi' => $request->kpi,
             'kpi_type' => $request->kpi_type,
-            'unit_of_measure' => $request->unit_of_mesure,
-            'weight' => $request->weight,
+            'structure' => $request->structure,
+            'structure_id' => $request->structure_id,
+            'kpi' => $request->kpi,
             'period' => $request->period,
-            'previous_target' => $request->previous_target,
-            'group_id' => $request->group_id,
-            'division_id' => $request->division_id,
-            // 'achievement' => $request->achievement,
-            // 'validated_achievement' => $request->validated_achievement,
-            'target' => $request->target,
+            'created_by' => $user,
+        ]);
+        //add unit of measure
+        KPIUnitOfMeasure::create([
+            'kpi_id' => $kpi->id,
+            'created_by' => $user,
+            'unit_of_measure' => $request->unit_of_mesure,
+        ]);
+        // add kpi weight
+        KPIWeight::create([
+            'kpi_id' => $kpi->id,
+            'weight' => $request->weight,
+            'created_by' => $user,
         ]);
 
         flash('KPI Created')->success();
 
-        return redirect()->route('home');
+        return redirect()->route('kpi.edit', [$kpi->id]);
     }
 
     /**
@@ -128,8 +143,16 @@ class KPIController extends Controller
     public function edit($kPI)
     {
         $kpi = KPI::where('id', $kPI)->first();
-        // dd($kpi);
-        return view('kpi.edit_kpi')->with('kpi', $kpi);
+
+        $structures = DB::table($kpi->structure)
+            ->select('id', substr($kpi->structure, 0, -1) . '_name as name')
+            ->get();
+
+        // dd($kpi->structure);
+
+        return view('kpi.edit_kpi')
+            ->with('kpi', $kpi)
+            ->with('structures', $structures);
     }
 
     /**
@@ -147,30 +170,58 @@ class KPIController extends Controller
             'kpi_type' => 'required',
             'unit_of_mesure'  => 'required',
             'weight' => 'required',
-            'previous_target' => 'required',
+            // 'previous_target' => 'required',
             'achievement' => 'required',
             'validated_achievement' => 'required',
             'target' => 'required',
-            'period' => 'required',
-            'group_id' => 'required',
-            'division_id' => 'required',
+            // 'period' => 'required',
+            'structure_id' => 'required',
+            'structure' => 'required',
         ]);
+
+
 
         $kpi = KPI::where('id', $kPI)->first();
 
         $kpi->update([
             'perspective' => $request->perspective,
-            'kpi' => $request->kpi,
             'kpi_type' => $request->kpi_type,
-            'unit_of_measure' => $request->unit_of_mesure,
-            'weight' => $request->weight,
+            'structure' => $request->structure,
+            'structure_id' => $request->structure_id,
+            'kpi' => $request->kpi,
             'period' => $request->period,
-            'previous_target' => $request->previous_target,
-            'group_id' => $request->group_id,
-            'division_id' => $request->division_id,
+
+        ]);
+
+        $user_id = Auth::user()->id;
+
+        //unit of measure
+        KPIUnitOfMeasure::where('kpi_id', $kpi->id)->latest()->updateOrCreate([
+            'kpi_id' => $kpi->id,
+            'unit_of_measure' => $request->unit_of_mesure,
+            'created_by' => $user_id
+        ]);
+
+        // weight
+        KPIWeight::where('kpi_id', $kpi->id)->latest()->updateOrCreate([
+            'kpi_id' => $kpi->id,
+            'weight' => $request->weight,
+            'created_by' => $user_id
+        ]);
+
+        // target
+        KPITarget::where('kpi_id', $kpi->id)->latest()->updateOrCreate([
+            'kpi_id' => $kpi->id,
+            'target' => $request->target,
+            'created_by' => $user_id
+        ]);
+
+        // achievement
+        KPIAchievement::where('kpi_id', $kpi->id)->latest()->updateOrCreate([
+            'kpi_id' => $kpi->id,
             'achievement' => $request->achievement,
             'validated_achievement' => $request->validated_achievement,
-            'target' => $request->target,
+            'created_by' => $user_id
         ]);
 
         flash('KPI Updated')->success();
@@ -191,6 +242,5 @@ class KPIController extends Controller
         flash('KPI Deleted !!')->success();
 
         return redirect()->back();
-
     }
 }

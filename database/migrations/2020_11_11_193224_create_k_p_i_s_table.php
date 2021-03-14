@@ -19,12 +19,12 @@ class CreateKPISTable extends Migration
             $table->string('code');
             $table->string('perspective');
             $table->string('period');
-            // $table->string('section_id');
-            // $table->string('division_id');
+            $table->string('structure');
+            $table->string('structure_id');
             $table->string('kpi');
             $table->string('kpi_type');
             $table->string('created_by');
-            // $table->string('unit_of_measure');
+            $table->string('unit_of_measure');
             // $table->string('weight');
             // $table->string('previous_target');
             // $table->string('target');

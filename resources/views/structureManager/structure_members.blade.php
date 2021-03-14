@@ -6,7 +6,7 @@
             <h4>{{$title}}</h4>
         </div>
         <div class="float-right">
-            {{-- <a class="btn btn-sm btn-success" href="{{ route('users.create') }}"> Create New User</a> --}}
+            <a class="btn btn-sm btn-info" href="{{ url()->previous() }}"> Back</a>
         </div>
     </div>
 </div>

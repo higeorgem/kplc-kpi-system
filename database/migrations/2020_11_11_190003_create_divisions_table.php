@@ -22,7 +22,7 @@ class CreateDivisionsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-        DB::update("ALTER TABLE divisions AUTO_INCREMENT = 1001;");
+        // DB::update("ALTER TABLE divisions AUTO_INCREMENT = 1001;");
     }
 
     /**

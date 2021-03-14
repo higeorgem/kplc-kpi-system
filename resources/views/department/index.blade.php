@@ -28,7 +28,9 @@
         <thead>
             <th>No</th>
             <th>Department Name</th>
-            <th>Division Name</th>
+            @if ($admin)
+<th>Division Name</th>
+            @endif
             <th>Manager</th>
             <th>Action</th>
         </thead>
@@ -36,7 +38,9 @@
         <tr>
             <td>{{ ++$key }}</td>
             <td>{{ $department->department_name }}</td>
-            <td>{{ $department->division->division_name ?? '' }}</td>
+            @if ($admin)
+                <td>{{ $department->division->division_name ?? '' }}</td>
+            @endif
             <td>
                 {{-- {{dd($department->manageStructure)}} --}}
                 @php

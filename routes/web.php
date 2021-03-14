@@ -42,7 +42,7 @@ Route::get('/reports/query/report', 'ReportController@getQuery')->name('get_quer
 // get query route
 Route::post('/reports/task/Query', 'ReportController@getTaskQuery')->name('get_task_query');
 
-Route::get('/get/kpi/sections/{section_id}', 'KPIController@getGroups')->name('getGroups');
+Route::get('/get/kpi/structure/{structure}', 'KPIController@getStructure')->name('getStructure');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('roles', 'RoleController');

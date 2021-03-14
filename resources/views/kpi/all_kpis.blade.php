@@ -25,7 +25,8 @@
                 @forelse ($kpis as $key => $kpi)
                 <tr id="{{$kpi->code}}" class="record">
                     <td> {{$kpi->code}}</td>
-                    <td> {{$kpi->perspective}}</td>
+                    {{-- <td>{{var_dump($kpi->kpiPerspective($kpi->id))}}</td> --}}
+                    <td> {{$kpi->kpiPerspective($kpi->perspective)->perspective ?? ''}}</td>
                     <td id="kpi"> {{$kpi->kpi}}</td>
                     <td> {{$kpi->kpi_type}}</td>
                     <td>

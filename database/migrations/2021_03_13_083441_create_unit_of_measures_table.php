@@ -16,6 +16,7 @@ class CreateUnitOfMeasuresTable extends Migration
         Schema::create('unit_of_measures', function (Blueprint $table) {
             $table->id();
             $table->string('unit_of_measure');
+            $table->string('created_by');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -31,16 +31,26 @@ class DepartmentController extends Controller
             $admin = true;
 
         }else{
+             if (!$user->hasRole('General Manager')) {
+                flash('You have not been assigned any Division');
+                return redirect()->back();
+             }
+            //  get departments created by the user
             $departments = Department::where('created_by', $user->id)->latest()->get();
+            //  dd($departments);
             // get user's structure
             $user_division = ManageStructures::where('manager_id', $user->id)->first();
             // dd($user_division);
             // division
             $division = Division::where('id', $user_division->structure_id)->first();
             // dd($division);
+            // redirect back if not assigned department
+            // if(count((array)$user_division) < 1){
+
+            // }
             $title = $division->division_name.' Division Departments Management';
         }
-
+// dd($departments);
         return view('department.index', [
             'departments' => $departments,
             'title' => $title,

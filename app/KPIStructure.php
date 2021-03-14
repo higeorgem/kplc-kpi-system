@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class KPIStructure extends Model
 {
     use SoftDeletes;
+    protected $guarded = [];
     
 }

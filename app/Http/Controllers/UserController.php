@@ -23,7 +23,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $data = User::orderBy('id', 'DESC')->get();
-        
+
         return view('users.index', compact('data'));
         // ->with('i', ($request->input('page', 1) - 1) * 5);
     }
@@ -121,11 +121,13 @@ class UserController extends Controller
             'middle_name' => 'required',
             'last_name' => 'required',
             'division_id' => 'required',
-            'group_id' => 'required',
+            'department_id' => 'required',
             // 'staff_no' => 'required',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'same:confirm-password',
-            'roles' => 'required'
+            'email' => 'required|email',
+            // 'password' => 'required|same:confirm-password',
+            'roles' => 'required',
+            'section_id' => 'required',
+            'sub_section_id' => 'required',
         ]);
 
 

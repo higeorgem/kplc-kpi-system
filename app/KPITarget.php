@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class KPITarget extends Model
 {
     use SoftDeletes;
+
+    protected $guarded = [];
 }

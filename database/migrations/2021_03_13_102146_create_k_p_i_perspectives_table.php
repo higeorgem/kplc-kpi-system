@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTargetsTable extends Migration
+class CreateKPIPerspectivesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateTargetsTable extends Migration
      */
     public function up()
     {
-        Schema::create('targets', function (Blueprint $table) {
+        Schema::create('k_p_i_perspectives', function (Blueprint $table) {
             $table->id();
+            $table->string('perspective');
+            $table->string('created_by');
             $table->timestamps();
-
-            // $table->foreign('responsible')->references('staff_no')->on('employees')->onDelete('cascade');
+            $table->softDeletes();
         });
     }
 
@@ -28,6 +29,6 @@ class CreateTargetsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('targets');
+        Schema::dropIfExists('k_p_i_perspectives');
     }
 }
