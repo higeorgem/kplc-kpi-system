@@ -32,7 +32,7 @@ class UserController extends Controller
     {
 
         $data = DB::table($request->query_table)
-                ->where('id', $request->query_id)
+                ->where($request->query_value.'_id', $request->query_id)
                 ->select('id', substr($request->query_table,0,-1).'_name as name')
                 ->get();
 
