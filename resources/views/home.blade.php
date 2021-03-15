@@ -10,7 +10,7 @@
                 <span class="info-box-icon">
                     <i class="fas fa-user-tag"></i>
                 </span>
-                
+
                 <div class="info-box-content">
                     <span class="info-box-text border-bottom border-warning">My KPIs</span>
                     <span class="info-box-number h5">
@@ -82,7 +82,7 @@
     <div class="row">
         <div class="col-md-12">
             <!-- Chart's container -->
-            <div id="chart" style="height: 300px;"></div>
+            {{-- <div id="chart" style="height: 300px;"></div> --}}
             <!-- Charting library -->
             <script src="https://unpkg.com/echarts/dist/echarts.min.js"></script>
             <!-- Chartisan -->

@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="float-left">
-            <h3>{{ucfirst($title)}}</h3>
+            <h3>{{ucfirst($title[0])}} {{ucfirst($title[1])}}</h3>
         </div>
         <div class="float-right">
             {{-- @can('role-create') --}}
@@ -14,11 +14,19 @@
         </div>
     </div>
 </div>
-@if (!$admin)
+@if ($admin)
+@include('includes.structure_nav', [
+'user_title'=> explode(' ',$title)[0].' '.explode(' ',$title)[1],
+'users_url'=> '/users',
+'kpi_url' => '/all/kpis/'.explode(' ',$title)[1],
+'visual_url' => 'structure/visual/',
+'report_url' => 'structure/report',
+])
+@else
     @include('includes.structure_nav', [
-    'user_title'=> explode(' ',$title)[0].' '.explode(' ',$title)[1],
-    'users_url'=> explode(' ',$title)[0].' '.strtolower(explode(' ',$title)[1]).'/users/'.$structure->id,
-    'kpi_url' => URL::signedRoute('kpi_structure', [strtolower(explode(' ',$title)[1]), $structure->id]),
+    'user_title'=> $title[0],
+    'users_url'=> strtolower(explode(' ',$title[1])[0]).'/users/'.$structure->id,
+    'kpi_url' => URL::signedRoute('kpi_structure', [strtolower(explode(' ',$title[1])[0]), $structure->id]),
     'visual_url' => 'structure/visual/',
     'report_url' => 'structure/report',
     ])
@@ -42,7 +50,7 @@
                 <td>{{ $department->division->division_name ?? '' }}</td>
             @endif
             <td>
-                {{-- {{dd($department->manageStructure)}} --}}
+
                 @php
                 $manager = ($department->manageStructure != null) ?
                 '<a href="">'.($department->division->head($department->manageStructure->manager_id)->first_name.'

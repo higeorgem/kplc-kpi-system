@@ -2,8 +2,11 @@
 
 @section('content')
 <div class="card">
-    <div class="card-header h4 bg-dark">
-        ALL KPIS
+    <div class="card-header h4 bg-dark text-uppercase">
+        {{$structure->name}} {{$structure_type}} KPI<small>s</small>
+        <a href="{{url()->previous()}}" class="float-right m-1 btn-xs btn-info">
+            <i class="fas  nav-icon"></i> Back
+        </a>
         @can('kpi-create')
         <a href="{{route('kpi.create')}}" class="float-right btn btn-xs btn-success">
             <i class="fas fa-plus nav-icon"></i> Create KPI
@@ -11,7 +14,7 @@
         @endcan
     </div>
     <div class="table-responsive card-body">
-        <table id="kpiTable" class="table table-striped table-sm table-bordered table-hover">
+        <table id="kpiTable" class="table table-sm table-striped  table-bordered table-hover">
             <thead class="thead-light">
                 <tr>
                     <th>#CODE</th>
@@ -22,17 +25,20 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse ($kpis as $key => $kpi)
+                @forelse ($structures as $key => $kpi)
                 <tr id="{{$kpi->code}}" class="record">
                     <td> {{$kpi->code}}</td>
-                    <td> {{$kpi->perspective}}</td>
+                    @php
+                        $kp = new App\KPI;
+                    @endphp
+                    <td> {{$kp->kpiPerspective($kpi->perspective)->perspective}}</td>
                     <td id="kpi"> {{$kpi->kpi}}</td>
                     <td> {{$kpi->kpi_type}}</td>
                     <td>
                         @if ($kpi->kpi_type == 'Tasked')
                         <a href="{{URL::signedRoute('kpiTasks',[$kpi->id])}}"
                             class="btn btn-xs btn-outline-primary float-left m-1">
-                            <i class="badge badge-info">{{$kpi->tasks->count()}}</i> Tasks
+                            {{-- <i class="badge badge-info">{{$kpi->tasks->count()}}</i> Tasks --}}
                         </a>
                         @endif
                         @can('kpi-edit')

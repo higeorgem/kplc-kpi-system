@@ -67,7 +67,8 @@
         </div>
         <div class="form-group col-sm-6">
             <strong>Department:</strong>
-            <select name="department_id" id="department_id" class="form-control @error('department_id') is-invalid @enderror">
+            <select name="department_id" id="department_id"
+                class="form-control @error('department_id') is-invalid @enderror">
                 <option value="" selected disabled>Select Department</option>
                 @forelse (\Illuminate\Support\Facades\DB::table('departments')->get() as $department)
                 <option value="{{$department->id}}" {{old('department_id') == $department->id ? 'selected' : ''}}>
@@ -100,7 +101,8 @@
         </div>
         <div class="form-group col-sm-6">
             <strong>Sub-Section:</strong>
-            <select name="sub_section_id" id="sub_section_id" class="form-control @error('sub_section_id') is-invalid @enderror">
+            <select name="sub_section_id" id="sub_section_id"
+                class="form-control @error('sub_section_id') is-invalid @enderror">
                 <option value="" selected disabled>Select Division</option>
                 @forelse (\Illuminate\Support\Facades\DB::table('sub_sections')->get() as $sub_section)
                 <option value="{{$sub_section->id}}" {{old('sub_section_id') == $sub_section->id ? 'selected' : ''}}>
@@ -144,4 +146,136 @@
     </div>
     {!! Form::close() !!}
 </div>
+@endsection
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js">
+</script>
+<script>
+    $(function(){
+        // disable department section and subsection on load
+        enableDisable(true, 'all');
+        // on change division 1. enable department 2. populate department select
+        $('#division_id').on('change', function(){
+            // on change
+            // disable all and enable departments
+                enableDisable(true, 'all');
+            // get the selected id
+            var division_id = $(this).val();
+            var table_name = 'departments';
+            // console.log(division_id)
+            // push and ajax request to collect the data
+            getStructureData(table_name,division_id)
+
+        });
+        $('#department_id').on('change', function(){
+            // on change
+            // disable all and enable departments
+            enableDisable(true, 'section');
+            enableDisable(true, 'sub_section');
+            // get the selected id
+            var department_id = $(this).val();
+            var table_name = 'sections';
+            // console.log(department_id)
+            // push and ajax request to collect the data
+            getStructureData(table_name,department_id)
+        })
+        $('#section_id').on('change', function(){
+        // on change
+            // disable all and enable departments
+            enableDisable(true, 'sub_section');
+            // get the selected id
+            var sub_section_id = $(this).val();
+            var table_name = 'sub_sections';
+            // console.log(division_id)
+            // push and ajax request to collect the data
+            getStructureData(table_name,sub_section_id)
+        })
+
+    //function enable disable edepartment section and subsection on load
+    function enableDisable(status, inputTag = null){
+        if (inputTag  == 'department') {
+            $('#department_id').prop('disabled', status);
+        }
+        if (inputTag  == 'section') {
+            $('#section_id').prop('disabled', status);
+        }
+
+        if (inputTag  == 'sub_section') {
+            $('#sub_section_id').prop('disabled', status);
+        }
+
+        if(inputTag  == 'all'){
+            $('#department_id').prop('disabled', status);
+            $('#section_id').prop('disabled', status);
+            $('#sub_section_id').prop('disabled', status);
+            loadFasion('#department_id');
+            loadFasion('#section_id');
+            loadFasion('#sub_section_id');
+
+        }else{
+             loadFasion('#'+inputTag+'_id');
+        }
+
+    }
+    // function to get structure data
+        function getStructureData(query_table, query_id){
+            // setup ajax for laravel queries
+            $.ajaxSetup({
+                headers:{
+                    'X-CSRF-TOKEN' : $('meta[name="_token"]').attr('content')
+                }
+            });
+            // ajax request
+            $.ajax({
+                url: '{{URL::signedRoute('manage_user_structure')}}',
+                type: 'POST',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    query_table : query_table,
+                    query_id : query_id
+                },
+                success: function(response) {
+                    var structure = query_table.substr(0,query_table.length-1);
+                    // unlock the next input tag
+                    enableDisable(false, structure);
+
+                    // check for data availability
+                    if (response.length == 0) {
+                        // no data
+                        // add invalid class to the select
+                        $("#"+structure+"_id").addClass('is-invalid');
+                        // remove existing options
+                        // $("#"+structure+"_id").children('option:not(:first)').remove();
+                        // add no data message to the select
+                        $("#"+structure+"_id").append('<option selected disabled>No Data !!</option>');
+                    }else{
+                        // data found
+                        // remove the invalid class from the select
+                        $("#"+structure+"_id").removeClass('is-invalid');
+                        // populate the options on select
+                        $.each(response, function(index, value){
+                        // console.log(value)
+                        $("#"+structure+"_id").append('<option value='+value.id+'>'+value.name+'</option>')
+                        })
+                    }
+                },
+                error: function(error){
+                console.log(error)
+                }
+            })
+        }
+        // loading fasion
+        function loadFasion(id, timer = 1000){
+            // add loading
+            $(id).LoadingOverlay("show", {
+            background : "rgba(165, 190, 100, 0.5)"
+            });
+
+            // timeout for loading
+            setTimeout(function(){
+                $(id).LoadingOverlay("hide", true);
+            }, timer);
+        }
+    })
+</script>
 @endsection

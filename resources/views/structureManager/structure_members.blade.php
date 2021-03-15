@@ -1,19 +1,19 @@
 @extends('layouts.app')
 @section('content')
-<div class="row">
-    <div class="col-lg-12 margin-tb">
-        <div class="float-left">
+
+<div class="card">
+    <div class="card-header bg-dark">
+<div class="float-left">
             <h4>{{$title}}</h4>
         </div>
         <div class="float-right">
             <a class="btn btn-sm btn-info" href="{{ url()->previous() }}"> Back</a>
         </div>
     </div>
-</div>
-
-<div class="table-responsive">
-    <table class="display compact table table-bordered table-sm" id="usersTable" style="width:100%">
-        <thead>
+    <div class="card-body">
+       <div class="table-responsive">
+    <table class="display compact table table-sm table-bordered " id="usersTable" style="width:100%">
+        <thead class="">
             <th>No</th>
             <th>Full-Name</th>
             <th>Email</th>
@@ -54,6 +54,9 @@
         </tfoot>
     </table>
 </div>
+    </div>
+</div>
+
 {{-- {!! $data->render() !!} --}}
 @endsection
 

@@ -24,7 +24,7 @@ class SectionController extends Controller
 
         $user = Auth::user();
         $admin = false;
-        $division = [];
+        $department = [];
 
         if ($user->hasRole('Administrator')) {
 
@@ -36,15 +36,23 @@ class SectionController extends Controller
             $sections = Section::where('created_by', $user->id)->latest()->get();
             // get user's structure
             $user_department = ManageStructures::where('manager_id', $user->id)->first();
-
+            if ($user_department == null) {
+                flash('You have not been assigned any Department');
+                return redirect()->back();
+            }
             // dd($user_department->structure_id);
-            // division
+            // department
             $department = Department::where('id', $user_department->structure_id)->first();
-            // dd($department);
+            // dd($department->department_name);
             $title = $department->department_name . ' Department Sections Management';
         }
 
-        return view('section.index', compact(['sections', 'title', 'admin']));
+        return view('section.index', [
+            'sections'=>$sections,
+             'title'=>$title,
+             'admin'=>$admin,
+             'structure' => $department
+             ]);
     }
 
     /**
@@ -73,12 +81,14 @@ class SectionController extends Controller
             'section_name' => 'required|unique:sections,section_name',
             'department_name' => 'required'
         ]);
-// dd($request);
+            $user_id = Auth::user()->id;
+// dd($user_id );
+
         $section = Section::create([
             'section_name' => $request->input('section_name'),
             'division_id' => $request->input('division_name'),
             'department_id' => $request->input('department_name'),
-            'created_by' => Auth::user()->id
+            'created_by' =>  $user_id
             ]);
 
         return redirect()->route('sections.index')

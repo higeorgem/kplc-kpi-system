@@ -28,7 +28,16 @@ class UserController extends Controller
         // ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
+    public function manageUserStructure(Request $request)
+    {
 
+        $data = DB::table($request->query_table)
+                ->where('id', $request->query_id)
+                ->select('id', substr($request->query_table,0,-1).'_name as name')
+                ->get();
+
+        return response()->json($data);
+    }
     /**
      * Show the form for creating a new resource.
      *

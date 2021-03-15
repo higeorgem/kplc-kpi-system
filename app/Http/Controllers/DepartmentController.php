@@ -18,9 +18,10 @@ class DepartmentController extends Controller
     public function index()
     {
         $departments = [];
-        $title = '';
+        $title = [];
         $admin = false;
         $division = [];
+
         $user = Auth::user();
 
         // admin departments all
@@ -41,21 +42,25 @@ class DepartmentController extends Controller
             // get user's structure
             $user_division = ManageStructures::where('manager_id', $user->id)->first();
             // dd($user_division);
+            if ($user_division == null) {
+                 flash('You have not been assigned any Division');
+                return redirect()->back();
+            }
             // division
             $division = Division::where('id', $user_division->structure_id)->first();
             // dd($division);
             // redirect back if not assigned department
             // if(count((array)$user_division) < 1){
-
+                // dd($division->division_name);
             // }
-            $title = $division->division_name.' Division Departments Management';
+            $title = [$division->division_name,'Division Departments Management'];
         }
-// dd($departments);
+// dd($title);
         return view('department.index', [
             'departments' => $departments,
             'title' => $title,
             'structure' => $division,
-            'admin' => $admin
+            'admin' => $admin,
         ]);
     }
 

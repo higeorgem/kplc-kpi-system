@@ -15,7 +15,15 @@
     </div>
 </div>
 
-@if (!$admin)
+@if ($admin)
+@include('includes.structure_nav', [
+'user_title'=> explode(' ',$title)[0].' '.explode(' ',$title)[1],
+'users_url'=> '/users',
+'kpi_url' => '/all/kpis/'.explode(' ',$title)[1],
+'visual_url' => 'structure/visual/',
+'report_url' => 'structure/report',
+])
+@else
     @include('includes.structure_nav', [
     'user_title'=> explode(' ',$title)[0].' '.explode(' ',$title)[1],
     'users_url'=> explode(' ',$title)[0].' '.strtolower(explode(' ',$title)[1]).'/users/'.$structure->id,
@@ -35,6 +43,7 @@
         <th>Chief</th>
         <th width="">Action</th>
     </thead>
+
     @foreach ($sections as $key => $section)
     <tr>
         <td>{{ ++$key }}</td>
@@ -42,7 +51,7 @@
         <td>{{ $section->department->department_name ?? ''}}</td>
         <td>{{ $section->department->division->division_name ?? ''}}</td>
         <td>
-            {{-- {{dd($section->department->division)}} --}}
+            {{-- {{dd($sections[1]->manageStructure)}} --}}
             @php
             $manager = ($section->manageStructure != null) ?
             ($section->department->division->head($section->manageStructure->manager_id)->first_name.'

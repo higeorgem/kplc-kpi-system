@@ -36,6 +36,7 @@ class User extends Authenticatable
         'password_changed_at',
         'section_id',
         'sub_section_id',
+        'department_id',
     ];
 
     /**
@@ -80,7 +81,7 @@ class User extends Authenticatable
     public function fullName($id)
     {
         $user = User::findOrFail($id);
-        return $user->first_name . ' ' . $user->middle_name . ' ' . $user->last_name;
+        return ucfirst($user->first_name) . ' ' . ucfirst($user->middle_name) . ' ' . ucfirst($user->last_name);
     }
 
     public function getDivision($division_id)

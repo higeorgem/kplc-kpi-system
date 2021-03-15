@@ -43,7 +43,10 @@ class SubSectionController extends Controller
 
             // get user's structure
             $user_subsection = ManageStructures::where('manager_id', $user->id)->first();
-
+            if ($user_subsection == null) {
+                flash('You have not been assigned a Section');
+                return redirect()->back();
+            }
             // dd($subsections);
 
             // dd($user_department->structure_id);

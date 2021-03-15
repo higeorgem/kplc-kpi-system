@@ -14,7 +14,8 @@ class Section extends Model
     protected $fillable = [
         'section_name',
         'division_id',
-        'department_id'
+        'department_id',
+        'created_by'
     ];
 
     public function division()

@@ -3,10 +3,10 @@
         <nav class="navbar navbar-expand-sm bg-light justify-content-center p-0 mb-1">
             <ul class="navbar-nav ">
                 <li class="nav-item">
-                    <a href="{{$users_url}}" class="nav-link">{{$user_title}} Users</a>
+                    <a href="{{$users_url}}" class="nav-link">{{$user_title ?? ''}} Users</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{$kpi_url}}" class="nav-link">{{$user_title}} KPIs</a>
+                    <a href="{{$kpi_url}}" class="nav-link">{{$user_title ?? ''}} KPIs</a>
                 </li>
                 <li class="nav-item">
                     <a href="{{$visual_url}}" class="nav-link">Visualizations</a>

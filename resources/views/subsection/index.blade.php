@@ -15,8 +15,15 @@
     </div>
 </div>
 
-
-@if (!$admin)
+@if ($admin)
+@include('includes.structure_nav', [
+'user_title'=> explode(' ',$title)[0].' '.explode(' ',$title)[1],
+'users_url'=> '/users',
+'kpi_url' => '/all/kpis/'.explode(' ',$title)[1],
+'visual_url' => 'structure/visual/',
+'report_url' => 'structure/report',
+])
+@else
     @include('includes.structure_nav', [
     'user_title'=> explode(' ',$title)[0].' '.explode(' ',$title)[1],
     'users_url'=> explode(' ',$title)[0].' '.strtolower(explode(' ',$title)[1]).'/users/'.$structure->id,

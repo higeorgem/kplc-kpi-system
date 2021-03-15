@@ -80,17 +80,42 @@ class ManageStructuresController extends Controller
 
     public function structureKPI($type, $id)
     {
-        //get kpi structure
-        $structure = KPIStructure::where('structure_type', $type)->where('structure_id', $id)->get();
+        // dd($type, $id);
+        $type1 = $type;
+        $type = $type .'s';
+        // dd($type, $id);
+        //get kpi structure && get kpis for the structure
+        $structures = KPIStructure::where('structure_type', $type)
+                                    // ->where('structure_id', $id)
+                                    ->join('k_p_i_s', 'k_p_i_s.id', '=' , 'k_p_i_structures.kpi_id')
+                                    ->get();
 
-        if (count($structure) == 0) {
+        /* for super admin return all kpis */
+        $user = Auth::user();
+        // dd($user->roles('Administrator') );
+        // if ($user->roles('Administrator')) {
+        //     return redirect()->route('allKpis');
+        // }
+        // dd($structures);
+        if (count($structures) == 0) {
             flash('No assigned KPIs for this division.')->warning();
             return redirect()->back();
         }
+        // get kpi
+        $kpi = KPI::where('structure', $type)->where('structure_id', $id)->first();
 
-        // get kpis for the structure
-        $structure_kpis = KPI::where('id', $structure->kpi_id)->get();
+        //get structure
+        $structure = DB::table($type)->where('id', $id)
+            ->select('id', $type1.'_name as name')->first();
 
-        dd($structure_kpis);
+        // dd($structure);
+
+        return view('structureManager.structure_kpis',
+        [
+            'structures' => $structures,
+            'structure' => $structure,
+            'structure_type' => $type1
+        ]);
+
     }
 }

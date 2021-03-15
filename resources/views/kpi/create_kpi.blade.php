@@ -258,7 +258,8 @@ $.ajaxSetup({
         var new_label = structure.substring(0, structure.length-1);
         // console.log(new_label);
             $('#structure_label').text('Select '+new_label+':');
-        // add loading
+
+            // add loading
             $("#structure_id").LoadingOverlay("show", {
                     background : "rgba(165, 190, 100, 0.5)"
             });

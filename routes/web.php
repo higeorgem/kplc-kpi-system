@@ -62,7 +62,7 @@ Route::get('kpi/tasks/{id}', 'KPIController@getTasks')->name('kpiTasks');
 Route::post('/tasks/pdf', 'ReportController@createPDF')->name('create_pdf');
 
 // get all kpis route
-Route::get('/all/kpis', 'KPIController@getAllKpis')->name('allKpis');
+Route::get('/all/kpis/{structure?}', 'KPIController@getAllKpis')->name('allKpis');
 
 // lava charts
 Route::get('task_chart', 'ChartController@taskChart')->name('task_chart');
@@ -71,3 +71,5 @@ Route::get('manage/{structure}/{structure_id}/{manager_type}', 'ManageStructures
 Route::post('manage/manager', 'ManageStructuresController@saveManager')->name('saveManager');
 Route::get('{structure_type}/{query_type}/{structure_id}', 'StructureNavigationController@structureUsers');
 Route::get('{type}/{id}', 'ManageStructuresController@structureKPI')->name('kpi_structure');
+
+Route::post('manage/user/structure', 'UserController@manageUserStructure')->name('manage_user_structure');

@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 use App\Group;
 use App\KPI;
 use App\KPIAchievement;
+use App\KPIStructure;
 use App\KPITarget;
 use App\KPIUnitOfMeasure;
 use App\KPIWeight;
@@ -21,11 +22,23 @@ use Illuminate\Support\Facades\DB;
 
 class KPIController extends Controller
 {
-    public function getAllKpis()
+    public function getAllKpis($structure = null)
     {
-        $kpis = KPI::latest()->get();
+        $kpis = [];
+        $title = 'All KPIs';
+        // dd(!$structure);
 
-        return view('kpi.all_kpis', ['kpis' => $kpis]);
+        if ($structure) {
+            flash($structure.' KPIs')->info();
+            $kpis = KPI::where('structure', $structure)->latest()->get();
+            $title = $structure.' KPIs';
+        } else {
+            // dd(!$structure);
+            $kpis = KPI::latest()->get();
+        }
+
+
+        return view('kpi.all_kpis', ['kpis' => $kpis, 'title'=>$title]);
     }
     public function getTasks($id)
     {
@@ -91,10 +104,14 @@ class KPIController extends Controller
             'unit_of_mesure'  => 'required',
             'weight' => 'required',
         ]);
+
         // get last inserted kpi code
         $kpi = new KPI();
-        // dd($kpi->getNewCode());
+
+        // get logged in user
         $user = Auth::user()->id;
+
+        // create new kpi
         $kpi = KPI::create([
             'code' => $kpi->getNewCode(),
             'perspective' => $request->perspective,
@@ -104,6 +121,13 @@ class KPIController extends Controller
             'kpi' => $request->kpi,
             'period' => $request->period,
             'created_by' => $user,
+        ]);
+        // add kpi to structure
+        KPIStructure::create([
+            'kpi_id' => $kpi->id,
+            'structure_type' => $request->structure,
+            'structure_id' => $request->structure_id,
+            'created_by' => $user
         ]);
         //add unit of measure
         KPIUnitOfMeasure::create([
