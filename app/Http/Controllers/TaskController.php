@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\KPI;
 use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,7 @@ class TaskController extends Controller
         $user = Auth::user();
 
         // get tasks
-        $my_tasks = Task::where('responsible', $user->staff_no)
+        $my_tasks = Task::where('user_id', $user->staff_no)
             ->latest()
             ->get();
         // dd($my_tasks);
@@ -47,7 +48,14 @@ class TaskController extends Controller
      */
     public function create()
     {
-        return view('task.create_task');
+        $kpis = [];
+        $user = Auth::user();
+        if ($user->roles('User')) {
+            $kpis = KPI::where('structure', 'sections')
+                    ->where('structure_id', $user->section_id)->get();
+        }
+        // dd($kpis);
+        return view('task.create_task', ['kpis'=>$kpis]);
     }
     /**
      * get the task template.
@@ -188,7 +196,7 @@ class TaskController extends Controller
             // "resolution_date" => 'required'
         ]);
         // count the number of tasks of this kpi
-        $kpi_task_count = Task::withTrashed()->where('description', $request->key)->where('flag', 0)->count() + 1;
+        $kpi_task_count = Task::withTrashed()->where('kpi_id', $request->key)->where('flag', 0)->count() + 1;
         //generate the task id
         $taskID = str_pad($kpi_task_count, 4, '0', STR_PAD_LEFT);
         // create task
@@ -196,12 +204,15 @@ class TaskController extends Controller
             "key" => $request->key . '-' . $taskID,
             "task" => $request->task,
             "status" => 'open',
-            "created_date" => $request->created_date,
+            "created_date" => date('Y-m-d h:i:s', strtotime($request->created_date)),
             // "resolution_date" => $request->resolution_date,
-            "description" => $request->key,
-            "responsible" => Auth::user()->staff_no
+            "kpi_id" => $request->key,
+            "user_id" => Auth::user()->staff_no
         ]);
-        return redirect()->back()->with('success', 'Task Saved');
+
+        flash('Task Created.')->success();
+
+        return redirect()->route('tasks.index');
         // return response()->json(['success' => true, 'message' => 'Task Saved'], 200);
     }
 
@@ -254,7 +265,7 @@ class TaskController extends Controller
             "key" => $request->kpi,
             "task" => $request->task,
             // "status" => $request->status,
-            "created_date" => $request->created_date,
+            "created_date" => date('Y-m-d h:i:s', strtotime($request->created_date)),
             // "resolution_date" => $request->resolution_date,
         ]);
 

@@ -6,7 +6,7 @@
         <div class="">
             <div class="card" id="tasksCard">
                 <div class="card-header bg-dark">
-                    <div class="kpiTableTitle float-left h3">
+                    <div class="taskTableTitle float-left h3" id="title">
                         ALL MY TASKS
                     </div>
                     <span class="float-right">
@@ -36,7 +36,7 @@
                         </thead>
                         <tbody>
                             @foreach(\Illuminate\Support\Facades\DB::table('tasks')
-                            ->where('responsible', Auth::user()->staff_no)
+                            ->where('user_id', Auth::user()->staff_no)
                             ->whereNull('deleted_at')
                             ->get() as $task)
                             <tr>
@@ -98,7 +98,7 @@
                                         <select name="key" id="key" class="form-control" required>
                                             <option value="" selected disabled>Select key</option>
                                             @foreach (\Illuminate\Support\Facades\DB::table('k_p_i_s')->get() as $kpi)
-                                            <option value="{{$kpi->code}}">{{$kpi->kpi}}</option>
+                                            <option value="{{$kpi->code}}" >{{$kpi->kpi}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -117,7 +117,7 @@
                                     <div class="form-group row">
                                         <div class="col-sm-6">
                                             <label for="created_date">Created Date</label>
-                                            <input type="datetime-local" name="created_date" id="created_date"
+                                            <input type="datetime-local" name="created_date" max="<?php echo date("Y-m-d").'T'.date("h:i")?>" id="created_date"
                                                 class="form-control" required>
                                         </div>
                                         {{-- <div class="col-sm-6">
@@ -148,10 +148,62 @@
     @section('scripts')
     <script>
         $(function () {
-            $("#tasksTable").DataTable({
-            "responsive": false, "lengthChange": true, "autoWidth": false,'ordering': true,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons().container().appendTo('#kpiTable_wrapper .col-md-6:eq(0)');
+            // $("#tasksTable").DataTable({
+            // "responsive": false, "lengthChange": true, "autoWidth": false,'ordering': true,
+            // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            // }).buttons().container().appendTo('#tasksTable_wrapper :eq(0)');
+var title = $('#title').text();
+// Append a caption to the table before the DataTables initialisation
+$('#kpiTable').append('<caption style="caption-side: bottom">'+$('.main-footer strong').text()+' All rights reserved.</caption>');
+
+$("#tasksTable").DataTable({
+"responsive": true, "lengthChange": true, "autoWidth": false,'ordering': true,
+"buttons": [
+{
+extend: 'copyHtml5',
+messageTop: title,
+messageBottom: 'The information in this table is copyright to Sirius Cybernetics Corp.',
+exportOptions: {
+columns: [ 0, 1, 2, 3]
+}
+},
+{
+extend: 'excelHtml5',
+messageTop: title,
+messageBottom: 'The information in this table is copyright to Sirius Cybernetics Corp.',
+exportOptions: {
+columns: [ 0, 1, 2, 3]
+}
+},
+{
+extend: 'pdfHtml5',
+messageTop: title,
+messageBottom: 'The information in this table is copyright to Sirius Cybernetics Corp.',
+exportOptions: {
+columns: [ 0, 1, 2, 3]
+}
+},
+{
+extend: 'print',
+messageTop: title,
+messageBottom: 'The information in this table is copyright to Sirius Cybernetics Corp.',
+exportOptions: {
+columns: ':visible'
+},
+// customize: function ( win ) {
+// $(win.document.body)
+// .css( 'font-size', '10pt' )
+// .prepend(
+// '<img src="http://127.0.0.1:8000/css/dist/img/logo_2.jpeg" style="position:absolute; top:0; left:0;" />'
+// );
+// $(win.document.body).find( 'table' )
+// .addClass( 'compact' )
+// .css( 'font-size', 'inherit' );
+// }
+},
+"colvis"
+]
+}).buttons().container().appendTo('#tasksTable_wrapper :eq(0)');
         })
     </script>
     <script>
@@ -190,7 +242,7 @@
                             Swal.fire('Task Closed !!','','success')
                             setTimeout(function() {
                                 location.reload();
-                            }, 2500);
+                            }, 2000);
 
                             },
                             error: function(err){

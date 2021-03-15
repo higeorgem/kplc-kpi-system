@@ -66,10 +66,14 @@ class KPIController extends Controller
      */
     public function index()
     {
+        // get user data
+        $user = Auth::user();
+        dd($user);
         //    get user's kpis
         $user_kpis = KPI::where('section_id', Auth::user()->section_id)
             ->where('division_id', Auth::user()->division_id)
             ->get();
+
 
         // return view with kpis
         return view('kpi.index', ['my_kpis' => $user_kpis]);
@@ -82,6 +86,7 @@ class KPIController extends Controller
      */
     public function create()
     {
+        
         return view('kpi/create_kpi');
     }
 

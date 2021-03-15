@@ -39,7 +39,7 @@
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <label for="created_date">Created Date</label>
-                                    <input type="datetime-local" name="created_date" id="created_date" class="form-control">
+                                    <input type="datetime-local" name="created_date"  id="created_date" class="form-control">
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="resolution_date">Resolution Date</label>

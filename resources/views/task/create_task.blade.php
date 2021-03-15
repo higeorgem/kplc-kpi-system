@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="card">
-        <div class="card-header bg-dark">CREATE TASK</div>
+        <div class="card-header bg-dark h2">CREATE TASK</div>
         <div class="card-body">
             <div class="row justify-content-center">
                 <div class="col-md-8">
@@ -19,11 +19,8 @@
                                 <label for="key">Select KPI:</label>
                                 <select name="key" id="key" class="form-control @error('key') is-invalid @enderror">
                                     <option value="" selected disabled>Select key</option>
-                                    @foreach (\Illuminate\Support\Facades\DB::table('k_p_i_s')
-                                    ->where('group_id', Auth::user()->group_id)
-                                    ->where('kpi_type', 'Tasked')
-                                    ->get() as $kpi)
-                                    <option value="{{$kpi->code}}">{{$kpi->kpi}}</option>
+                                    @foreach ($kpis as $kpi)
+                                        <option value="{{$kpi->id}}">{{$kpi->kpi}}</option>
                                     @endforeach
                                 </select>
                                 @error('key')
@@ -52,8 +49,7 @@
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <label for="created_date">Created Date</label>
-                                    <input type="datetime-local" name="created_date" id="created_date"
-                                        class="form-control @error('created_date') is-invalid @enderror">
+                                    <input type="datetime-local" name="created_date" id="created_date" max="<?php echo date("Y-m-d").'T'.date("h:i")?>" class="form-control @error('created_date') is-invalid @enderror">
                                         @error('created_date')
                                         <span class="invalid-feedback">
                                             <strong>{{$message}}</strong>

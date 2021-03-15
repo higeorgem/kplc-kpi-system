@@ -87,7 +87,7 @@ $(function () {
     // }).buttons().container().appendTo('#kpiTable_wrapper .col-md-6:eq(0)');
     // console.log($('.main-footer strong').text())
         // console.log($('#title').text())
-        var title = $('#title').text();
+    var title = $('#title').text();
     // Append a caption to the table before the DataTables initialisation
     $('#kpiTable').append('<caption style="caption-side: bottom">'+$('.main-footer strong').text()+' All rights reserved.</caption>');
 

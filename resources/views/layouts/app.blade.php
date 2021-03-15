@@ -148,14 +148,14 @@
                             </a>
                         </li>
                         {{-- kpi --}}
+                    @can('kpi-list')
                         <li class="nav-item">
-                            <a href=""
-                                class="nav-link {{ Request::is('all/kpis') || Request::is('kpi') || Request::is('kpi/create') || Route::is('kpiTasks') ? 'active' : '' }}">
+                            <a href="" class="nav-link {{ Request::is('all/kpis') || Request::is('kpi') || Request::is('kpi/create') || Route::is('kpiTasks') ? 'active' : '' }}">
                                 <i class="fas fa-thumbtack nav-icon"></i>
                                 <p>KPI <i class="right fas fa-angle-left"></i></p>
                             </a>
-                            @can('kpi-list')
                             <ul class="nav nav-treeview">
+
                                 <li class="nav-item">
                                     <a href="{{route('allKpis')}}"
                                         class="nav-link {{ Request::is('all/kpis') ? 'active' : '' }}">
@@ -163,29 +163,32 @@
                                         <p>All KPIs</p>
                                     </a>
                                 </li>
-                            </ul>
-                            @endcan
-                            {{-- @can('kpi-create')
-                             <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{route('kpi.create')}}"
-                            class="nav-link {{ Request::is('kpi/create') ? 'active' : '' }}">
-                            <i class="fas fa-plus nav-icon"></i>
-                            <p>Create KPIs</p>
-                            </a>
-                        </li>
-                    </ul>
-                    @endcan --}}
 
-                    <ul class="nav nav-treeview">
+                            </ul>
+
+                            {{-- @can('kpi-create')
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('kpi.create')}}" class="nav-link {{ Request::is('kpi/create') ? 'active' : '' }}">
+                                    <i class="fas fa-plus nav-icon"></i>
+                                    <p>Create KPIs</p></a>
+                                </li>
+                            </ul>
+                        @endcan--}}
+
+                    {{-- <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{route('kpi.index')}}" class="nav-link {{ Request::is('kpi') ? 'active' : '' }}">
                                 <i class="fas fa-user-tag nav-icon"></i>
                                 <p>My KPIs</p>
                             </a>
                         </li>
-                    </ul>
+                    </ul> --}}
+
                     </li>
+                    @endcan
+                    {{--Task--}}
+                    @can('task-list')
                     <li class="nav-item">
                         <a href="#"
                             class="nav-link {{ (Request::is('tasks') || Request::is('tasks/create') || Request::is('tasks/upload') || Request::is('tasks/upload') )  ? 'active' : '' }}">
@@ -202,18 +205,20 @@
                             {{-- <li class="nav-item">
                                     <a href="/tasks/create"
                                         class="nav-link {{ (Request::is('tasks/create')) ? 'active' : '' }}">
-                            <i class="fas fa-plus nav-icon"></i>
-                            <p>Create Task</p>
+                                    <i class="fas fa-plus nav-icon"></i>
+                                    <p>Create Task</p>
+                                    </a>
+                             </li> --}}
+                        {{-- <li class="nav-item ">
+                            <a href="/tasks/upload" class="nav-link {{ Request::is('tasks/upload') ? 'active' : '' }}">
+                                <i class="fas fa-upload nav-icon"></i>
+                                <p>Upload Tasks</p>
                             </a>
+                        </li> --}}
+                        </ul>
                     </li>
-                    <li class="nav-item ">
-                        <a href="/tasks/upload" class="nav-link {{ Request::is('tasks/upload') ? 'active' : '' }}">
-                            <i class="fas fa-upload nav-icon"></i>
-                            <p>Upload Tasks</p>
-                        </a>
-                    </li> --}}
-                    </ul>
-                    </li>
+                    @endcan
+
 
                     <li class="nav-item">
                         <a href=""
